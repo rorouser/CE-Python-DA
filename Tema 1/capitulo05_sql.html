@@ -1,0 +1,1425 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 5: SQL con Python - Trabajando con Bases de Datos</title>
+    <link rel="stylesheet" href="css/estilos.css?v=20251005-2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+    <!-- Botón toggle para móvil -->
+    <button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+    
+    <div class="page-wrapper">
+    <!-- Barra lateral de navegación -->
+    <nav class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-header">🏠 Inicio</div>
+            <ul class="sidebar-nav">
+                <li><a href="index.html">Página principal</a></li>
+            </ul>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-header">📚 Capítulos</div>
+            <ul class="sidebar-nav">
+                <li><a href="capitulo01_introduccion.html">1. Introducción a Data Science</a></li>
+                <li><a href="capitulo02_librerias.html">2. Ecosistema de Librerías</a></li>
+                <li><a href="capitulo03_numpy.html">3. NumPy</a></li>
+                <li><a href="capitulo04_pandas.html">4. Pandas</a></li>
+                <li><a href="capitulo05_sql.html" class="active">5. SQL con Python</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>📊 Python para Data Science</h1>
+            <p class="subtitle">Capítulo 5: SQL con Python - Trabajando con Bases de Datos</p>
+        </header>
+
+        <main>
+            <span class="chapter-number">Capítulo 5</span>
+            
+            <h2>Introducción a las Bases de Datos</h2>
+            
+            <p>Aunque Pandas proporciona capacidades avanzadas para análisis de datos, en contextos profesionales los datos suelen residir en <strong>bases de datos</strong>. La interacción con bases de datos es una competencia fundamental para el desarrollo de aplicaciones web, análisis empresarial y pipelines de ciencia de datos.</p>
+
+            <p>Una <strong>base de datos</strong> es una colección organizada de datos con capacidades de acceso, gestión y actualización eficientes. Independientemente de la arquitectura inicial de un proyecto, los flujos de datos frecuentemente interactúan con una o más bases de datos.</p>
+
+            <div class="important">
+                <strong>🎯 Contenidos del capítulo:</strong>
+                <ul>
+                    <li>Fundamentos de bases de datos relacionales</li>
+                    <li>Conceptos básicos de SQL (Structured Query Language)</li>
+                    <li>Conexión de Python con bases de datos SQLite</li>
+                    <li>Ejecución de consultas SQL desde Python</li>
+                    <li>Integración de SQL con Pandas para análisis</li>
+                    <li>Uso de SQLAlchemy para abstracción de bases de datos</li>
+                    <li>Operaciones de inserción, actualización y eliminación</li>
+                    <li>Mejores prácticas y manejo de errores</li>
+                </ul>
+            </div>
+
+            <h2>Ventajas de las Bases de Datos</h2>
+
+            <p>Las bases de datos proporcionan múltiples ventajas respecto al almacenamiento en archivos simples:</p>
+
+            <div class="note">
+                <h4>1. 💾 Persistencia de Datos</h4>
+                <p>Los datos sobreviven después de que tu programa termina de ejecutarse. Puedes cerrar tu aplicación, reiniciar el servidor, y los datos siguen ahí.</p>
+            </div>
+
+            <div class="note">
+                <h4>2. 🤝 Compartir Datos</h4>
+                <p>Múltiples aplicaciones pueden acceder a los mismos datos simultáneamente. Tu aplicación web, tu script de análisis y tu dashboard pueden todos leer de la misma fuente de verdad.</p>
+            </div>
+
+            <div class="note">
+                <h4>3. 🔍 Consultas Eficientes</h4>
+                <p>Las bases de datos están optimizadas para buscar, filtrar y agregar datos rápidamente, incluso con millones de registros.</p>
+            </div>
+
+            <div class="note">
+                <h4>4. ✅ Integridad de Datos</h4>
+                <p>Las bases de datos relacionales imponen restricciones que garantizan que tus datos sean consistentes y válidos.</p>
+            </div>
+
+            <h2>Bases de Datos Relacionales</h2>
+
+            <p>Las <strong>bases de datos relacionales</strong>, también conocidas como bases de datos de filas y columnas, son el tipo más común en uso hoy en día. Proporcionan una forma estructurada de almacenar datos en tablas, similar a hojas de cálculo de Excel pero mucho más potentes.</p>
+
+            <p>En una base de datos relacional:</p>
+            <ul>
+                <li>Los datos se organizan en <strong>tablas</strong></li>
+                <li>Cada tabla tiene <strong>columnas</strong> (campos) y <strong>filas</strong> (registros)</li>
+                <li>Las tablas se relacionan entre sí mediante <strong>claves</strong></li>
+                <li>Usas <strong>SQL</strong> para interactuar con los datos</li>
+            </ul>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                <tr style="background: var(--primary-color); color: white;">
+                    <th style="padding: 0.75rem; text-align: left;">Base de Datos</th>
+                    <th style="padding: 0.75rem; text-align: left;">Características</th>
+                    <th style="padding: 0.75rem; text-align: left;">Casos de Uso</th>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>SQLite</strong></td>
+                    <td style="padding: 0.75rem;">Ligera, sin servidor, archivo único</td>
+                    <td style="padding: 0.75rem;">Desarrollo, apps móviles, prototipos</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>MySQL</strong></td>
+                    <td style="padding: 0.75rem;">Popular, código abierto, rápida</td>
+                    <td style="padding: 0.75rem;">Aplicaciones web, WordPress, startups</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>PostgreSQL</strong></td>
+                    <td style="padding: 0.75rem;">Avanzada, extensible, robusta</td>
+                    <td style="padding: 0.75rem;">Análisis de datos, aplicaciones enterprise</td>
+                </tr>
+            </table>
+
+            <h2>Fundamentos de SQL</h2>
+
+            <p><strong>SQL (Structured Query Language)</strong> es el lenguaje estándar para interactuar con bases de datos relacionales. Aunque Python es el que ejecuta el código, SQL es el que habla con la base de datos.</p>
+
+            <h3>Anatomía de una Consulta SQL</h3>
+
+            <p>Las consultas SQL típicamente tienen tres componentes:</p>
+
+            <div class="example">
+                <h4>Componentes de SQL</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>SELECT *                    -- 1. OPERACIÓN (qué hacer)
+FROM empleados              -- 2. OBJETIVO (sobre qué tabla)
+WHERE salario > 40000;      -- 3. CONDICIÓN (qué registros)</code></pre>
+            </div>
+
+            <h3>Operaciones SQL Comunes</h3>
+
+            <h4>DML: Data Manipulation Language</h4>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>-- SELECT: Consultar datos
+SELECT nombre, edad FROM empleados WHERE edad > 30;
+
+-- INSERT: Insertar datos
+INSERT INTO empleados (nombre, edad, salario) 
+VALUES ('Ana García', 28, 45000);
+
+-- UPDATE: Actualizar datos
+UPDATE empleados 
+SET salario = 50000 
+WHERE nombre = 'Ana García';
+
+-- DELETE: Eliminar datos
+DELETE FROM empleados 
+WHERE edad < 20;</code></pre>
+            </div>
+
+            <h4>DDL: Data Definition Language</h4>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>-- CREATE: Crear tabla
+CREATE TABLE empleados (
+    id INTEGER PRIMARY KEY,
+    nombre VARCHAR(50),
+    edad INTEGER,
+    salario REAL
+);
+
+-- ALTER: Modificar tabla
+ALTER TABLE empleados 
+ADD COLUMN departamento VARCHAR(30);
+
+-- DROP: Eliminar tabla
+DROP TABLE empleados;</code></pre>
+            </div>
+
+            <h2>SQLite: Tu Primera Base de Datos</h2>
+
+            <p>SQLite es perfecto para aprender porque:</p>
+            <ul>
+                <li>✅ Viene incluido con Python (no necesitas instalar nada)</li>
+                <li>✅ No requiere servidor (es solo un archivo)</li>
+                <li>✅ Es rápido y ligero</li>
+                <li>✅ Usa SQL estándar</li>
+            </ul>
+
+            <h3>Crear y Conectar a una Base de Datos</h3>
+
+            <div class="example">
+                <h4>Primera Conexión</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+# Conectar a base de datos (se crea si no existe)
+conexion = sqlite3.connect('mi_empresa.db')
+
+# Crear cursor (objeto para ejecutar SQL)
+cursor = conexion.cursor()
+
+# Crear tabla
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS empleados (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre TEXT NOT NULL,
+        edad INTEGER,
+        salario REAL,
+        departamento TEXT
+    )
+''')
+
+# Guardar cambios
+conexion.commit()
+
+print("✅ Base de datos y tabla creadas exitosamente")
+
+# Cerrar conexión
+conexion.close()</code></pre>
+                <div class="output">✅ Base de datos y tabla creadas exitosamente</div>
+            </div>
+
+            <h3>Insertar Datos</h3>
+
+            <div class="example">
+                <h4>Inserción Individual</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+conexion = sqlite3.connect('mi_empresa.db')
+cursor = conexion.cursor()
+
+# Insertar un empleado (forma segura con placeholders)
+cursor.execute('''
+    INSERT INTO empleados (nombre, edad, salario, departamento)
+    VALUES (?, ?, ?, ?)
+''', ('Ana García', 28, 45000, 'IT'))
+
+conexion.commit()
+print(f"✅ Empleado insertado con ID: {cursor.lastrowid}")
+
+conexion.close()</code></pre>
+                <div class="output">✅ Empleado insertado con ID: 1</div>
+            </div>
+
+            <div class="example">
+                <h4>Inserción Múltiple</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+conexion = sqlite3.connect('mi_empresa.db')
+cursor = conexion.cursor()
+
+# Datos a insertar
+empleados = [
+    ('Juan López', 35, 55000, 'Ventas'),
+    ('María Rodríguez', 30, 50000, 'IT'),
+    ('Pedro Sánchez', 42, 60000, 'Marketing'),
+    ('Laura Martínez', 27, 40000, 'Ventas')
+]
+
+# Insertar múltiples registros
+cursor.executemany('''
+    INSERT INTO empleados (nombre, edad, salario, departamento)
+    VALUES (?, ?, ?, ?)
+''', empleados)
+
+conexion.commit()
+print(f"✅ {cursor.rowcount} empleados insertados")
+
+conexion.close()</code></pre>
+                <div class="output">✅ 4 empleados insertados</div>
+            </div>
+
+            <h3>Consultar Datos</h3>
+
+            <div class="example">
+                <h4>Consulta Simple</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+conexion = sqlite3.connect('mi_empresa.db')
+cursor = conexion.cursor()
+
+# Consultar todos los empleados
+cursor.execute('SELECT * FROM empleados')
+
+# Obtener todos los resultados
+empleados = cursor.fetchall()
+
+print("📋 LISTADO DE EMPLEADOS:")
+print("=" * 70)
+for emp in empleados:
+    print(f"ID: {emp[0]} | {emp[1]:20} | Edad: {emp[2]} | ${emp[3]:,} | {emp[4]}")
+
+conexion.close()</code></pre>
+                <div class="output">📋 LISTADO DE EMPLEADOS:
+======================================================================
+ID: 1 | Ana García           | Edad: 28 | $45,000 | IT
+ID: 2 | Juan López           | Edad: 35 | $55,000 | Ventas
+ID: 3 | María Rodríguez      | Edad: 30 | $50,000 | IT
+ID: 4 | Pedro Sánchez        | Edad: 42 | $60,000 | Marketing
+ID: 5 | Laura Martínez       | Edad: 27 | $40,000 | Ventas</div>
+            </div>
+
+            <div class="example">
+                <h4>Consulta con Condiciones</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+conexion = sqlite3.connect('mi_empresa.db')
+cursor = conexion.cursor()
+
+# Empleados del departamento IT con salario > 45000
+cursor.execute('''
+    SELECT nombre, edad, salario 
+    FROM empleados 
+    WHERE departamento = ? AND salario > ?
+''', ('IT', 45000))
+
+resultados = cursor.fetchall()
+
+print("🎯 Empleados IT con salario > $45,000:")
+for nombre, edad, salario in resultados:
+    print(f"   {nombre} - {edad} años - ${salario:,}")
+
+conexion.close()</code></pre>
+                <div class="output">🎯 Empleados IT con salario > $45,000:
+   María Rodríguez - 30 años - $50,000</div>
+            </div>
+
+            <h3>Consultas de Agregación</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+conexion = sqlite3.connect('mi_empresa.db')
+cursor = conexion.cursor()
+
+# Estadísticas por departamento
+cursor.execute('''
+    SELECT 
+        departamento,
+        COUNT(*) as num_empleados,
+        AVG(salario) as salario_promedio,
+        MAX(salario) as salario_maximo,
+        MIN(edad) as edad_minima
+    FROM empleados
+    GROUP BY departamento
+    ORDER BY salario_promedio DESC
+''')
+
+print("📊 ESTADÍSTICAS POR DEPARTAMENTO:")
+print("=" * 80)
+print(f"{'Departamento':15} {'Empleados':>12} {'Promedio':>15} {'Máximo':>15} {'Edad Mín':>10}")
+print("-" * 80)
+
+for dept, num, promedio, maximo, edad_min in cursor.fetchall():
+    print(f"{dept:15} {num:>12} ${promedio:>14,.0f} ${maximo:>14,.0f} {edad_min:>10}")
+
+conexion.close()</code></pre>
+                <div class="output">📊 ESTADÍSTICAS POR DEPARTAMENTO:
+================================================================================
+Departamento      Empleados        Promedio          Máximo   Edad Mín
+--------------------------------------------------------------------------------
+Marketing                 1         $60,000         $60,000         42
+Ventas                    2         $47,500         $55,000         27
+IT                        2         $47,500         $50,000         28</div>
+            </div>
+
+            <h2>Integración SQL + Pandas</h2>
+
+            <p>Aquí es donde la magia realmente sucede: combinar el poder de SQL para consultas eficientes con Pandas para análisis flexible.</p>
+
+            <h3>Cargar Datos SQL en DataFrame</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# Conectar a la base de datos
+conexion = sqlite3.connect('mi_empresa.db')
+
+# Cargar datos en DataFrame
+df = pd.read_sql_query('SELECT * FROM empleados', conexion)
+
+print("📊 DataFrame desde SQL:")
+print(df)
+
+print("\n📈 Análisis rápido con Pandas:")
+print(df.describe())
+
+# Análisis adicional
+print(f"\n💰 Salario promedio: ${df['salario'].mean():,.2f}")
+print(f"👥 Total empleados: {len(df)}")
+
+conexion.close()</code></pre>
+                <div class="output">📊 DataFrame desde SQL:
+   id            nombre  edad  salario departamento
+0   1        Ana García    28  45000.0           IT
+1   2        Juan López    35  55000.0       Ventas
+2   3   María Rodríguez    30  50000.0           IT
+3   4     Pedro Sánchez    42  60000.0    Marketing
+4   5    Laura Martínez    27  40000.0       Ventas
+
+📈 Análisis rápido con Pandas:
+              id        edad       salario
+count   5.000000    5.000000      5.000000
+mean    3.000000   32.400000  50000.000000
+std     1.581139    6.025451   7905.694150
+min     1.000000   27.000000  40000.000000
+25%     2.000000   28.000000  45000.000000
+50%     3.000000   30.000000  50000.000000
+75%     4.000000   35.000000  55000.000000
+max     5.000000   42.000000  60000.000000
+
+💰 Salario promedio: $50,000.00
+👥 Total empleados: 5</div>
+            </div>
+
+            <h3>Guardar DataFrame en SQL</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# Crear DataFrame con nuevos datos
+nuevos_empleados = pd.DataFrame({
+    'nombre': ['Carlos Ruiz', 'Elena Torres', 'Diego Fernández'],
+    'edad': [33, 29, 31],
+    'salario': [52000, 48000, 51000],
+    'departamento': ['IT', 'Ventas', 'Marketing']
+})
+
+# Conectar a base de datos
+conexion = sqlite3.connect('mi_empresa.db')
+
+# Guardar DataFrame en SQL
+nuevos_empleados.to_sql('empleados', conexion, 
+                         if_exists='append',  # 'append' agrega, 'replace' reemplaza
+                         index=False)
+
+print("✅ Datos guardados en la base de datos")
+
+# Verificar
+df_actualizado = pd.read_sql_query('SELECT * FROM empleados', conexion)
+print(f"\nTotal empleados ahora: {len(df_actualizado)}")
+print(df_actualizado.tail(3))
+
+conexion.close()</code></pre>
+                <div class="output">✅ Datos guardados en la base de datos
+
+Total empleados ahora: 8
+   id            nombre  edad  salario departamento
+5   6       Carlos Ruiz    33  52000.0           IT
+6   7      Elena Torres    29  48000.0       Ventas
+7   8  Diego Fernández    31  51000.0    Marketing</div>
+            </div>
+
+            <h2>SQLAlchemy: Abstracción de Bases de Datos</h2>
+
+            <p>SQLAlchemy es una biblioteca Python que abstrae las diferencias entre diferentes sistemas de bases de datos, facilitando cambiar de SQLite a PostgreSQL o MySQL sin reescribir código.</p>
+
+            <h3>Instalación</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>pip install sqlalchemy</code></pre>
+            </div>
+
+            <h3>Uso con Pandas</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+from sqlalchemy import create_engine
+
+# Crear engine (motor de base de datos)
+engine = create_engine('sqlite:///mi_empresa.db')
+
+# Leer datos con SQLAlchemy
+df = pd.read_sql('SELECT * FROM empleados', engine)
+print("Datos cargados:")
+print(df.head())
+
+# Consulta más compleja
+query = '''
+    SELECT departamento, COUNT(*) as total, AVG(salario) as promedio
+    FROM empleados
+    GROUP BY departamento
+'''
+df_resumen = pd.read_sql(query, engine)
+print("\nResumen por departamento:")
+print(df_resumen)
+
+# Guardar datos
+df_nuevo = pd.DataFrame({
+    'nombre': ['Sofía Jiménez'],
+    'edad': [26],
+    'salario': [43000],
+    'departamento': ['IT']
+})
+
+df_nuevo.to_sql('empleados', engine, if_exists='append', index=False)
+print("\n✅ Nuevo empleado agregado con SQLAlchemy")</code></pre>
+                <div class="output">Datos cargados:
+   id            nombre  edad  salario departamento
+0   1        Ana García    28  45000.0           IT
+1   2        Juan López    35  55000.0       Ventas
+2   3   María Rodríguez    30  50000.0           IT
+3   4     Pedro Sánchez    42  60000.0    Marketing
+4   5    Laura Martínez    27  40000.0       Ventas
+
+Resumen por departamento:
+  departamento  total      promedio
+0           IT      4  47500.000000
+1    Marketing      2  55500.000000
+2       Ventas      3  47666.666667
+
+✅ Nuevo empleado agregado con SQLAlchemy</div>
+            </div>
+
+            <h2>Mejores Prácticas</h2>
+
+            <h3>1. Usar Context Managers</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+# ✅ BUENA PRÁCTICA: cierre automático
+with sqlite3.connect('mi_empresa.db') as conexion:
+    cursor = conexion.cursor()
+    cursor.execute('SELECT * FROM empleados')
+    resultados = cursor.fetchall()
+    # La conexión se cierra automáticamente
+
+# ❌ MALA PRÁCTICA: fácil olvidar cerrar
+conexion = sqlite3.connect('mi_empresa.db')
+cursor = conexion.cursor()
+# ... código ...
+# ¿Cerraste la conexión?</code></pre>
+            </div>
+
+            <h3>2. Usar Parámetros (Evitar SQL Injection)</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+# ❌ PELIGROSO: vulnerable a SQL injection
+nombre_buscar = "Ana'; DROP TABLE empleados; --"
+query = f"SELECT * FROM empleados WHERE nombre = '{nombre_buscar}'"
+# ¡Esto podría borrar tu tabla!
+
+# ✅ SEGURO: usa placeholders
+with sqlite3.connect('mi_empresa.db') as conexion:
+    cursor = conexion.cursor()
+    cursor.execute(
+        'SELECT * FROM empleados WHERE nombre = ?',
+        (nombre_buscar,)
+    )
+    resultados = cursor.fetchall()</code></pre>
+            </div>
+
+            <h3>3. Manejo de Errores</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+
+def insertar_empleado_seguro(nombre, edad, salario, departamento):
+    try:
+        with sqlite3.connect('mi_empresa.db') as conexion:
+            cursor = conexion.cursor()
+            cursor.execute('''
+                INSERT INTO empleados (nombre, edad, salario, departamento)
+                VALUES (?, ?, ?, ?)
+            ''', (nombre, edad, salario, departamento))
+            conexion.commit()
+            print(f"✅ Empleado {nombre} insertado correctamente")
+            return True
+    except sqlite3.IntegrityError as e:
+        print(f"❌ Error de integridad: {e}")
+        return False
+    except sqlite3.Error as e:
+        print(f"❌ Error de base de datos: {e}")
+        return False
+    except Exception as e:
+        print(f"❌ Error inesperado: {e}")
+        return False
+
+# Probar
+insertar_empleado_seguro('Roberto Gómez', 35, 54000, 'IT')</code></pre>
+                <div class="output">✅ Empleado Roberto Gómez insertado correctamente</div>
+            </div>
+
+            <h2>JOINs: Combinando Datos de Múltiples Tablas</h2>
+
+            <p>Los <strong>JOINs</strong> son fundamentales en bases de datos relacionales. Permiten combinar datos de diferentes tablas basándose en relaciones entre ellas. Esto refleja el principio de <strong>normalización de bases de datos</strong>, donde dividimos los datos en múltiples tablas para minimizar redundancia.</p>
+
+            <h3>Tipos de JOINs</h3>
+
+            <div class="note">
+                <h4>1. INNER JOIN (Intersección)</h4>
+                <p>Devuelve solo las filas donde hay coincidencia en ambas tablas.</p>
+            </div>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">
+Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# Crear base de datos de ejemplo
+with sqlite3.connect('tienda.db') as conn:
+    cursor = conn.cursor()
+    
+    # Tabla de productos
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS productos (
+            id INTEGER PRIMARY KEY,
+            nombre TEXT,
+            precio REAL
+        )
+    ''')
+    
+    # Tabla de ventas
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS ventas (
+            id INTEGER PRIMARY KEY,
+            producto_id INTEGER,
+            cantidad INTEGER,
+            FOREIGN KEY (producto_id) REFERENCES productos(id)
+        )
+    ''')
+    
+    # Insertar datos
+    productos = [(1, 'Laptop', 1000), (2, 'Mouse', 20), (3, 'Teclado', 50), (4, 'Monitor', 300)]
+    cursor.executemany('INSERT OR IGNORE INTO productos VALUES (?,?,?)', productos)
+    
+    ventas = [(1, 1, 2), (2, 2, 5), (3, 3, 3)]  # Monitor no tiene ventas
+    cursor.executemany('INSERT OR IGNORE INTO ventas VALUES (?,?,?)', ventas)
+    conn.commit()
+
+# INNER JOIN: Solo productos con ventas
+with sqlite3.connect('tienda.db') as conn:
+    query = '''
+        SELECT 
+            p.nombre,
+            p.precio,
+            v.cantidad,
+            (p.precio * v.cantidad) as total
+        FROM productos p
+        INNER JOIN ventas v ON p.id = v.producto_id
+    '''
+    df = pd.read_sql(query, conn)
+    
+print("📊 INNER JOIN - Solo productos vendidos:")
+print(df)</code></pre>
+                <div class="output">📊 INNER JOIN - Solo productos vendidos:
+   nombre  precio  cantidad    total
+0  Laptop  1000.0         2   2000.0
+1   Mouse    20.0         5    100.0
+2 Teclado    50.0         3    150.0</div>
+            </div>
+
+            <div class="note">
+                <h4>2. LEFT JOIN (Todas de la izquierda)</h4>
+                <p>Devuelve todas las filas de la tabla izquierda, con coincidencias de la derecha si existen.</p>
+            </div>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">
+Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# LEFT JOIN: Todos los productos, con o sin ventas
+with sqlite3.connect('tienda.db') as conn:
+    query = '''
+        SELECT 
+            p.nombre,
+            p.precio,
+            COALESCE(v.cantidad, 0) as cantidad,
+            COALESCE(p.precio * v.cantidad, 0) as total
+        FROM productos p
+        LEFT JOIN ventas v ON p.id = v.producto_id
+    '''
+    df = pd.read_sql(query, conn)
+    
+print("📊 LEFT JOIN - Todos los productos (con NULL si no hay ventas):")
+print(df)
+
+# Encontrar productos sin ventas
+with sqlite3.connect('tienda.db') as conn:
+    query = '''
+        SELECT p.nombre, p.precio
+        FROM productos p
+        LEFT JOIN ventas v ON p.id = v.producto_id
+        WHERE v.id IS NULL
+    '''
+    df_sin_ventas = pd.read_sql(query, conn)
+    
+print("\n❌ Productos sin ventas:")
+print(df_sin_ventas)</code></pre>
+                <div class="output">📊 LEFT JOIN - Todos los productos (con NULL si no hay ventas):
+    nombre  precio  cantidad    total
+0   Laptop  1000.0       2.0   2000.0
+1    Mouse    20.0       5.0    100.0
+2  Teclado    50.0       3.0    150.0
+3  Monitor   300.0       0.0      0.0
+
+❌ Productos sin ventas:
+    nombre  precio
+0  Monitor   300.0</div>
+            </div>
+
+            <h3>JOINs Múltiples</h3>
+
+            <p>En aplicaciones reales, frecuentemente necesitas combinar datos de 3 o más tablas. Esto es común cuando tienes relaciones many-to-many o datos normalizados.</p>
+
+            <div class="example">
+                <h4>Ejemplo: Sistema de Facturas con 3 Tablas</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">
+Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# Crear base de datos con 3 tablas relacionadas
+with sqlite3.connect('facturacion.db') as conn:
+    cursor = conn.cursor()
+    
+    # Tabla de facturas
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS facturas (
+            id INTEGER PRIMARY KEY,
+            cliente TEXT,
+            pais TEXT
+        )
+    ''')
+    
+    # Tabla de items de factura
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS items_factura (
+            id INTEGER PRIMARY KEY,
+            factura_id INTEGER,
+            producto_id INTEGER,
+            cantidad INTEGER,
+            FOREIGN KEY (factura_id) REFERENCES facturas(id),
+            FOREIGN KEY (producto_id) REFERENCES productos(id)
+        )
+    ''')
+    
+    # Tabla de productos
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS productos (
+            id INTEGER PRIMARY KEY,
+            nombre TEXT,
+            precio REAL
+        )
+    ''')
+    
+    # Insertar datos
+    facturas = [(1, 'Ana García', 'España'), (2, 'John Smith', 'USA'), (3, 'Marie Dubois', 'Francia')]
+    cursor.executemany('INSERT OR IGNORE INTO facturas VALUES (?,?,?)', facturas)
+    
+    productos = [(1, 'Laptop', 1000), (2, 'Mouse', 20), (3, 'Teclado', 50)]
+    cursor.executemany('INSERT OR IGNORE INTO productos VALUES (?,?,?)', productos)
+    
+    items = [
+        (1, 1, 1, 2),  # Factura 1: 2 Laptops
+        (2, 1, 2, 1),  # Factura 1: 1 Mouse
+        (3, 2, 3, 3),  # Factura 2: 3 Teclados
+        (4, 3, 1, 1),  # Factura 3: 1 Laptop
+    ]
+    cursor.executemany('INSERT OR IGNORE INTO items_factura VALUES (?,?,?,?)', items)
+    conn.commit()
+
+# Consulta con JOIN múltiple
+with sqlite3.connect('facturacion.db') as conn:
+    query = '''
+        SELECT 
+            f.cliente,
+            f.pais,
+            p.nombre AS producto,
+            i.cantidad,
+            p.precio,
+            (i.cantidad * p.precio) AS total
+        FROM facturas f
+        JOIN items_factura i ON f.id = i.factura_id
+        JOIN productos p ON i.producto_id = p.id
+        ORDER BY f.cliente, p.nombre
+    '''
+    df = pd.read_sql(query, conn)
+    
+print("📋 DETALLE DE FACTURAS (3 tablas combinadas):")
+print(df)
+
+# Resumen por país
+with sqlite3.connect('facturacion.db') as conn:
+    query = '''
+        SELECT 
+            f.pais,
+            COUNT(DISTINCT f.id) AS num_facturas,
+            SUM(i.cantidad * p.precio) AS ingresos_totales
+        FROM facturas f
+        JOIN items_factura i ON f.id = i.factura_id
+        JOIN productos p ON i.producto_id = p.id
+        GROUP BY f.pais
+        ORDER BY ingresos_totales DESC
+    '''
+    df_pais = pd.read_sql(query, conn)
+    
+print("\n🌍 INGRESOS POR PAÍS:")
+print(df_pais)</code></pre>
+                <div class="output">📋 DETALLE DE FACTURAS (3 tablas combinadas):
+        cliente     pais producto  cantidad  precio    total
+0    Ana García   España   Laptop         2  1000.0   2000.0
+1    Ana García   España    Mouse         1    20.0     20.0
+2    John Smith      USA  Teclado         3    50.0    150.0
+3  Marie Dubois  Francia   Laptop         1  1000.0   1000.0
+
+🌍 INGRESOS POR PAÍS:
+      pais  num_facturas  ingresos_totales
+0   España             1            2020.0
+1  Francia             1            1000.0
+2      USA             1             150.0</div>
+            </div>
+
+            <h2>Agregaciones y Subconsultas</h2>
+
+            <p>SQL ofrece potentes funciones de agregación y la capacidad de anidar consultas (subconsultas) para análisis complejos.</p>
+
+            <h3>Funciones de Agregación Comunes</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">
+Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# Usar la base de datos de empleados anterior
+with sqlite3.connect('mi_empresa.db') as conn:
+    # COUNT, AVG, MIN, MAX, SUM
+    query = '''
+        SELECT 
+            departamento,
+            COUNT(*) AS num_empleados,
+            AVG(salario) AS salario_promedio,
+            MIN(salario) AS salario_minimo,
+            MAX(salario) AS salario_maximo,
+            SUM(salario) AS masa_salarial
+        FROM empleados
+        GROUP BY departamento
+        HAVING num_empleados > 1
+        ORDER BY masa_salarial DESC
+    '''
+    df = pd.read_sql(query, conn)
+    
+print("📊 ANÁLISIS POR DEPARTAMENTO (con HAVING):")
+print(df)</code></pre>
+                <div class="output">📊 ANÁLISIS POR DEPARTAMENTO (con HAVING):
+  departamento  num_empleados  salario_promedio  salario_minimo  salario_maximo  masa_salarial
+0           IT              2          47500.00           45000           50000          95000
+1       Ventas              2          47500.00           40000           55000          95000</div>
+            </div>
+
+            <h3>Subconsultas (Subqueries)</h3>
+
+            <p>Las subconsultas permiten usar el resultado de una consulta dentro de otra consulta. Son útiles para filtrar datos basándose en cálculos agregados.</p>
+
+            <div class="example">
+                <h4>1. Subconsulta en WHERE</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">
+Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# Empleados con salario mayor al promedio
+with sqlite3.connect('mi_empresa.db') as conn:
+    query = '''
+        SELECT nombre, salario, departamento
+        FROM empleados
+        WHERE salario > (SELECT AVG(salario) FROM empleados)
+        ORDER BY salario DESC
+    '''
+    df = pd.read_sql(query, conn)
+    
+print("💰 Empleados con salario mayor al promedio:")
+print(df)</code></pre>
+                <div class="output">💰 Empleados con salario mayor al promedio:
+            nombre  salario departamento
+0    Pedro Sánchez  60000.0    Marketing
+1       Juan López  55000.0       Ventas
+2  María Rodríguez  50000.0           IT</div>
+            </div>
+
+            <div class="example">
+                <h4>2. Subconsulta en SELECT</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">
+Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# Comparar cada empleado con el promedio de su departamento
+with sqlite3.connect('mi_empresa.db') as conn:
+    query = '''
+        SELECT 
+            nombre,
+            departamento,
+            salario,
+            (SELECT AVG(salario) 
+             FROM empleados e2 
+             WHERE e2.departamento = e1.departamento) AS promedio_dept,
+            salario - (SELECT AVG(salario) 
+                       FROM empleados e2 
+                       WHERE e2.departamento = e1.departamento) AS diferencia
+        FROM empleados e1
+        ORDER BY departamento, salario DESC
+    '''
+    df = pd.read_sql(query, conn)
+    
+print("📈 Comparación con promedio departamental:")
+print(df.to_string(index=False))</code></pre>
+                <div class="output">📈 Comparación con promedio departamental:
+           nombre departamento  salario  promedio_dept  diferencia
+  María Rodríguez           IT  50000.0        47500.0      2500.0
+       Ana García           IT  45000.0        47500.0     -2500.0
+    Pedro Sánchez    Marketing  60000.0        60000.0         0.0
+       Juan López       Ventas  55000.0        47500.0      7500.0
+   Laura Martínez       Ventas  40000.0        47500.0     -7500.0</div>
+            </div>
+
+            <div class="example">
+                <h4>3. Subconsulta con IN</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">
+Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+# Empleados en departamentos con más de 1 empleado
+with sqlite3.connect('mi_empresa.db') as conn:
+    query = '''
+        SELECT nombre, departamento, salario
+        FROM empleados
+        WHERE departamento IN (
+            SELECT departamento
+            FROM empleados
+            GROUP BY departamento
+            HAVING COUNT(*) > 1
+        )
+        ORDER BY departamento, salario DESC
+    '''
+    df = pd.read_sql(query, conn)
+    
+print("👥 Empleados en departamentos grandes (>1 empleado):")
+print(df)</code></pre>
+                <div class="output">👥 Empleados en departamentos grandes (>1 empleado):
+            nombre departamento  salario
+0  María Rodríguez           IT  50000.0
+1       Ana García           IT  45000.0
+2       Juan López       Ventas  55000.0
+3   Laura Martínez       Ventas  40000.0</div>
+            </div>
+
+            <h3>Common Table Expressions (CTE) con WITH</h3>
+
+            <p>Los CTEs hacen las consultas complejas más legibles al permitirte definir "tablas temporales" que existen solo durante la ejecución de la consulta.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">
+Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+
+with sqlite3.connect('mi_empresa.db') as conn:
+    query = '''
+        WITH estadisticas_dept AS (
+            SELECT 
+                departamento,
+                AVG(salario) AS salario_promedio,
+                COUNT(*) AS num_empleados
+            FROM empleados
+            GROUP BY departamento
+        ),
+        empleados_senior AS (
+            SELECT 
+                nombre,
+                departamento,
+                salario
+            FROM empleados
+            WHERE edad >= 30
+        )
+        SELECT 
+            es.nombre,
+            es.departamento,
+            es.salario,
+            sd.salario_promedio,
+            sd.num_empleados,
+            es.salario - sd.salario_promedio AS diferencia_promedio
+        FROM empleados_senior es
+        JOIN estadisticas_dept sd ON es.departamento = sd.departamento
+        ORDER BY diferencia_promedio DESC
+    '''
+    df = pd.read_sql(query, conn)
+    
+print("🎯 Análisis con CTE (empleados senior vs promedio dept):")
+print(df.to_string(index=False))</code></pre>
+                <div class="output">🎯 Análisis con CTE (empleados senior vs promedio dept):
+           nombre departamento  salario  salario_promedio  num_empleados  diferencia_promedio
+    Pedro Sánchez    Marketing  60000.0              60.0              1                     0.0
+       Juan López       Ventas  55000.0           47500.0              2                  7500.0
+  María Rodríguez           IT  50000.0           47500.0              2                  2500.0</div>
+            </div>
+
+            <h2>Ejemplo Completo: Sistema de Ventas</h2>
+
+            <div class="example">
+                <h4>Aplicación Real con SQL y Pandas</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import sqlite3
+import pandas as pd
+from datetime import datetime, timedelta
+import random
+
+# 1. Crear base de datos y tablas
+with sqlite3.connect('ventas.db') as conn:
+    cursor = conn.cursor()
+    
+    # Tabla de productos
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS productos (
+            id INTEGER PRIMARY KEY,
+            nombre TEXT NOT NULL,
+            precio REAL NOT NULL
+        )
+    ''')
+    
+    # Tabla de vendedores
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS vendedores (
+            id INTEGER PRIMARY KEY,
+            nombre TEXT NOT NULL
+        )
+    ''')
+    
+    # Tabla de ventas
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS ventas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            producto_id INTEGER,
+            vendedor_id INTEGER,
+            cantidad INTEGER,
+            fecha DATE,
+            FOREIGN KEY (producto_id) REFERENCES productos(id),
+            FOREIGN KEY (vendedor_id) REFERENCES vendedores(id)
+        )
+    ''')
+
+# 2. Insertar datos de ejemplo
+with sqlite3.connect('ventas.db') as conn:
+    cursor = conn.cursor()
+    
+    # Productos
+    productos = [
+        (1, 'Laptop', 1000),
+        (2, 'Mouse', 20),
+        (3, 'Teclado', 50),
+        (4, 'Monitor', 300)
+    ]
+    cursor.executemany('INSERT OR IGNORE INTO productos VALUES (?,?,?)', productos)
+    
+    # Vendedores
+    vendedores = [
+        (1, 'Ana'), (2, 'Juan'), (3, 'María'), (4, 'Pedro')
+    ]
+    cursor.executemany('INSERT OR IGNORE INTO vendedores VALUES (?,?)', vendedores)
+    
+    # Generar ventas aleatorias
+    ventas = []
+    fecha_inicio = datetime.now() - timedelta(days=30)
+    for _ in range(100):
+        venta = (
+            random.randint(1, 4),  # producto_id
+            random.randint(1, 4),  # vendedor_id
+            random.randint(1, 10), # cantidad
+            (fecha_inicio + timedelta(days=random.randint(0, 30))).date()
+        )
+        ventas.append(venta)
+    
+    cursor.executemany('''
+        INSERT INTO ventas (producto_id, vendedor_id, cantidad, fecha)
+        VALUES (?,?,?,?)
+    ''', ventas)
+    conn.commit()
+
+# 3. Análisis con SQL y Pandas
+print("📊 ANÁLISIS DE VENTAS")
+print("=" * 80)
+
+with sqlite3.connect('ventas.db') as conn:
+    # Top productos
+    query_productos = '''
+        SELECT 
+            p.nombre,
+            SUM(v.cantidad) as unidades_vendidas,
+            SUM(v.cantidad * p.precio) as ingresos_totales
+        FROM ventas v
+        JOIN productos p ON v.producto_id = p.id
+        GROUP BY p.nombre
+        ORDER BY ingresos_totales DESC
+    '''
+    df_productos = pd.read_sql(query_productos, conn)
+    
+    print("\n1️⃣ TOP PRODUCTOS POR INGRESOS:")
+    print(df_productos.to_string(index=False))
+    
+    # Top vendedores
+    query_vendedores = '''
+        SELECT 
+            vd.nombre,
+            COUNT(*) as num_ventas,
+            SUM(v.cantidad * p.precio) as ingresos_totales
+        FROM ventas v
+        JOIN vendedores vd ON v.vendedor_id = vd.id
+        JOIN productos p ON v.producto_id = p.id
+        GROUP BY vd.nombre
+        ORDER BY ingresos_totales DESC
+    '''
+    df_vendedores = pd.read_sql(query_vendedores, conn)
+    
+    print("\n2️⃣ RENDIMIENTO DE VENDEDORES:")
+    print(df_vendedores.to_string(index=False))
+    
+    # Tendencia semanal
+    query_tendencia = '''
+        SELECT 
+            strftime('%Y-%W', fecha) as semana,
+            COUNT(*) as num_ventas,
+            SUM(v.cantidad * p.precio) as ingresos
+        FROM ventas v
+        JOIN productos p ON v.producto_id = p.id
+        GROUP BY semana
+        ORDER BY semana
+    '''
+    df_tendencia = pd.read_sql(query_tendencia, conn)
+    
+    print("\n3️⃣ TENDENCIA SEMANAL:")
+    print(df_tendencia.to_string(index=False))
+
+print("\n" + "=" * 80)</code></pre>
+                <div class="output">📊 ANÁLISIS DE VENTAS
+================================================================================
+
+1️⃣ TOP PRODUCTOS POR INGRESOS:
+   nombre  unidades_vendidas  ingresos_totales
+   Laptop                130          130000.0
+  Monitor                137           41100.0
+  Teclado                128            6400.0
+    Mouse                147            2940.0
+
+2️⃣ RENDIMIENTO DE VENDEDORES:
+  nombre  num_ventas  ingresos_totales
+   María          27           51060.0
+   Pedro          28           47265.0
+     Ana          25           44275.0
+    Juan          20           37840.0
+
+3️⃣ TENDENCIA SEMANAL:
+  semana  num_ventas  ingresos
+ 2025-01          18   33415.0
+ 2025-02          23   44920.0
+ 2025-03          19   35785.0
+ 2025-04          21   40460.0
+ 2025-05          19   25860.0
+
+================================================================================</div>
+            </div>
+
+            <h2>📚 Cheat Sheet de SQL con Python</h2>
+
+            <div class="cheat-sheet">
+                <h3 style="color: var(--primary-color);">Conexión y Setup</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>import sqlite3</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Importar módulo SQLite</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>conn = sqlite3.connect('db.db')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Conectar a base de datos</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>cursor = conn.cursor()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Crear cursor para ejecutar SQL</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>conn.commit()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Guardar cambios</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>conn.close()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Cerrar conexión</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Operaciones CRUD</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>CREATE TABLE tabla (...)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Crear tabla</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>INSERT INTO tabla VALUES (?...)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Insertar datos (usar ?)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>SELECT * FROM tabla</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Seleccionar datos</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>UPDATE tabla SET col=? WHERE ...</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Actualizar registros</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>DELETE FROM tabla WHERE ...</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Eliminar registros</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Consultas y Filtros</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>SELECT col1, col2 FROM tabla</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Seleccionar columnas específicas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>WHERE condicion</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Filtrar resultados</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>ORDER BY col ASC/DESC</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Ordenar resultados</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>LIMIT n</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Limitar número de resultados</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>WHERE col LIKE '%texto%'</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Búsqueda de patrones</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">JOINs</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>INNER JOIN tabla2 ON t1.id=t2.id</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Solo coincidencias en ambas tablas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>LEFT JOIN tabla2 ON t1.id=t2.id</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Todas de izquierda + coincidencias</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>WHERE t2.id IS NULL</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Encontrar filas sin coincidencia</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Agregaciones</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>COUNT(*)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Contar filas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>SUM(col)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Suma de valores</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>AVG(col)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Promedio</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>MIN(col) / MAX(col)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Mínimo y máximo</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>GROUP BY col</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Agrupar para agregación</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>HAVING condicion</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Filtrar grupos (después GROUP BY)</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Integración con Pandas</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.read_sql(query, conn)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Leer consulta SQL a DataFrame</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.read_sql_query(query, conn)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Alias de read_sql</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.to_sql('tabla', conn)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Guardar DataFrame en SQL</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>if_exists='append'</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Agregar datos a tabla existente</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>if_exists='replace'</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Reemplazar tabla completa</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">SQLAlchemy</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>from sqlalchemy import create_engine</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Importar SQLAlchemy</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>create_engine('sqlite:///db.db')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Crear engine SQLite</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>create_engine('postgresql://user:pwd@host/db')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Conectar a PostgreSQL</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.read_sql(query, engine)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Usar engine con Pandas</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Métodos del Cursor</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 0;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>cursor.execute(query)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Ejecutar consulta SQL</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>cursor.execute(query, (val,))</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Ejecutar con parámetros seguros</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>cursor.executemany(query, data)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Ejecutar múltiples inserciones</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>cursor.fetchone()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Obtener una fila</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>cursor.fetchall()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Obtener todas las filas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>cursor.fetchmany(n)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Obtener n filas</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h2>Conclusión y Próximos Pasos</h2>
+
+            <p>¡Felicidades! Ahora sabes cómo combinar el poder de SQL con Python y Pandas para trabajar con bases de datos relacionales. Esta es una habilidad fundamental en ciencia de datos y desarrollo de aplicaciones.</p>
+
+            <div class="success">
+                <h4>✅ Lo que has aprendido:</h4>
+                <ul>
+                    <li>Por qué las bases de datos son esenciales en aplicaciones reales</li>
+                    <li>Fundamentos de SQL: SELECT, INSERT, UPDATE, DELETE</li>
+                    <li>Conectar Python con SQLite usando sqlite3</li>
+                    <li>Ejecutar consultas y manejar resultados</li>
+                    <li>Integrar SQL con Pandas para análisis potente</li>
+                    <li>Usar SQLAlchemy para abstracción de bases de datos</li>
+                    <li>Mejores prácticas: seguridad, manejo de errores, context managers</li>
+                    <li>Construir aplicaciones completas con bases de datos</li>
+                </ul>
+            </div>
+
+            <div class="important">
+                <strong>💡 Consejos para Dominar SQL:</strong>
+                <ul>
+                    <li><strong>Practica con datos reales:</strong> Crea tu propia base de datos de películas, libros o gastos personales</li>
+                    <li><strong>Aprende JOINs a fondo:</strong> Son fundamentales para combinar datos de múltiples tablas</li>
+                    <li><strong>Usa EXPLAIN:</strong> Para entender cómo se ejecutan tus consultas y optimizarlas</li>
+                    <li><strong>Siempre usa parámetros:</strong> Nunca construyas queries con f-strings o concatenación</li>
+                    <li><strong>Combina SQL y Pandas:</strong> Usa SQL para filtrar/agregar, Pandas para análisis detallado</li>
+                </ul>
+            </div>
+
+            <p>Con NumPy, Pandas y SQL en tu arsenal, estás equipado para manejar prácticamente cualquier desafío de análisis de datos. ¡El siguiente paso es aplicar estas habilidades a proyectos reales!</p>
+
+            <div class="navigation">
+                <a href="capitulo04_pandas.html" class="nav-button">⬅ Cap 4: Pandas</a>
+                <a href="index.html" class="nav-button">Volver al Índice ➡</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Curso de Python para Data Science - 2025 | Capítulo 5: SQL con Python - Trabajando con Bases de Datos</p>
+        </footer>
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

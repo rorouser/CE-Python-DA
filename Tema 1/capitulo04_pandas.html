@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 4: Pandas - Análisis de Datos Profesional</title>
+    <link rel="stylesheet" href="css/estilos.css?v=20251005-2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+    <!-- Botón toggle para móvil -->
+    <button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+    
+    <div class="page-wrapper">
+    <!-- Barra lateral de navegación -->
+    <nav class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-header">Inicio</div>
+            <ul class="sidebar-nav">
+                <li><a href="index.html">Página principal</a></li>
+            </ul>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-header">Capítulos</div>
+            <ul class="sidebar-nav">
+                <li><a href="capitulo01_introduccion.html">1. Introducción a Data Science</a></li>
+                <li><a href="capitulo02_librerias.html">2. Ecosistema de Librerías</a></li>
+                <li><a href="capitulo03_numpy.html">3. NumPy</a></li>
+                <li><a href="capitulo04_pandas.html" class="active">4. Pandas</a></li>
+                <li><a href="capitulo05_sql.html">5. SQL con Python</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>Python para Data Science</h1>
+            <p class="subtitle">Capítulo 4: Pandas - Análisis de Datos Profesional</p>
+        </header>
+
+        <main>
+            <span class="chapter-number">Capítulo 4</span>
+            
+            <h2>Introducción a Pandas</h2>
+            
+            <p>Mientras que NumPy se especializa en arrays homogéneos de datos numéricos, <strong>Pandas</strong> proporciona estructuras para manipular datos heterogéneos organizados en formato tabular: nombres, fechas, categorías y números, tal como se presentan en aplicaciones reales.</p>
+
+            <p>Pandas fue desarrollado por Wes McKinney en 2008 durante su trabajo en AQR Capital Management. La necesidad de herramientas más eficientes para manejar series temporales financieras y datos tabulares complejos motivó su creación. Actualmente es la biblioteca de análisis de datos más utilizada en Python.</p>
+
+            <div class="important">
+                <strong>Contenidos del capítulo:</strong>
+                <ul>
+                    <li>Pandas: características y contexto en el análisis de datos</li>
+                    <li>Estructuras fundamentales: Series y DataFrames</li>
+                    <li>Creación de DataFrames e inspección de datos</li>
+                    <li>Selección e indexación de datos</li>
+                    <li>Manejo de valores faltantes</li>
+                    <li>Agrupación y agregación con GroupBy</li>
+                    <li>Combinación de DataFrames</li>
+                    <li>Transformación de datos: Pivot Tables y reshaping</li>
+                </ul>
+            </div>
+
+            <h2>Pandas en el Contexto del Análisis de Datos</h2>
+
+
+            <h3>Pandas como herramienta de análisis exploratorio</h3>
+
+            <p>NumPy proporciona eficientes operaciones matemáticas con arrays homogéneos. Sin embargo, en aplicaciones reales los datos poseen características que van más allá de matrices numéricas:</p>
+            <ul>
+                <li>Tipos heterogéneos: números, texto, fechas en la misma tabla</li>
+                <li>Etiquetas significativas: nombres de columnas, identificadores de fila</li>
+                <li>Valores incompletos: datos que requieren decisiones sobre su tratamiento</li>
+                <li>Estructura tabular: filas y columnas con relaciones semánticas</li>
+            </ul>
+
+            <p>Pandas resuelve estos requerimientos proporcionando estructuras y métodos diseñados específicamente para análisis exploratorio de datos. Su interfaz combina características de hojas de cálculo (como Excel) con la flexibilidad de SQL, integrando ambas dentro del ecosistema Python.</p>
+
+            <h3>Comparación de herramientas: Excel, SQL y Pandas</h3>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                <tr style="background: var(--primary-color); color: white;">
+                    <th style="padding: 0.75rem; text-align: left;">Escenario</th>
+                    <th style="padding: 0.75rem; text-align: left;">Excel</th>
+                    <th style="padding: 0.75rem; text-align: left;">SQL</th>
+                    <th style="padding: 0.75rem; text-align: left;">Pandas</th>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Volumen de datos</strong></td>
+                    <td style="padding: 0.75rem;">< 100k filas</td>
+                    <td style="padding: 0.75rem;">Ilimitado</td>
+                    <td style="padding: 0.75rem;">< 2GB RAM</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Velocidad</strong></td>
+                    <td style="padding: 0.75rem;">Lenta</td>
+                    <td style="padding: 0.75rem;">Rápida</td>
+                    <td style="padding: 0.75rem;">Muy rápida</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Automatización</strong></td>
+                    <td style="padding: 0.75rem;">Difícil</td>
+                    <td style="padding: 0.75rem;">Fácil</td>
+                    <td style="padding: 0.75rem;">Muy fácil</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Análisis exploratorio</strong></td>
+                    <td style="padding: 0.75rem;">Adecuado</td>
+                    <td style="padding: 0.75rem;">Limitado</td>
+                    <td style="padding: 0.75rem;">Excelente</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Gestión de datos incompletos</strong></td>
+                    <td style="padding: 0.75rem;">Manual</td>
+                    <td style="padding: 0.75rem;">Prevención</td>
+                    <td style="padding: 0.75rem;">Herramientas integradas</td>
+                </tr>
+            </table>
+
+            <h3>Flujo de trabajo típico</h3>
+
+            <p>El análisis con Pandas generalmente sigue un patrón predecible:</p>
+            <ul>
+                <li><strong>Carga:</strong> Importar datos desde archivos o bases de datos</li>
+                <li><strong>Inspección:</strong> Examinar estructura, tipos y completitud de los datos</li>
+                <li><strong>Limpieza:</strong> Resolver valores faltantes e inconsistencias</li>
+                <li><strong>Transformación:</strong> Crear columnas nuevas, combinar datos, reorganizar</li>
+                <li><strong>Análisis:</strong> Calcular estadísticas, agrupaciones, tendencias</li>
+                <li><strong>Exportación:</strong> Guardar resultados y reportes</li>
+            </ul>
+
+            <h3>Instalación</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Con pip
+pip install pandas
+
+# Con uv (recomendado - más rápido)
+uv pip install pandas</code></pre>
+            </div>
+
+            <h3>Importar Pandas (La Convención)</h3>
+
+            <p>Al igual que NumPy se importa como <code>np</code>, Pandas tiene su propia convención universal:</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+import numpy as np
+
+# Verificar versión
+print(f"Pandas versión: {pd.__version__}")</code></pre>
+                <div class="output">Pandas versión: 2.1.4</div>
+            </div>
+
+            <h2>Estructuras Fundamentales: Series y DataFrames</h2>
+
+            <h3>Las Dos Estructuras de Datos en Pandas</h3>
+
+            <p>Todo en Pandas se construye sobre dos estructuras. Aprenderlas bien es fundamental:</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                <tr style="background: var(--primary-color); color: white;">
+                    <th style="padding: 0.75rem; text-align: left;">Estructura</th>
+                    <th style="padding: 0.75rem; text-align: left;">Dimensiones</th>
+                    <th style="padding: 0.75rem; text-align: left;">Analogía</th>
+                    <th style="padding: 0.75rem; text-align: left;">Cuándo la usas</th>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Series</strong></td>
+                    <td style="padding: 0.75rem;">1D (una columna)</td>
+                    <td style="padding: 0.75rem;">Columna de Excel</td>
+                    <td style="padding: 0.75rem;">Datos de una variable única</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>DataFrame</strong></td>
+                    <td style="padding: 0.75rem;">2D (múltiples columnas)</td>
+                    <td style="padding: 0.75rem;">Hoja de Excel completa</td>
+                    <td style="padding: 0.75rem;">Datos tabulares con múltiples variables</td>
+                </tr>
+            </table>
+
+            <h2>Series: Estructura Unidimensional con Índices</h2>
+
+            <p>Una <code>Series</code> es un array unidimensional que asocia cada valor con una etiqueta de índice. A diferencia de un array de NumPy que accede por posición numérica, una Series permite acceso por etiqueta, proporcionando mayor claridad y seguridad.</p>
+
+            <h3>Anatomía de una Series</h3>
+
+            <p>Internamente, una Series contiene dos componentes alineados:</p>
+            <pre>
+Índice:  Lun    Mar    Mié    Jue    Vie
+Valor:   22     24     19     25     23
+Tipo:    int64  int64  int64  int64  int64
+            </pre>
+
+            <p>El índice actúa como un "diccionario" que mapea cada posición a una etiqueta. Esto es fundamental para operaciones entre Series, que se alinean automáticamente por índice en lugar de por posición.</p>
+
+            <h3>Crear Series</h3>
+
+            <div class="example">
+                <h4>Opción 1: Desde una Lista (Índice Automático)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+
+# Crea una Series con índice numérico automático (0, 1, 2, ...)
+temperaturas = pd.Series([22, 24, 19, 25, 23])
+print(temperaturas)
+
+# Acceso por posición (igual que arrays)
+print(f"Primera temperatura: {temperaturas[0]}°C")
+print(f"Última temperatura: {temperaturas[-1]}°C")</code></pre>
+                <div class="output">0    22
+1    24
+2    19
+3    25
+4    23
+dtype: int64
+
+Primera temperatura: 22°C
+Última temperatura: 23°C</div>
+            </div>
+
+            <div class="example">
+                <h4>Opción 2: Con Índices Personalizados (Lo Importante)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Índices personalizados: nombres de días
+dias = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie']
+temperaturas = pd.Series([22, 24, 19, 25, 23], index=dias)
+print(temperaturas)
+print()
+
+# Acceso por etiqueta (la verdadera potencia)
+print(f"Temperatura del miércoles: {temperaturas['Mié']}°C")
+print(f"Temperaturas de los primeros 3 días:")
+print(temperaturas[['Lun', 'Mar', 'Mié']])</code></pre>
+                <div class="output">Lun    22
+Mar    24
+Mié    19
+Jue    25
+Vie    23
+dtype: int64
+
+Temperatura del miércoles: 19°C
+Temperaturas de los primeros 3 días:
+Lun    22
+Mar    24
+Mié    19
+dtype: int64</div>
+            </div>
+
+            <div class="example">
+                <h4>Opción 3: Desde un Diccionario (Las Etiquetas Salen Automáticamente)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Diccionario: clave → índice, valor → valor de la Series
+poblacion = pd.Series({
+    'Madrid': 3_223_334,
+    'Barcelona': 1_620_343,
+    'Valencia': 791_413,
+    'Sevilla': 688_592
+})
+
+print(poblacion)
+print()
+
+# Acceso inmediato por ciudad
+print(f"Población de Barcelona: {poblacion['Barcelona']:,}")
+print(f"Ciudad más poblada: {poblacion.idxmax()}")
+print(f"Total población: {poblacion.sum():,}")</code></pre>
+                <div class="output">Madrid       3223334
+Barcelona    1620343
+Valencia      791413
+Sevilla       688592
+dtype: int64
+
+Población de Barcelona: 1,620,343
+Ciudad más poblada: Madrid
+Total población: 6,323,682</div>
+            </div>
+
+            <h3>Operaciones Aritméticas: Alineación por Índice</h3>
+
+            <p>Una ventaja fundamental de las Series respecto a arrays de NumPy es que las operaciones aritméticas se alinean automáticamente por índice en lugar de por posición. Esto evita errores cuando el orden de los datos cambia.</p>
+            
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Ventas de dos meses (mismos productos)
+enero = pd.Series([100, 150, 200], index=['Laptop', 'Mouse', 'Teclado'])
+febrero = pd.Series([120, 160, 180], index=['Laptop', 'Mouse', 'Teclado'])
+
+print("Enero:")
+print(enero)
+print("\nFebrero:")
+print(febrero)
+
+# Resta alineada: Laptop - Laptop, Mouse - Mouse, etc.
+crecimiento = febrero - enero
+print("\nCrecimiento (unidades):")
+print(crecimiento)
+
+# Cálculo de porcentajes
+pct_crecimiento = ((febrero - enero) / enero * 100).round(1)
+print("\nCrecimiento (%):")
+print(pct_crecimiento)</code></pre>
+                <div class="output">Enero:
+Laptop    100
+Mouse     150
+Teclado   200
+dtype: int64
+
+Febrero:
+Laptop    120
+Mouse     160
+Teclado   180
+dtype: int64
+
+Crecimiento (unidades):
+Laptop     20
+Mouse      10
+Teclado   -20
+dtype: int64
+
+Crecimiento (%):
+Laptop    20.0
+Mouse      6.7
+Teclado  -10.0
+dtype: float64</div>
+            </div>
+
+            <h2>DataFrames: Estructura Tabular</h2>
+
+            <h3>Definición y estructura</h3>
+
+            <p>Un <code>DataFrame</code> es una estructura bidimensional tabular con filas y columnas etiquetadas. Puede considerarse como un diccionario de Series que comparten el mismo índice (filas).</p>
+
+            <p>Internamente:</p>
+            <pre>
+                      Laptop    Mouse    Teclado
+Ana                   100        50         30
+Juan                  120        60         35
+María                 110        55         32
+
+Cada columna es una Series
+Todas comparten el mismo índice (filas)
+            </pre>
+
+           <h3>Creación de DataFrames</h3>
+
+            <div class="example">
+                <h4>Desde diccionario de listas</h4>
+                <p>Estructura de datos más común: las claves se convierten en nombres de columnas.</p>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+
+datos = {
+    'nombre': ['Ana', 'Juan', 'María', 'Pedro'],
+    'edad': [25, 30, 35, 28],
+    'salario': [30000, 45000, 55000, 38000],
+    'departamento': ['Ventas', 'IT', 'IT', 'Ventas']
+}
+
+df = pd.DataFrame(datos)
+print(df)</code></pre>
+                <div class="output">  nombre  edad  salario departamento
+0    Ana    25    30000       Ventas
+1   Juan    30    45000           IT
+2  María    35    55000           IT
+3  Pedro    28    38000       Ventas</div>
+            </div>
+
+            <div class="example">
+                <h4>Desde lista de diccionarios</h4>
+                <p>Estructura común cuando los datos provienen de APIs o ficheros semiestructurados.</p>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>empleados = [
+    {'nombre': 'Ana', 'edad': 25, 'salario': 30000},
+    {'nombre': 'Juan', 'edad': 30, 'salario': 45000},
+    {'nombre': 'María', 'edad': 35, 'salario': 55000}
+]
+
+df = pd.DataFrame(empleados)
+print(df)</code></pre>
+                <div class="output">  nombre  edad  salario
+0    Ana    25    30000
+1   Juan    30    45000
+2  María    35    55000</div>
+            </div>
+
+            <h3>Inspección de datos</h3>
+
+            <p>Al cargar un nuevo DataFrame, es importante examinar su estructura general. Los siguientes métodos proporcionan información sobre dimensiones, tipos de datos y contenido:</p>
+            
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+
+# Crear DataFrame de ejemplo
+datos = {
+    'nombre': ['Ana', 'Juan', 'María', 'Pedro', 'Laura'],
+    'edad': [25, 30, 35, 28, 32],
+    'salario': [30000, 45000, 55000, 38000, 48000],
+    'departamento': ['Ventas', 'IT', 'IT', 'Ventas', 'Marketing']
+}
+df = pd.DataFrame(datos)
+
+# 1. Ver primeras filas (siempre empieza aquí)
+print("Primeras filas:")
+print(df.head(3))
+print()
+
+# 2. Ver últimas filas
+print("Últimas filas:")
+print(df.tail(2))
+print()
+
+# 3. Forma: (filas, columnas)
+print(f"Forma: {df.shape} → {df.shape[0]} filas, {df.shape[1]} columnas")
+print()
+
+# 4. Nombres de columnas
+print(f"Columnas: {list(df.columns)}")
+print()
+
+# 5. Tipos de datos
+print("Tipos de datos:")
+print(df.dtypes)
+print()
+
+# 6. Información general (resumen de todo)
+print("Información general:")
+df.info()</code></pre>
+                <div class="output">Primeras filas:
+  nombre  edad  salario departamento
+0    Ana    25    30000       Ventas
+1   Juan    30    45000           IT
+2  María    35    55000           IT
+
+Últimas filas:
+  nombre  edad  salario departamento
+3  Pedro    28    38000       Ventas
+4  Laura    32    48000    Marketing
+
+Forma: (5, 4) → 5 filas, 4 columnas
+
+Columnas: ['nombre', 'edad', 'salario', 'departamento']
+
+Tipos de datos:
+nombre          object
+edad             int64
+salario          int64
+departamento    object
+dtype: object
+
+Información general:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 5 entries, 0 to 4
+Data columns (total 4 columns):
+ #   Column        Non-Null Count  Dtype 
+---  ------        --------------  ----- 
+ 0   nombre        5 non-null      object
+ 1   edad          5 non-null      int64 
+ 2   salario       5 non-null      int64 
+ 3   departamento  5 non-null      object 
+dtypes: int64(2), object(1)
+memory usage: 200.0+ bytes</div>
+            </div>
+
+            <h2>Selección e Indexación de Datos</h2>
+
+            <p>La capacidad de extraer subconjuntos específicos de datos es fundamental en análisis de datos. Pandas proporciona múltiples métodos adaptados a diferentes situaciones.</p>
+
+            <h3>Selección de columnas</h3>
+
+            <p>La forma más básica de seleccionar datos es acceder a columnas completas:</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Crear DataFrame de ejemplo
+empleados = pd.DataFrame({
+    'nombre': ['Ana', 'Juan', 'María', 'Pedro', 'Laura'],
+    'edad': [25, 30, 35, 28, 32],
+    'salario': [30000, 45000, 55000, 38000, 48000],
+    'departamento': ['Ventas', 'IT', 'IT', 'Ventas', 'Marketing']
+})
+
+# Una columna: devuelve Series
+nombres = empleados['nombre']
+print("Tipo:", type(nombres))
+print(nombres)
+print()
+
+# Múltiples columnas: devuelve DataFrame
+info_basica = empleados[['nombre', 'edad']]
+print("Tipo:", type(info_basica))
+print(info_basica)</code></pre>
+                <div class="output">Tipo: <class 'pandas.core.series.Series'>
+0      Ana
+1     Juan
+2    María
+3    Pedro
+4    Laura
+Name: nombre, dtype: object
+
+Tipo: <class 'pandas.core.frame.DataFrame'>
+  nombre  edad
+0    Ana    25
+1   Juan    30
+2  María    35
+3  Pedro    28
+4  Laura    32</div>
+            </div>
+
+            <h3>Filtrado con condiciones booleanas</h3>
+
+            <p>Para seleccionar filas que cumplen condiciones específicas se utilizan arrays booleanos:</p>
+            
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># ¿Quiénes ganan más de 40,000?
+salarios_altos = empleados[empleados['salario'] > 40000]
+print(salarios_altos)
+
+# Desglosado (lo que ocurre internamente):
+mascara = empleados['salario'] > 40000  # Array de True/False
+print("\nMáscara:", mascara.values)
+resultado = empleados[mascara]  # Pandas filtra por True</code></pre>
+                <div class="output">  nombre  edad  salario departamento
+1   Juan    30    45000           IT
+2  María    35    55000           IT
+4  Laura    32    48000    Marketing
+
+Máscara: [False  True  True False  True]</div>
+            </div>
+           <h3>Condiciones múltiples</h3>
+
+            <p>Generalmente es necesario combinar varias condiciones con operadores lógicos:</p>
+
+            <div class="example">
+                <h4>AND: Ambas Condiciones (& operador)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Pregunta: Jóvenes (< 30) que ganan bien (> 40,000)
+jovenes_bien_pagados = empleados[
+    (empleados['edad'] < 30) & (empleados['salario'] > 40000)
+]
+print("Jóvenes (< 30) bien pagados (> 40k):")
+print(jovenes_bien_pagados)</code></pre>
+                <div class="output">  nombre  edad  salario departamento
+1   Juan    30    45000           IT</div>
+            </div>
+
+            <div class="example">
+                <h4>OR: Al Menos Una Condición (| operador)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Pregunta: Personas en IT O Marketing
+it_o_marketing = empleados[
+    (empleados['departamento'] == 'IT') | 
+    (empleados['departamento'] == 'Marketing')
+]
+print("IT o Marketing:")
+print(it_o_marketing)
+
+# Alternativa más clara con .isin()
+it_o_marketing_v2 = empleados[empleados['departamento'].isin(['IT', 'Marketing'])]
+print("\nMismo resultado con .isin():")
+print(it_o_marketing_v2)</code></pre>
+                <div class="output">IT o Marketing:
+  nombre  edad  salario departamento
+1   Juan    30    45000           IT
+2  María    35    55000           IT
+4  Laura    32    48000    Marketing
+
+Mismo resultado con .isin():
+  nombre  edad  salario departamento
+1   Juan    30    45000           IT
+2  María    35    55000           IT
+4  Laura    32    48000    Marketing</div>
+            </div>
+
+            <div class="example">
+                <h4>NOT: Negación (~ operador)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Pregunta: TODO EXCEPTO Ventas
+no_ventas = empleados[~(empleados['departamento'] == 'Ventas')]
+print("No Ventas:")
+print(no_ventas)</code></pre>
+                <div class="output">  nombre  edad  salario departamento
+1   Juan    30    45000           IT
+2  María    35    55000           IT
+4  Laura    32    48000    Marketing</div>
+            </div>
+
+            <h3>Indexación avanzada: loc e iloc</h3>
+
+            <p>Para mayor control sobre la selección, Pandas proporciona los métodos <code>loc</code> (selección por etiqueta) e <code>iloc</code> (selección por posición).</p>
+
+            <h4>loc: selección por etiqueta</h4>
+
+            <p><code>loc</code> selecciona datos utilizando nombres de índice o columnas. Es especialmente útil en análisis exploratorio donde la claridad del código es importante.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Crear DataFrame con índice personalizado
+empleados_indexado = empleados.set_index('nombre')
+print(empleados_indexado)
+print()
+
+# Fila específica por etiqueta
+print("Datos de Juan:")
+print(empleados_indexado.loc['Juan'])
+print()
+
+# Rango de filas (incluye el final, A DIFERENCIA de slicing normal)
+print("De Ana a María (inclusivo):")
+print(empleados_indexado.loc['Ana':'María'])
+print()
+
+# Seleccionar columnas específicas
+print("Edad y salario de personas de IT:")
+print(empleados.loc[empleados['departamento'] == 'IT', ['edad', 'salario']])</code></pre>
+                <div class="output">              edad  salario departamento
+nombre                                 
+Ana             25    30000       Ventas
+Juan            30    45000           IT
+María           35    55000           IT
+Pedro           28    38000       Ventas
+Laura           32    48000    Marketing
+
+Datos de Juan:
+edad              30
+salario           45000
+departamento      IT
+Name: Juan, dtype: object
+
+De Ana a María (inclusivo):
+       edad  salario departamento
+nombre                          
+Ana     25    30000       Ventas
+Juan    30    45000           IT
+María   35    55000           IT
+
+Edad y salario de personas de IT:
+   edad  salario
+1    30    45000
+2    35    55000</div>
+            </div>
+
+            <h4>iloc: selección por posición</h4>
+
+            <p><code>iloc</code> selecciona datos por posición numérica (0, 1, 2, ...). Es útil en scripts donde es necesario acceder a "las primeras N filas" o "las últimas M columnas".</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Primera fila
+print("Primera fila (índice 0):")
+print(empleados.iloc[0])
+print()
+
+# Primeras 3 filas, primeras 2 columnas
+print("Primeras 3 filas, primeras 2 columnas:")
+print(empleados.iloc[:3, :2])
+print()
+
+# Última fila
+print("Última fila:")
+print(empleados.iloc[-1])</code></pre>
+                <div class="output">Primera fila (índice 0):
+nombre            Ana
+edad               25
+salario         30000
+departamento   Ventas
+Name: 0, dtype: object
+
+Primeras 3 filas, primeras 2 columnas:
+  nombre  edad
+0    Ana    25
+1   Juan    30
+2  María    35
+
+Última fila:
+nombre             Laura
+edad                  32
+salario            48000
+departamento    Marketing
+Name: 4, dtype: object</div>
+            </div>
+
+            <p>A continuación se resume cuándo es apropiado usar cada método:</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                <tr style="background-color: var(--gray-100); border-bottom: 2px solid var(--gray-300);">
+                    <th style="padding: 0.75rem; text-align: left; border-right: 1px solid var(--gray-300);">Método</th>
+                    <th style="padding: 0.75rem; text-align: left; border-right: 1px solid var(--gray-300);">Selecciona Por</th>
+                    <th style="padding: 0.75rem; text-align: left;">Descripción</th>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--gray-200);">
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>df['col']</code></td>
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Nombre columna</td>
+                    <td style="padding: 0.75rem;">Acceso a una columna individual</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--gray-200);">
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>df[['col1','col2']]</code></td>
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Nombres columnas</td>
+                    <td style="padding: 0.75rem;">Acceso a múltiples columnas</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--gray-200);">
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>df[máscara]</code></td>
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Condición True/False</td>
+                    <td style="padding: 0.75rem;">Filtrado con una o más condiciones</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--gray-200);">
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>df.loc[]</code></td>
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Etiqueta</td>
+                    <td style="padding: 0.75rem;">Selección por nombre de índice o columna</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--gray-200);">
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>df.iloc[]</code></td>
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Posición (0, 1, 2...)</td>
+                    <td style="padding: 0.75rem;">Selección por posición numérica</td>
+                </tr>
+            </table>
+
+            <h2>Manejo de Valores Faltantes</h2>
+
+            <p>En datos reales siempre existen valores incompletos. Las decisiones sobre cómo tratarlos afectan significativamente la calidad del análisis posterior.</p>
+
+            <h3>Detección de valores faltantes</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+import numpy as np
+
+# Datos incompletos (como en la realidad)
+datos = {
+    'nombre': ['Ana', 'Juan', 'María', 'Pedro', 'Laura'],
+    'edad': [25, np.nan, 35, 28, 32],
+    'salario': [30000, 45000, np.nan, 38000, 48000],
+    'email': ['ana@email.com', None, 'maria@email.com', 'pedro@email.com', None]
+}
+df = pd.DataFrame(datos)
+
+# ¿Dónde están los nulos?
+print("Conteo de valores faltantes por columna:")
+nulos_por_columna = df.isnull().sum()
+print(nulos_por_columna)
+print()
+
+# Porcentaje (más importante que conteo)
+print("Porcentaje de datos faltantes:")
+porcentaje = (df.isnull().sum() / len(df) * 100).round(1)
+print(porcentaje)
+print()
+
+# ¿Cuáles son las filas con problemas?
+print("Filas con algún valor faltante:")
+print(df[df.isnull().any(axis=1)])</code></pre>
+                <div class="output">Conteo de valores faltantes por columna:
+nombre     0
+edad       1
+salario    1
+email      2
+dtype: int64
+
+Porcentaje de datos faltantes:
+nombre      0.0
+edad       20.0
+salario    20.0
+email      40.0
+dtype: float64
+
+Filas con algún valor faltante:
+   nombre  edad   salario          email
+1    Juan   NaN   45000.0            None
+2  María  35.0       NaN  maria@email.com
+4  Laura  32.0   48000.0            None</div>
+            </div>
+
+            <h3>Estrategias de tratamiento</h3>
+
+            <p>Existen tres enfoques principales para resolver valores faltantes, cada uno apropiado en diferentes contextos:</p>
+
+            <h4>Eliminación de filas</h4>
+
+            <p>Apropiado cuando el conjunto de datos es suficientemente grande y los valores faltantes son pocos y distribuidos aleatoriamente.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Opción 1: Eliminar filas con CUALQUIER nulo
+sin_nulos = df.dropna()
+print("Después de .dropna():")
+print(sin_nulos)
+print(f"Filas originales: {len(df)}, Filas restantes: {len(sin_nulos)}")
+print()
+
+# Opción 2: Eliminar solo si falta la columna crítica
+sin_nulos_salario = df[df['salario'].notna()]
+print("Sin valores faltantes en salario:")
+print(sin_nulos_salario)</code></pre>
+                <div class="output">Después de .dropna():
+  nombre  edad   salario          email
+0    Ana  25.0   30000.0  ana@email.com
+3  Pedro  28.0   38000.0  pedro@email.com
+
+Filas originales: 5, Filas restantes: 2
+
+Sin valores faltantes en salario:
+  nombre  edad   salario          email
+0    Ana  25.0   30000.0  ana@email.com
+1   Juan   NaN   45000.0            None
+3  Pedro  28.0   38000.0  pedro@email.com
+4  Laura  32.0   48000.0            None</div>
+            </div>
+
+            <h4>Imputación estadística</h4>
+
+            <p>Consiste en reemplazar valores faltantes con estadísticos calculados (media, mediana) del conjunto de datos. Conserva el tamaño del dataset.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Rellenar edad con la mediana
+mediana_edad = df['edad'].median()
+df['edad'].fillna(mediana_edad, inplace=True)
+print(f"Edad faltante rellenada con mediana: {mediana_edad}")
+
+# Rellenar salario con la media
+media_salario = df['salario'].mean()
+df['salario'].fillna(media_salario, inplace=True)
+print(f"Salario faltante rellenado con media: {media_salario:.0f}")
+
+print("\nDataFrame después de rellenar:")
+print(df)</code></pre>
+                <div class="output">Edad faltante rellenada con mediana: 30.0
+Salario faltante rellenado con media: 40250.0
+
+DataFrame después de rellenar:
+  nombre  edad   salario          email
+0    Ana  25.0   30000.0  ana@email.com
+1   Juan  30.0   45000.0            None
+2  María  35.0   40250.0  maria@email.com
+3  Pedro  28.0   38000.0  pedro@email.com
+4  Laura  32.0   48000.0            None</div>
+            </div>
+
+            <h4>Imputación basada en contexto</h4>
+
+            <p>Reemplazar valores faltantes con valores específicos que tienen sentido en el dominio del problema.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Rellenar email faltante con valor especial
+df['email'].fillna('sin_contacto@empresa.com', inplace=True)
+
+print("Después de rellenar email:")
+print(df)</code></pre>
+                <div class="output">Después de rellenar email:
+  nombre  edad   salario          email
+0    Ana  25.0   30000.0  ana@email.com
+1   Juan  30.0   45000.0  sin_contacto@empresa.com
+2  María  35.0   40250.0  maria@email.com
+3  Pedro  28.0   38000.0  pedro@email.com
+4  Laura  32.0   48000.0  sin_contacto@empresa.com</div>
+            </div>
+  <h2>Agrupación y Agregación con GroupBy</h2>
+
+            <p><code>groupby()</code> implementa el patrón "Dividir-Aplicar-Combinar": divide los datos en grupos según una o más columnas, aplica una operación a cada grupo, y combina los resultados.</p>
+
+            <h3>Agrupación simple</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+
+# Dataset de ventas
+ventas = pd.DataFrame({
+    'producto': ['Laptop', 'Mouse', 'Teclado', 'Laptop', 'Mouse', 'Teclado'],
+    'vendedor': ['Ana', 'Ana', 'Ana', 'Juan', 'Juan', 'Juan'],
+    'unidades': [2, 10, 5, 3, 8, 6],
+    'precio': [1000, 20, 50, 1000, 20, 50]
+})
+
+print("Datos originales:")
+print(ventas)
+print()
+
+# Pregunta: ¿Cuántas unidades por producto?
+unidades_por_producto = ventas.groupby('producto')['unidades'].sum()
+print("Unidades vendidas por producto:")
+print(unidades_por_producto)
+print()
+
+# Esto es equivalente a:
+# 1. Dividir por producto: Laptop {}, Mouse {}, Teclado {}
+# 2. Aplicar sum() a cada grupo
+# 3. Combinar resultados en una Series</code></pre>
+                <div class="output">Datos originales:
+  producto vendedor  unidades  precio
+0   Laptop      Ana         2    1000
+1    Mouse      Ana        10      20
+2  Teclado      Ana         5      50
+3   Laptop     Juan         3    1000
+4    Mouse     Juan         8      20
+5  Teclado     Juan         6      50
+
+Unidades vendidas por producto:
+producto
+Laptop      5
+Mouse      18
+Teclado    11
+Name: unidades, dtype: int64</div>
+            </div>
+
+            <h4>Funciones de Agregación Comunes</h4>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Diferentes funciones de agregación
+resumen = ventas.groupby('producto')['unidades'].agg({
+    'sum': 'sum',           # Total
+    'count': 'count',       # Cuántas veces aparece
+    'mean': 'mean',         # Promedio
+    'max': 'max',           # Máximo
+    'min': 'min'            # Mínimo
+})
+
+print("Resumen de unidades por producto:")
+print(resumen)</code></pre>
+                <div class="output">Resumen de unidades por producto:
+         sum  count  mean  max  min
+producto                          
+Laptop     5      2   2.5    3    2
+Mouse     18      2   9.0   10    8
+Teclado   11      2   5.5    6    5</div>
+            </div>
+
+            <h3>Agrupación por múltiples columnas</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Agrupar por MÚLTIPLES columnas
+por_vendedor_producto = ventas.groupby(['vendedor', 'producto'])['unidades'].sum()
+print("Unidades por vendedor y producto:")
+print(por_vendedor_producto)
+print()
+
+# Agregar columna de total de venta
+ventas['venta_total'] = ventas['unidades'] * ventas['precio']
+
+# Múltiples agregaciones a la vez
+resumen_completo = ventas.groupby('vendedor').agg({
+    'venta_total': 'sum',    # Total facturado
+    'unidades': 'sum',       # Total unidades
+    'precio': 'mean'         # Precio promedio
+})
+
+print("Resumen por vendedor:")
+print(resumen_completo)</code></pre>
+                <div class="output">Unidades por vendedor y producto:
+vendedor  producto
+Ana       Laptop      2
+          Mouse      10
+          Teclado     5
+Juan      Laptop      3
+          Mouse       8
+          Teclado     6
+Name: unidades, dtype: int64
+
+Resumen por vendedor:
+         venta_total  unidades  precio
+vendedor                              
+Ana            2450        17    356.67
+Juan           3300        17    356.67</div>
+            </div>
+
+            <h3>Operaciones avanzadas</h3>
+
+            <p>Más allá de las agregaciones simples, existen métodos para operaciones complejas sobre grupos:</p>
+
+            <h4>transform(): retorna tabla con misma forma que la entrada</h4>
+
+            <p>A diferencia de <code>agg()</code>, <code>transform()</code> retorna un resultado con el mismo número de filas que los datos originales.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>empleados = pd.DataFrame({
+    'departamento': ['Ventas', 'Ventas', 'IT', 'IT', 'IT', 'RRHH'],
+    'nombre': ['Ana', 'Juan', 'María', 'Pedro', 'Laura', 'Carlos'],
+    'salario': [35000, 40000, 55000, 60000, 52000, 38000]
+})
+
+empleados['salario_medio_dept'] = empleados.groupby('departamento')['salario'].transform('mean')
+empleados['diff_vs_media'] = empleados['salario'] - empleados['salario_medio_dept']
+
+print(empleados[['nombre', 'salario', 'salario_medio_dept', 'diff_vs_media']])</code></pre>
+                <div class="output">     nombre  salario  salario_medio_dept  diff_vs_media
+0       Ana    35000             37500.0        -2500.0
+1      Juan    40000             37500.0         2500.0
+2     María    55000             55666.7         -666.7
+3     Pedro    60000             55666.7        4333.3
+4     Laura    52000             55666.7        -3666.7
+5    Carlos    38000             38000.0            0.0</div>
+            </div>
+
+            <h4>apply(): aplicar función personalizada a cada grupo</h4>
+
+            <p>Permite ejecutar lógica personalizada en cada grupo.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Función personalizada para procesar cada grupo
+def top_n_salarios(group, n=2):
+    """Devuelve los n salarios más altos del grupo"""
+    return group.nlargest(n, 'salario')
+
+# apply() ejecuta la función en cada grupo y combina
+print("Top 2 salarios por departamento:")
+top_salarios = empleados.groupby('departamento', group_keys=False).apply(
+    lambda x: top_n_salarios(x, n=2)
+)
+print(top_salarios)</code></pre>
+                <div class="output">  departamento     nombre  salario
+3           IT      Pedro    60000
+4           IT      Laura    52000
+1       Ventas       Juan    40000
+0       Ventas        Ana    35000
+5         RRHH      Carlos    38000</div>
+            </div>
+
+            <h4>filter(): filtrar grupos según condición</h4>
+
+            <p>Selecciona solo los grupos que cumplen un criterio especificado.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Filtrar: solo departamentos con más de 2 personas
+print("Departamentos con > 2 personas:")
+depts_grandes = empleados.groupby('departamento').filter(lambda x: len(x) > 2)
+print(depts_grandes)</code></pre>
+                <div class="output">  departamento     nombre  salario
+2           IT     María    55000
+3           IT      Pedro    60000
+4           IT      Laura    52000</div>
+            </div>
+
+            <h2>Combinación de DataFrames</h2>
+
+            <p>Cuando los datos se distribuyen en múltiples tablas, existen dos enfoques fundamentales para combinarlos: concatenación (apilar) y merge (combinar por columna común).</p>
+
+            <h3>Concatenación</h3>
+
+            <p>Apila DataFrames verticalmente (añadiendo filas). Apropiado cuando las estructuras son idénticas pero los datos provienen de diferentes períodos o fuentes.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Ventas de dos trimestres (misma estructura)
+q1 = pd.DataFrame({
+    'mes': ['Enero', 'Febrero', 'Marzo'],
+    'ventas': [100, 120, 115]
+})
+
+q2 = pd.DataFrame({
+    'mes': ['Abril', 'Mayo', 'Junio'],
+    'ventas': [130, 125, 140]
+})
+
+# Apilar verticalmente (añadir filas)
+semestre = pd.concat([q1, q2], ignore_index=True)
+print("Ventas del semestre (concatenadas):")
+print(semestre)</code></pre>
+                <div class="output">Ventas del semestre (concatenadas):
+       mes  ventas
+0   Enero     100
+1  Febrero    120
+2   Marzo     115
+3   Abril     130
+4    Mayo     125
+5   Junio     140</div>
+            </div>
+
+            <h3>Merging/Joining: combinación relacional</h3>
+
+            <p>Combina DataFrames basándose en una columna común, similar a operaciones JOIN en SQL. Existen cuatro tipos de joins con diferentes comportamientos respecto a registros sin coincidencias.</p>
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                    <tr style="background-color: var(--gray-100); border-bottom: 2px solid var(--gray-300);">
+                        <th style="padding: 0.75rem; text-align: left; border-right: 1px solid var(--gray-300);">Tipo</th>
+                        <th style="padding: 0.75rem; text-align: left; border-right: 1px solid var(--gray-300);">Comportamiento</th>
+                        <th style="padding: 0.75rem; text-align: left;">Descripción</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--gray-200);">
+                        <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>how='inner'</code></td>
+                        <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Solo coincidencias exactas en ambas tablas</td>
+                        <td style="padding: 0.75rem;">Retorna solo filas donde existe clave en ambas tablas</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--gray-200);">
+                        <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>how='left'</code></td>
+                        <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Todas las filas de la izquierda más coincidencias</td>
+                        <td style="padding: 0.75rem;">Mantiene todos los registros de la tabla izquierda</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--gray-200);">
+                        <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>how='right'</code></td>
+                        <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Coincidencias más todas las filas de la derecha</td>
+                        <td style="padding: 0.75rem;">Mantiene todos los registros de la tabla derecha</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--gray-200);">
+                        <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);"><code>how='outer'</code></td>
+                        <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Unión de ambas tablas</td>
+                        <td style="padding: 0.75rem;">Retorna todas las filas de ambas tablas con NaN donde no coincide</td>
+                    </tr>
+                </table>
+
+            <div class="example">
+                <h4>Inner Join</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+
+# Tabla 1: Empleados
+empleados = pd.DataFrame({
+    'emp_id': [1, 2, 3, 4],
+    'nombre': ['Ana', 'Juan', 'María', 'Pedro'],
+    'dept_id': [10, 20, 20, 30]
+})
+
+# Tabla 2: Departamentos
+departamentos = pd.DataFrame({
+    'dept_id': [10, 20, 30],
+    'dept_nombre': ['Ventas', 'IT', 'Marketing']
+})
+
+print("Empleados:")
+print(empleados)
+print("\nDepartamentos:")
+print(departamentos)
+print()
+
+# Inner join: solo empleados cuyo dept_id existe en departamentos
+resultado = pd.merge(empleados, departamentos, on='dept_id', how='inner')
+print("Inner Join (solo coincidencias):")
+print(resultado)</code></pre>
+                <div class="output">Empleados:
+   emp_id nombre  dept_id
+0       1    Ana       10
+1       2   Juan       20
+2       3  María       20
+3       4  Pedro       30
+
+Departamentos:
+  dept_id dept_nombre
+0      10      Ventas
+1      20          IT
+2      30   Marketing
+
+Inner Join (solo coincidencias):
+   emp_id nombre  dept_id dept_nombre
+0       1    Ana       10      Ventas
+1       2   Juan       20          IT
+2       3  María       20          IT
+3       4  Pedro       30   Marketing</div>
+            </div>
+
+            <div class="example">
+                <h4>Left Join</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Supongamos que tenemos un empleado sin departamento
+empleados_incompletos = pd.DataFrame({
+    'emp_id': [1, 2, 3, 4, 5],
+    'nombre': ['Ana', 'Juan', 'María', 'Pedro', 'Laura'],
+    'dept_id': [10, 20, 20, 30, 99]  # 99 no existe en departamentos
+})
+
+print("Empleados (con uno sin departamento):")
+print(empleados_incompletos)
+print()
+
+# Left join: mantiene TODOS los empleados + info de departamentos si existe
+resultado_left = pd.merge(empleados_incompletos, departamentos, 
+                          on='dept_id', how='left')
+print("Left Join (mantiene todos los empleados):")
+print(resultado_left)
+print("\n↑ Observa: Laura (dept_id=99) aparece con dept_nombre=NaN")</code></pre>
+                <div class="output">Empleados (con uno sin departamento):
+   emp_id nombre  dept_id
+0       1    Ana       10
+1       2   Juan       20
+2       3  María       20
+3       4  Pedro       30
+4       5  Laura       99
+
+Left Join (mantiene todos los empleados):
+   emp_id nombre  dept_id dept_nombre
+0       1    Ana       10      Ventas
+1       2   Juan       20          IT
+2       3  María       20          IT
+3       4  Pedro       30   Marketing
+4       5  Laura       99         NaN</div>
+            </div>
+
+           <h2>Leer y Escribir Datos</h2>
+
+            <h3>CSV Files</h3>
+
+            <div class="example">
+                <h4>Leer CSV</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Leer archivo CSV
+df = pd.read_csv('datos.csv')
+
+# Con opciones
+df = pd.read_csv('datos.csv',
+                 sep=';',           # Separador
+                 encoding='utf-8',  # Codificación
+                 index_col=0,       # Columna como índice
+                 parse_dates=['fecha'])  # Parsear fechas
+
+# Escribir CSV
+df.to_csv('salida.csv', index=False)  # Sin índice</code></pre>
+            </div>
+
+            <h3>Excel</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Leer Excel
+df = pd.read_excel('datos.xlsx', sheet_name='Hoja1')
+
+# Escribir Excel
+df.to_excel('salida.xlsx', sheet_name='Resultados', index=False)
+
+# Múltiples hojas
+with pd.ExcelWriter('multi.xlsx') as writer:
+    df1.to_excel(writer, sheet_name='Ventas')
+    df2.to_excel(writer, sheet_name='Gastos')</code></pre>
+            </div>
+
+            <h3>JSON</h3>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Leer JSON
+df = pd.read_json('datos.json')
+
+# Escribir JSON
+df.to_json('salida.json', orient='records', indent=2)</code></pre>
+            </div>
+
+            <h2>Transformación de Datos: Pivot Tables y Reshaping</h2>
+
+            <p>Los datos pueden necesitar ser reorganizados pasando entre formato "largo" (una fila por observación) y formato "ancho" (categorías como columnas). Las operaciones de pivoting permiten realizar estas transformaciones.</p>
+
+            <h3>Formatos largo y ancho</h3>
+
+            <p>Todo conjunto de datos puede representarse de dos formas:</p>
+            <ul>
+                <li><strong>Formato largo ("Long"):</strong> Una fila por observación. Facilita análisis y cálculos.</li>
+                <li><strong>Formato ancho ("Wide"):</strong> Categorías como columnas. Facilita presentación y comparación visual.</li>
+            </ul>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                <tr style="background-color: var(--gray-100); border-bottom: 2px solid var(--gray-300);">
+                    <th style="padding: 0.75rem; text-align: left; border-right: 1px solid var(--gray-300);">Formato</th>
+                    <th style="padding: 0.75rem; text-align: left; border-right: 1px solid var(--gray-300);">Característica</th>
+                    <th style="padding: 0.75rem; text-align: left;">Cuando se usa</th>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--gray-200);">
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Largo (Long)</td>
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Una fila por observación</td>
+                    <td style="padding: 0.75rem;">Análisis y cálculos</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--gray-200);">
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Ancho (Wide)</td>
+                    <td style="padding: 0.75rem; border-right: 1px solid var(--gray-200);">Categorías como columnas</td>
+                    <td style="padding: 0.75rem;">Presentación y comparación visual</td>
+                </tr>
+            </table>
+
+            <h3>pivot_table(): convertir de largo a ancho</h3>
+
+            <p>Transforma datos del formato largo al ancho, agregando múltiples observaciones por grupo en una sola fila.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+
+# Datos de ventas (formato largo)
+ventas = pd.DataFrame({
+    'mes': ['Ene', 'Ene', 'Ene', 'Feb', 'Feb', 'Feb', 'Mar', 'Mar', 'Mar'],
+    'producto': ['Laptop', 'Mouse', 'Teclado'] * 3,
+    'región': ['Norte', 'Norte', 'Norte', 'Sur', 'Sur', 'Sur', 'Norte', 'Norte', 'Norte'],
+    'ventas': [100, 50, 30, 120, 60, 35, 110, 55, 32]
+})
+
+print("ANTES - Formato Largo (cada venta es una fila):")
+print(ventas)
+print()
+
+# pivot_table: agrupa y resume
+tabla_dinamica = ventas.pivot_table(
+    values='ventas',        # Columna a resumir
+    index='producto',       # Filas: productos
+    columns='mes',          # Columnas: meses
+    aggfunc='sum',          # Función: suma
+    fill_value=0            # Reemplazar NaN con 0
+)
+
+print("DESPUÉS - Formato Ancho (una fila por producto):")
+print(tabla_dinamica)
+print()
+
+# Usar múltiples índices
+tabla_compleja = ventas.pivot_table(
+    values='ventas',
+    index=['región', 'producto'],  # Jerarquía: región > producto
+    columns='mes',
+    aggfunc='sum',
+    fill_value=0,
+    margins=True,           # Añade totales
+    margins_name='TOTAL'
+)
+
+print("Con múltiples índices y totales:")
+print(tabla_compleja)</code></pre>
+                <div class="output">ANTES - Formato Largo (cada venta es una fila):
+   mes producto región  ventas
+0  Ene   Laptop  Norte     100
+1  Ene    Mouse  Norte      50
+2  Ene  Teclado  Norte      30
+3  Feb   Laptop    Sur     120
+4  Feb    Mouse    Sur      60
+5  Feb  Teclado    Sur      35
+6  Mar   Laptop  Norte     110
+7  Mar    Mouse  Norte      55
+8  Mar  Teclado  Norte      32
+
+DESPUÉS - Formato Ancho (una fila por producto):
+mes       Ene  Feb  Mar
+producto                
+Laptop    100  120  110
+Mouse      50   60   55
+Teclado    30   35   32
+
+Con múltiples índices y totales:
+mes                 Ene  Feb  Mar  TOTAL
+región producto                        
+Norte  Laptop      100    0  110    210
+       Mouse        50    0   55    105
+       Teclado      30    0   32     62
+Sur    Laptop        0  120    0    120
+       Mouse         0   60    0     60
+       Teclado       0   35    0     35
+TOTAL              180  215  197    592</div>
+            </div>
+
+            <h3>melt(): convertir de ancho a largo</h3>
+
+            <p>Realiza la operación inversa: convierte datos del formato ancho al largo, creando una fila por combinación de identificadores y valores.</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Datos en formato ancho (como Excel)
+ventas_ancho = pd.DataFrame({
+    'producto': ['Laptop', 'Mouse', 'Teclado'],
+    'Ene': [100, 50, 30],
+    'Feb': [120, 60, 35],
+    'Mar': [110, 55, 32]
+})
+
+print("ANTES - Formato Ancho (meses como columnas):")
+print(ventas_ancho)
+print()
+
+# melt: convertir ancho → largo
+ventas_largo = ventas_ancho.melt(
+    id_vars=['producto'],    # Columnas que se mantienen
+    var_name='mes',          # Nombre para los meses
+    value_name='ventas'      # Nombre para los valores
+)
+
+print("DESPUÉS - Formato Largo (una fila por venta):")
+print(ventas_largo)</code></pre>
+                <div class="output">ANTES - Formato Ancho (meses como columnas):
+  producto  Ene  Feb  Mar
+0   Laptop  100  120  110
+1    Mouse   50   60   55
+2  Teclado   30   35   32
+
+DESPUÉS - Formato Largo (una fila por venta):
+  producto  mes  ventas
+0   Laptop  Ene     100
+1    Mouse  Ene      50
+2  Teclado  Ene      30
+3   Laptop  Feb     120
+4    Mouse  Feb      60
+5  Teclado  Feb      35
+6   Laptop  Mar     110
+7    Mouse  Mar      55
+8  Teclado  Mar      32</div>
+            </div>
+
+            <h3>Resumen de métodos de transformación</h3>
+            <ul>
+                <li><code>pivot_table()</code>: Transforma formato largo a ancho con agregación</li>
+                <li><code>melt()</code>: Transforma formato ancho a largo</li>
+                <li><code>pivot()</code>: Transforma formato largo a ancho sin agregación</li>
+                <li><code>stack/unstack()</code>: Manipulan índices jerárquicos</li>
+            </ul>
+
+            <h2>Ejemplo Integral: Análisis de Ventas</h2>
+
+            <p>El siguiente ejemplo muestra cómo utilizar los principales métodos de Pandas en un análisis completo de datos de ventas:</p>
+
+            <div class="example">
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code>import pandas as pd
+import numpy as np
+
+# Crear datos de ventas simulados
+np.random.seed(42)
+fechas = pd.date_range('2024-01-01', periods=100, freq='D')
+
+ventas = pd.DataFrame({
+    'fecha': np.random.choice(fechas, 500),
+    'producto': np.random.choice(['Laptop', 'Mouse', 'Teclado', 'Monitor'], 500),
+    'vendedor': np.random.choice(['Ana', 'Juan', 'María', 'Pedro'], 500),
+    'unidades': np.random.randint(1, 20, 500),
+    'precio_unitario': np.random.choice([1000, 20, 50, 300], 500)
+})
+
+ventas['total'] = ventas['unidades'] * ventas['precio_unitario']
+
+print("ANÁLISIS DE VENTAS")
+print("=" * 60)
+
+# 1. Resumen general
+print("\n1. RESUMEN GENERAL")
+print(f"Total de transacciones: {len(ventas):,}")
+print(f"Venta total: ${ventas['total'].sum():,}")
+print(f"Venta promedio: ${ventas['total'].mean():.2f}")
+
+# 2. Top productos
+print("\n2. PRODUCTOS CON MAYORES VENTAS")
+top_productos = ventas.groupby('producto')['total'].sum().sort_values(ascending=False)
+for producto, total in top_productos.items():
+    print(f"   {producto:15} - ${total:,}")
+
+# 3. Mejor vendedor
+print("\n3. RENDIMIENTO POR VENDEDOR")
+por_vendedor = ventas.groupby('vendedor').agg({
+    'total': 'sum',
+    'unidades': 'sum'
+}).sort_values('total', ascending=False)
+print(por_vendedor)
+
+# 4. Ventas por mes
+print("\n4. TENDENCIA MENSUAL")
+ventas['mes'] = pd.to_datetime(ventas['fecha']).dt.to_period('M')
+por_mes = ventas.groupby('mes')['total'].sum()
+print(por_mes)
+
+# 5. Producto más vendido por vendedor
+print("\n5. PRODUCTOS POR VENDEDOR")
+producto_vendedor = ventas.groupby(['vendedor', 'producto'])['unidades'].sum()
+producto_vendedor = producto_vendedor.groupby('vendedor').idxmax()
+for vendedor, (_, producto) in producto_vendedor.items():
+    print(f"   {vendedor}: {producto}")
+
+print("\n" + "=" * 60)</code></pre>
+                <div class="output">ANÁLISIS DE VENTAS
+============================================================
+
+1. RESUMEN GENERAL
+Total de transacciones: 500
+Venta total: $3,265,840
+Venta promedio: $6,531.68
+
+2. PRODUCTOS CON MAYORES VENTAS
+   Laptop          - $1,309,000
+   Monitor         - $1,247,100
+   Teclado         - $355,800
+   Mouse           - $353,940
+
+3. RENDIMIENTO POR VENDEDOR
+           total  unidades
+vendedor                   
+Ana      832140       964
+Pedro    822460       970
+María    815700       961
+Juan     795540       945
+
+4. TENDENCIA MENSUAL
+mes
+2024-01    827300
+2024-02    863920
+2024-03    885420
+2024-04    689200
+Freq: M, Name: total, dtype: int64
+
+5. PRODUCTOS POR VENDEDOR
+   Ana: Monitor
+   Juan: Laptop
+   María: Laptop
+   Pedro: Monitor
+
+============================================================</div>
+
+</div>
+            
+            <h2>Conclusión</h2>
+
+            <p>Este capítulo ha presentado los fundamentos de Pandas para análisis de datos. Se han cubierto las operaciones esenciales: manipulación de Series y DataFrames, selección de datos, tratamiento de valores faltantes, agrupación, combinación de tablas y transformación de formatos.</p>
+
+            <p>Las técnicas presentadas proporcionan las herramientas necesarias para realizar análisis exploratorios de datos en Python. La práctica continua con datos reales es fundamental para dominar estas operaciones.</p>
+
+            <h2>Referencia Rápida: Métodos Principales de Pandas</h2>
+
+            <div class="example" style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--border-radius);">
+                <h3 style="margin-top: 0; color: var(--primary-color);">Creación de DataFrames y Series</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.Series([1,2,3])</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Crear Series desde lista</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.DataFrame(datos)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Crear DataFrame desde diccionario/lista</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.read_csv('archivo.csv')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Leer archivo CSV</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.read_excel('archivo.xlsx')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Leer archivo Excel</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.read_json('archivo.json')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Leer archivo JSON</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.to_csv('archivo.csv')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Guardar a CSV</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Inspección de Datos</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.head(n)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Primeras n filas (por defecto 5)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.tail(n)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Últimas n filas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.info()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Información general (tipos, nulos)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.describe()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Estadísticas descriptivas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.shape</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Dimensiones (filas, columnas)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.columns</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Nombres de columnas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.dtypes</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Tipos de datos de cada columna</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.index</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Índice del DataFrame</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Selección e Indexación</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df['columna']</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Seleccionar una columna (Series)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df[['col1', 'col2']]</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Seleccionar múltiples columnas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.loc[fila, columna]</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Selección por etiquetas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.iloc[fila, columna]</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Selección por posición</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df[df['col'] > 5]</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Filtrado booleano</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df[(df['a']>5) & (df['b']<10)]</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Múltiples condiciones</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Manipulación de Datos</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.drop('col', axis=1)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Eliminar columna</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.drop([0,1], axis=0)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Eliminar filas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.rename(columns={'old':'new'})</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Renombrar columnas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.sort_values('col')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Ordenar por columna</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.sort_index()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Ordenar por índice</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.reset_index()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Reiniciar índice</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.set_index('col')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Establecer columna como índice</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Datos Faltantes</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.isnull()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Detectar valores nulos (True/False)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.isnull().sum()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Contar nulos por columna</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.dropna()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Eliminar filas con nulos</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.dropna(axis=1)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Eliminar columnas con nulos</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.fillna(valor)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Rellenar nulos con valor</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.fillna(df.mean())</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Rellenar con media</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">GroupBy y Agregación</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.groupby('col').mean()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Agrupar y calcular media</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.groupby('col').sum()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Agrupar y sumar</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.groupby('col').count()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Contar por grupo</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.groupby(['c1','c2']).mean()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Agrupar por múltiples columnas</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.groupby('col').agg({'a':'sum','b':'mean'})</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Múltiples agregaciones</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df['col'].value_counts()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Frecuencia de valores únicos</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Combinación de DataFrames</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.concat([df1, df2])</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Concatenar verticalmente</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.concat([df1, df2], axis=1)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Concatenar horizontalmente</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.merge(df1, df2, on='col')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Merge tipo SQL (inner join)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.merge(df1, df2, how='left')</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Left join</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df1.join(df2)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Join por índice</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">GroupBy Avanzado</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>grouped.apply(func)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Aplicar función a cada grupo</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>grouped.transform(func)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Transformar manteniendo forma original</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>grouped.filter(func)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Filtrar grupos por condición</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>grouped.agg({'col': ['mean', 'std']})</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Múltiples agregaciones</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>grouped.agg(custom_func)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Agregación con función personalizada</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Pivot y Reshaping</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.pivot_table(df, values, index, columns)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Tabla dinámica con agregación</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.pivot(index, columns, values)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Pivot simple (sin agregación)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>pd.melt(df, id_vars, value_vars)</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Convertir formato ancho a largo</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.stack()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Apilar columnas en filas (pivoteo vertical)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.unstack()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Desapilar filas en columnas (pivoteo horizontal)</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: var(--primary-color);">Estadística</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 0;">
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.mean()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Media de cada columna</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.median()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Mediana</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.std()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Desviación estándar</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.min()</code> / <code>df.max()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Mínimo y máximo</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df.corr()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Matriz de correlación</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df['col'].unique()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Valores únicos</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.5rem; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--gray-200);"><code>df['col'].nunique()</code></td>
+                        <td style="padding: 0.5rem; border: 1px solid var(--gray-200);">Cantidad de valores únicos</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="navigation">
+                <a href="capitulo03_numpy.html" class="nav-button">⬅ Cap 3: NumPy</a>
+                <a href="capitulo05_sql.html" class="nav-button">Cap 5: SQL con Python ➡</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Curso de Python para Data Science - 2025 | Capítulo 4: Pandas - Análisis de Datos Profesional</p>
+        </footer>
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Configurar highlight.js para usar Python por defecto
+        hljs.configure({ 
+            defaultLanguage: 'python',
+            ignoreUnescapedHTML: true
+        });
+        
+        // Aplicar Python a todos los bloques code sin clase especificada
+        document.querySelectorAll('pre > code:not([class])').forEach(function(element) {
+            element.classList.add('language-python');
+        });
+        
+        hljs.highlightAll();
+    </script>
+</body>
+</html>

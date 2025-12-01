@@ -1,0 +1,2683 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 2: Ecosistema de Librerías Python</title>
+    <link rel="stylesheet" href="css/estilos.css?v=20251005-2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+    <!-- Botón toggle para móvil -->
+    <button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+    
+    <div class="page-wrapper">
+    <!-- Barra lateral de navegación -->
+    <nav class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-header">🏠 Inicio</div>
+            <ul class="sidebar-nav">
+                <li><a href="index.html">Página principal</a></li>
+            </ul>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-header">📚 Capítulos</div>
+            <ul class="sidebar-nav">
+                <li><a href="capitulo01_introduccion.html">1. Introducción a Data Science</a></li>
+                <li><a href="capitulo02_librerias.html" class="active">2. Ecosistema de Librerías</a></li>
+                <li><a href="capitulo03_numpy.html">3. NumPy</a></li>
+                <li><a href="capitulo04_pandas.html">4. Pandas</a></li>
+                <li><a href="capitulo05_sql.html">5. SQL con Python</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>📊 Python para Data Science</h1>
+            <p class="subtitle">Capítulo 2: El Ecosistema de Librerías Python para Data Science</p>
+        </header>
+
+        <main>
+            <span class="chapter-number">Capítulo 2</span>
+            
+            <!-- ========================================
+                 SECCIÓN 1: INTRODUCCIÓN AL ECOSISTEMA
+                 ======================================== -->
+            
+            <h2>El Ecosistema de Bibliotecas de Python</h2>
+            
+            <p>Las <strong>bibliotecas de Python</strong> constituyen colecciones de código especializado que extienden las capacidades del lenguaje base. En lugar de implementar funcionalidades desde cero, los desarrolladores pueden utilizar bibliotecas desarrolladas y optimizadas por la comunidad.</p>
+
+            <p>El verdadero potencial de Python para ciencia de datos reside en su ecosistema de bibliotecas especializadas. El trabajo profesional en este campo raramente requiere implementaciones desde cero; en cambio, se emplean herramientas probadas y optimizadas por expertos.</p>
+
+            <div class="important">
+                <strong>🎯 Estructura del capítulo:</strong>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Instalación de Python</strong> - Configuración inicial del entorno</li>
+                    <li><strong>Gestión de Paquetes</strong> - pip y uv para instalar bibliotecas</li>
+                    <li><strong>Entornos Virtuales</strong> - Aislamiento de proyectos</li>
+                    <li><strong>Panorámica de Bibliotecas</strong> - El stack completo de Data Science</li>
+                    <li><strong>Instalación Práctica</strong> - Configurar todo el ecosistema</li>
+                    <li><strong>Entornos de Desarrollo</strong> - VS Code y Jupyter</li>
+                </ol>
+            </div>
+
+            <!-- ========================================
+                 SECCIÓN 2: INSTALACIÓN DE PYTHON
+                 ======================================== -->
+            
+            <h2>1. Instalación de Python</h2>
+
+            <p>Antes de trabajar con el ecosistema de bibliotecas de Python, es necesario tener una instalación correcta del intérprete de Python en el sistema. Esta sección detalla el proceso de instalación para los principales sistemas operativos.</p>
+
+            <div class="note">
+                <strong>📌 Versión Recomendada:</strong>
+                <p>Se recomienda utilizar <strong>Python 3.10 o superior</strong>. Las versiones 3.11 y 3.12 ofrecen mejoras significativas de rendimiento (10-25% más rápidas) y características modernas. Evitar versiones anteriores a Python 3.9.</p>
+            </div>
+
+            <h3>1.1 Verificar si Python está Instalado</h3>
+
+            <p>Antes de proceder con la instalación, es conveniente verificar si Python ya está disponible en el sistema:</p>
+
+            <div class="example">
+                <h4>Comprobar instalación existente</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Windows (PowerShell o CMD)
+python --version
+python3 --version
+
+# macOS / Linux
+python3 --version
+
+# Ver ubicación del ejecutable
+# Windows:
+where python
+# macOS / Linux:
+which python3</code></pre>
+            </div>
+
+            <h3>1.2 Instalación en Windows</h3>
+
+            <p>Windows no incluye Python por defecto. Existen varios métodos de instalación:</p>
+
+            <h4>Método 1: Instalador Oficial (Recomendado)</h4>
+
+            <div class="example">
+                <strong>Pasos de instalación:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Descargar instalador:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Visitar <a href="https://www.python.org/downloads/" target="_blank">python.org/downloads</a></li>
+                            <li>Descargar la última versión estable para Windows (archivo .exe)</li>
+                            <li>Recomendado: Versión 3.12.x o 3.11.x</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ejecutar instalador:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Doble clic en el archivo descargado</li>
+                            <li><strong>⚠️ IMPORTANTE:</strong> Marcar casilla <strong>"Add Python to PATH"</strong></li>
+                            <li>Seleccionar "Install Now" (instalación estándar)</li>
+                            <li>O "Customize installation" para opciones avanzadas</li>
+                        </ul>
+                    </li>
+                    <li><strong>Verificar instalación:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Abrir PowerShell o CMD</li>
+                            <li>Ejecutar: <code>python --version</code></li>
+                            <li>Ejecutar: <code>pip --version</code></li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="important">
+                <strong>⚠️ Problema Común en Windows:</strong>
+                <p>Si al ejecutar <code>python</code> se abre Microsoft Store en lugar del intérprete:</p>
+                <ol style="margin-top: 0.5rem;">
+                    <li>Abrir <strong>Configuración → Aplicaciones → Aplicaciones y características</strong></li>
+                    <li>Buscar <strong>"Alias de ejecución de aplicaciones"</strong></li>
+                    <li>Desactivar alias de <strong>python.exe</strong> y <strong>python3.exe</strong></li>
+                </ol>
+            </div>
+
+            <h3>1.3 Instalación en macOS</h3>
+
+            <h4>Método Recomendado: Homebrew</h4>
+
+            <p><strong>Homebrew</strong> es el gestor de paquetes más popular para macOS, ideal para desarrolladores.</p>
+
+            <div class="example">
+                <h4>Instalación con Homebrew</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Instalar Homebrew (si no está instalado)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. Actualizar Homebrew
+brew update
+
+# 3. Instalar Python
+brew install python@3.12
+
+# 4. Verificar instalación
+python3 --version
+pip3 --version</code></pre>
+            </div>
+
+            <div class="note">
+                <strong>💡 Gestión de Versiones en macOS:</strong>
+                <p>Usar siempre <code>python3</code> y <code>pip3</code> explícitamente para evitar conflictos con el Python del sistema.</p>
+            </div>
+
+            <h3>1.4 Instalación en Linux</h3>
+
+            <h4>Ubuntu / Debian</h4>
+
+            <div class="example">
+                <h4>Instalación en Ubuntu/Debian</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Actualizar repositorios
+sudo apt update
+
+# Instalar Python 3 y herramientas
+sudo apt install python3 python3-pip python3-venv
+
+# Verificar instalación
+python3 --version
+pip3 --version</code></pre>
+            </div>
+
+            <h3>1.5 Verificación Completa de la Instalación</h3>
+
+            <div class="example">
+                <h4>Script de verificación</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Verificar versión de Python
+python --version
+
+# Verificar versión de pip
+pip --version
+
+# Actualizar pip (importante)
+python -m pip install --upgrade pip
+
+# Probar instalación
+python -c "print('Python instalado correctamente!')"</code></pre>
+            </div>
+
+            <!-- ========================================
+                 SECCIÓN 3: GESTIÓN DE PAQUETES
+                 ======================================== -->
+            
+            <h2>2. Gestión de Paquetes con pip y uv</h2>
+
+            <p>Una vez instalado Python, el siguiente paso es comprender cómo instalar y gestionar las bibliotecas externas. Python ofrece principalmente dos herramientas modernas para esta tarea: <strong>pip</strong> (el estándar) y <strong>uv</strong> (la alternativa moderna y rápida).</p>
+
+            <h3>2.1 pip: El Gestor de Paquetes Estándar</h3>
+
+            <p><strong>pip</strong> (Package Installer for Python) es el gestor de paquetes oficial, incluido por defecto desde Python 3.4. Es la herramienta más utilizada para instalar bibliotecas desde PyPI (Python Package Index).</p>
+
+            <div class="warning">
+                <strong>⚠️ Importante - Instalación Global:</strong> En esta sección, los paquetes se instalan en el entorno Python global (sin entornos virtuales). Más adelante (Sección 3) aprenderás a crear <strong>entornos virtuales</strong> para aislar proyectos. Por ahora, solo estamos conociendo los comandos básicos.
+            </div>
+
+            <div class="example">
+                <h4>Comandos básicos de pip</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Instalar un paquete
+pip install numpy
+
+# Instalar versión específica
+pip install pandas==2.1.0
+
+# Instalar múltiples paquetes
+pip install numpy pandas matplotlib
+
+# Actualizar un paquete
+pip install --upgrade numpy
+
+# Desinstalar un paquete
+pip uninstall numpy
+
+# Listar paquetes instalados
+pip list
+
+# Mostrar información de un paquete
+pip show pandas</code></pre>
+            </div>
+
+            <h3>2.2 uv: El Gestor de Paquetes Moderno</h3>
+
+            <p><strong>uv</strong> es una herramienta moderna desarrollada por Astral (creadores de Ruff) que ofrece velocidad significativamente superior a pip (10-100x más rápido) y mejor gestión de dependencias.</p>
+
+            <h4>Instalación de uv</h4>
+
+            <div class="example">
+                <h4>Instalar uv según sistema operativo</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Windows (PowerShell o CMD)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# macOS y Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Verificar instalación
+uv --version</code></pre>
+            </div>
+
+            <h4>Comandos básicos de uv</h4>
+
+            <div class="note">
+                <strong>⚠️ IMPORTANTE: Dos formas de trabajar con uv</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Proyectos con pyproject.toml (uv init):</strong> Usa <code>uv add</code> para gestión declarativa</li>
+                    <li><strong>Entornos simples (solo uv venv):</strong> Usa <code>uv pip install</code> como con pip tradicional</li>
+                </ul>
+
+                <strong>Más información sobre <code>uv</code>:</strong>
+                <p>Consulta la documentación oficial de <code>uv</code> en <a href="https://docs.astral.sh/uv/" target="_blank">https://docs.astral.sh/uv/</a> para detalles avanzados, opciones de instalación y referencias de comandos.</p>
+            </div>
+
+            <div class="example">
+                <h4>Entorno simple con uv venv (sin uv init ni pyproject.toml)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Crear entorno virtual simple
+uv venv
+
+# 2. Activar entorno
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 3. Instalar paquetes con uv pip
+uv pip install numpy pandas matplotlib
+
+# Instalar desde requirements.txt
+uv pip install -r requirements.txt
+
+# Listar paquetes instalados
+uv pip list
+
+# Desinstalar paquete
+uv pip uninstall numpy</code></pre>
+            </div>
+
+            <div class="example">
+                <h4>Proyectos con gestión declarativa (con uv init)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Inicializar proyecto (crea pyproject.toml)
+uv init mi_proyecto
+cd mi_proyecto
+
+# 2. Crear entorno virtual
+uv venv
+
+# 2. Crear entorno virtual con una versión específica de Python
+# uv venv --python=3.14
+
+# 3. Activar entorno (necesrio si voy a ejecutar scripts desde línea de comandos)
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 4. ✅ RECOMENDADO: Agregar paquetes (registra en pyproject.toml)
+# Si agrego paquetes con este comando no es necesario crear entorno virtual
+uv add numpy pandas matplotlib
+
+# Agregar versión específica
+uv add "pandas>=2.1.0"
+
+# Agregar dependencias de desarrollo
+uv add --dev ipykernel
+
+# Remover paquete del proyecto
+uv remove numpy
+
+# ⚠️ Evita usar uv pip install en proyectos con pyproject.toml
+# (instalaría pero NO registraría la dependencia)</code></pre>
+            </div>
+
+            <h3>2.3 Comparación: pip vs uv</h3>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                <tr style="background: var(--primary-color); color: white;">
+                    <th style="padding: 0.75rem; text-align: left;">Aspecto</th>
+                    <th style="padding: 0.75rem; text-align: left;">pip</th>
+                    <th style="padding: 0.75rem; text-align: left;">uv</th>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Instalación</strong></td>
+                    <td style="padding: 0.75rem;">Incluido con Python</td>
+                    <td style="padding: 0.75rem;">Requiere instalación</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Velocidad</strong></td>
+                    <td style="padding: 0.75rem;">Moderada</td>
+                    <td style="padding: 0.75rem;">10-100x más rápido</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Compatibilidad</strong></td>
+                    <td style="padding: 0.75rem;">Universal</td>
+                    <td style="padding: 0.75rem;">100% compatible con pip</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Recomendado para</strong></td>
+                    <td style="padding: 0.75rem;">Compatibilidad, proyectos legacy</td>
+                    <td style="padding: 0.75rem;">Velocidad, proyectos nuevos</td>
+                </tr>
+            </table>
+
+            <!-- ========================================
+                 SECCIÓN 4: ENTORNOS VIRTUALES
+                 ======================================== -->
+            
+            <h2>3. Entornos Virtuales</h2>
+
+            <p>Los <strong>entornos virtuales</strong> son espacios aislados que permiten mantener dependencias de diferentes proyectos separadas. Esto evita conflictos entre versiones de bibliotecas y facilita la reproducibilidad.</p>
+
+            <h3>3.1 ¿Por qué son Necesarios los Entornos Virtuales?</h3>
+
+            <p>Imaginar la siguiente situación común en desarrollo profesional:</p>
+
+            <div class="example">
+                <h4>Escenario sin entornos virtuales (Problema)</h4>
+                <ul style="line-height: 2;">
+                    <li><strong>Proyecto A (antiguo):</strong> Requiere Python 3.8, Pandas 1.3.0 y NumPy 1.20.0</li>
+                    <li><strong>Proyecto B (nuevo):</strong> Requiere Python 3.12, Pandas 2.1.0 y NumPy 1.26.0</li>
+                    <li><strong>Conflicto:</strong> No se pueden tener ambas versiones de Python y bibliotecas simultáneamente en el sistema</li>
+                    <li><strong>Resultado:</strong> Al actualizar para el Proyecto B, el Proyecto A deja de funcionar</li>
+                </ul>
+            </div>
+
+            <div class="important">
+                <strong>🎯 Problemas que Resuelven los Entornos Virtuales:</strong>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Diferentes Versiones de Python:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Proyecto antiguo requiere Python 3.8, proyecto nuevo usa Python 3.12</li>
+                            <li>Sin entornos: solo puedes tener una versión de Python activa</li>
+                            <li>Con entornos: cada proyecto usa su versión de Python</li>
+                            <li><strong>🚀 uv lo hace súper fácil:</strong> <code>uv venv --python 3.8</code> descarga e instala automáticamente Python 3.8 si no lo tienes</li>
+                        </ul>
+                    </li>
+                    <li><strong>Conflictos de Versiones de Bibliotecas:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Diferentes proyectos requieren diferentes versiones de la misma biblioteca</li>
+                            <li>Sin entornos virtuales: imposible tener pandas 1.3 y pandas 2.1 simultáneamente</li>
+                            <li>Con entornos virtuales: cada proyecto tiene su propia versión aislada</li>
+                        </ul>
+                    </li>
+                    <li><strong>Contaminación del Sistema:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Instalar bibliotecas en el Python del sistema puede romper herramientas del SO</li>
+                            <li>En macOS/Linux, el sistema operativo usa Python para scripts internos</li>
+                            <li>Modificar el Python del sistema puede causar fallos en el SO</li>
+                        </ul>
+                    </li>
+                    <li><strong>Dependencias Transitivas:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Una biblioteca puede requerir versiones específicas de otras (dependencias)</li>
+                            <li>Proyecto A instala librería X que requiere NumPy 1.20</li>
+                            <li>Proyecto B instala librería Y que requiere NumPy 1.26</li>
+                            <li>Conflicto inevitable sin aislamiento</li>
+                        </ul>
+                    </li>
+                    <li><strong>Reproducibilidad:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Compartir proyecto con equipo o desplegar en servidor</li>
+                            <li>Sin entorno: "funciona en mi máquina" pero no en otras</li>
+                            <li>Con entorno: mismo comportamiento garantizado en todos lados</li>
+                        </ul>
+                    </li>
+                    <li><strong>Experimentación Segura:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Probar nuevas bibliotecas sin afectar proyectos existentes</li>
+                            <li>Si algo sale mal: eliminar entorno y crear uno nuevo</li>
+                            <li>No afecta otros proyectos ni el sistema</li>
+                        </ul>
+                    </li>
+                    <li><strong>Gestión de Proyectos Legacy:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Mantener proyectos antiguos funcionando</li>
+                            <li>Proyecto del 2020 con Python 3.7 y Pandas 1.0</li>
+                            <li>Nuevo proyecto con Python 3.12 y Pandas 2.1</li>
+                            <li>Ambos funcionan perfectamente en sus entornos</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="note">
+                <strong>📊 Ejemplo Práctico Real:</strong>
+                <p style="margin-top: 0.5rem;">Supongamos trabajar en tres proyectos simultáneamente:</p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Proyecto "Análisis Ventas 2023" (Legacy):</strong> Python 3.8, pandas==1.5.3, matplotlib==3.6.0</li>
+                    <li><strong>Proyecto "ML Predicción":</strong> Python 3.11, pandas==2.1.0, scikit-learn==1.3.0, tensorflow==2.15.0</li>
+                    <li><strong>Proyecto "Dashboard Web":</strong> Python 3.12, pandas==2.0.0, plotly==5.18.0, dash==2.14.0</li>
+                </ul>
+                <p style="margin-top: 0.75rem;"><strong>Sin entornos virtuales:</strong> IMPOSIBLE tener las 3 versiones de Python y Pandas.</p>
+                <p><strong>Con entornos virtuales:</strong> Cada proyecto en su entorno, cero conflictos.</p>
+            </div>
+
+            <div class="success">
+                <strong>🚀 Ventaja de uv para Gestión de Versiones de Python:</strong>
+                <p style="margin-top: 0.5rem;">Con <code>venv</code> tradicional, debes instalar manualmente cada versión de Python en tu sistema.</p>
+                <p style="margin-top: 0.5rem;"><strong>Con uv, es automático:</strong></p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><code>uv venv --python 3.8</code> → descarga e instala Python 3.8 automáticamente</li>
+                    <li><code>uv venv --python 3.11</code> → descarga e instala Python 3.11 automáticamente</li>
+                    <li><code>uv venv --python 3.12</code> → descarga e instala Python 3.12 automáticamente</li>
+                </ul>
+                <p style="margin-top: 0.5rem; font-weight: bold;">¡No necesitas ir a python.org ni configurar nada manualmente!</p>
+            </div>
+
+            <div class="success">
+                <strong>✅ Regla de Oro del Desarrollo Python:</strong>
+                <p style="margin-top: 0.5rem; font-size: 1.1rem; font-weight: bold;">"NUNCA instalar paquetes en el Python del sistema. SIEMPRE usar un entorno virtual."</p>
+                <p style="margin-top: 0.5rem;">Esta práctica es obligatoria en desarrollo profesional y evita innumerables problemas.</p>
+            </div>
+
+            <h3>3.2 Crear Entornos con venv (Método estándar, clásico y no recomendado)</h3>
+
+            <p><strong>venv</strong> es el módulo estándar de Python para crear entornos virtuales, incluido desde Python 3.3+.</p>
+
+            <div class="example">
+                <h4>Crear y activar entorno virtual</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Crear entorno virtual
+python -m venv .venv
+
+# Activar entorno (Windows PowerShell)
+.venv\Scripts\Activate.ps1
+
+# Activar entorno (macOS/Linux)
+source .venv/bin/activate
+
+# Una vez activado, instalar paquetes
+pip install numpy pandas matplotlib
+
+# Desactivar entorno
+deactivate</code></pre>
+            </div>
+
+            <div class="note">
+                <strong>⚠️ Política de Ejecución en Windows:</strong>
+                <p>Si encuentras error al activar en PowerShell, ejecuta como administrador:</p>
+                <pre style="background: rgba(0,0,0,0.1); padding: 0.5rem; margin: 0.5rem 0;"><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+            </div>
+
+            <h3>3.3 Crear Entornos con uv (Método moderno, rápido y recomendado)</h3>
+
+            <p>uv simplifica la creación y gestión de entornos virtuales con comandos más directos y velocidad superior:</p>
+
+            <h4>Creación Básica de Entornos con uv</h4>
+
+            <div class="warning">
+                <strong>⚠️ Importante:</strong> Si solo usas <code>uv venv</code> (sin <code>uv init</code>), NO puedes usar <code>uv add</code>. Debes usar <code>uv pip install</code>.
+            </div>
+
+            <div class="example">
+                <h4>Entorno simple con uv venv (sin pyproject.toml)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Crear entorno virtual simple
+uv venv
+
+# Crear con nombre personalizado
+uv venv mi_entorno
+
+# Crear con versión específica de Python
+uv venv --python 3.12
+uv venv --python 3.11
+
+# Activar igual que con venv
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# Instalar paquetes con uv pip (NO uses uv add aquí)
+uv pip install numpy pandas matplotlib seaborn scikit-learn
+
+# Desactivar
+deactivate</code></pre>
+            </div>
+
+            <h4>uv init: Inicializar Proyectos Completos</h4>
+
+            <p><strong>uv init</strong> crea la estructura completa de un proyecto Python con <code>pyproject.toml</code>. <strong>Solo en proyectos inicializados con uv init puedes usar <code>uv add</code></strong> para gestión declarativa de dependencias.</p>
+
+            <div class="success">
+                <strong>✅ Ventaja clave de uv init:</strong> Permite usar <code>uv add</code> para que las dependencias se registren automáticamente en <code>pyproject.toml</code>, facilitando la reproducibilidad.
+            </div>
+
+            <div class="important">
+                <strong>📋 pyproject.toml vs requirements.txt:</strong>
+                <p style="margin-top: 0.5rem;"><strong>pyproject.toml</strong> es el estándar moderno de Python (PEP 518, 2016) y la forma recomendada para proyectos nuevos:</p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Más moderno:</strong> Estándar oficial de Python desde 2016, reemplaza varios archivos antiguos (setup.py, setup.cfg, requirements.txt)</li>
+                    <li><strong>Gestión declarativa:</strong> Define dependencias principales, las herramientas calculan las transitivas automáticamente</li>
+                    <li><strong>Metadatos del proyecto:</strong> Incluye nombre, versión, autores, licencia, scripts, todo en un solo archivo</li>
+                    <li><strong>Compatibilidad con herramientas:</strong> Poetry, Hatch, PDM, y ahora uv usan pyproject.toml</li>
+                    <li><strong>Separación de dependencias:</strong> Distingue entre dependencias de producción y desarrollo</li>
+                </ul>
+                <p style="margin-top: 0.75rem;"><strong>requirements.txt</strong> es el método tradicional, aún válido y ampliamente usado:</p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Simple y directo:</strong> Lista plana de paquetes con versiones exactas</li>
+                    <li><strong>Universalmente compatible:</strong> Funciona con pip, uv pip, virtualenv, etc.</li>
+                    <li><strong>Ideal para despliegues:</strong> Reproducción exacta de entornos en producción</li>
+                    <li><strong>Generado automáticamente:</strong> Se puede crear con <code>pip freeze</code> o <code>uv pip freeze</code></li>
+                </ul>
+                <p style="margin-top: 0.75rem;"><strong>🎯 Recomendación práctica:</strong></p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Proyectos nuevos:</strong> Usa <code>pyproject.toml</code> con <code>uv init</code> + <code>uv add</code></li>
+                    <li><strong>Proyectos legacy o simples:</strong> <code>requirements.txt</code> es perfectamente válido</li>
+                    <li><strong>Mejor de ambos:</strong> Puedes tener pyproject.toml para desarrollo y generar requirements.txt para despliegue</li>
+                    <li><strong>Colaboración:</strong> Si tu equipo ya usa uno, mantén la consistencia</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Inicializar proyecto con uv init</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Crear nuevo proyecto con estructura completa
+uv init mi_proyecto_data_science
+cd mi_proyecto_data_science
+
+# Estructura creada automáticamente:
+# mi_proyecto_data_science/
+# ├── pyproject.toml      # ✅ Permite usar uv add
+# ├── README.md           # Documentación
+# └── .python-version     # Versión de Python
+
+# Crear entorno virtual (OPCIONAL si solo usarás uv add)
+# uv add crea y gestiona el entorno automáticamente
+uv venv
+
+# Activar entorno (OPCIONAL si usarás uv add)
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# ✅ AHORA SÍ puedes usar uv add (porque existe pyproject.toml)
+# uv add creará el entorno automáticamente si no existe
+uv add numpy pandas matplotlib
+
+# Crear proyecto en directorio actual
+uv init .
+
+# Inicializar con plantilla específica
+uv init --name "Análisis Ventas" --python 3.12 proyecto_ventas</code></pre>
+            </div>
+
+            <h4>uv run: Ejecutar Scripts sin Activar Entorno</h4>
+
+            <p><strong>uv run</strong> permite ejecutar scripts Python utilizando el entorno virtual sin necesidad de activarlo explícitamente.</p>
+
+            <div class="example">
+                <h4>Ejecutar código con uv run</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Ejecutar script usando el entorno virtual del proyecto
+uv run python analisis.py
+
+# Ejecutar módulo
+uv run python -m pytest
+
+# Ejecutar comando directo
+uv run jupyter notebook
+
+# Instalar y ejecutar en un solo paso
+uv run --with pandas --with matplotlib python analisis.py
+
+# Ventajas:
+# - No necesitas activar el entorno
+# - uv detecta automáticamente el .venv del proyecto
+# - Ideal para CI/CD y automatización
+# - Evita olvidar activar el entorno</code></pre>
+            </div>
+
+            <h4>uv sync: Sincronizar Dependencias</h4>
+
+            <div class="warning">
+                <strong>⚠️ REQUISITO OBLIGATORIO:</strong> <code>uv sync</code> SOLO funciona en proyectos con <code>pyproject.toml</code> (creados con <code>uv init</code>). Si solo usaste <code>uv venv</code>, este comando NO funcionará.
+            </div>
+
+            <div class="example">
+                <h4>Sincronización de dependencias con uv</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># ✅ Sincronizar entorno con pyproject.toml (requiere uv init)
+uv sync
+
+# Esto garantiza que el entorno tenga EXACTAMENTE
+# las dependencias especificadas en pyproject.toml:
+# - Instala las faltantes
+# - Desinstala las que sobran
+# - Actualiza las que tienen versión incorrecta
+
+# Muy útil al clonar repositorios o cambiar de rama
+git clone https://github.com/usuario/proyecto.git
+cd proyecto
+uv sync  # ¡Listo para trabajar!
+
+# ❌ Si NO existe pyproject.toml:
+# Error: No se encuentra pyproject.toml
+# Solución: Usa requirements.txt con uv pip install -r requirements.txt</code></pre>
+            </div>
+
+
+
+            <h4>uv add: Agregar Dependencias al Proyecto</h4>
+
+            <div class="warning">
+                <strong>⚠️ REQUISITO OBLIGATORIO:</strong> <code>uv add</code> SOLO funciona si previamente has usado <code>uv init</code> (que crea pyproject.toml). Si solo creaste un entorno con <code>uv venv</code>, debes usar <code>uv pip install</code>.
+            </div>
+
+            <div class="example">
+                <h4>Gestión declarativa con uv add (requiere uv init)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># ✅ Esto SOLO funciona después de uv init
+
+# Agregar dependencia al proyecto (modifica pyproject.toml)
+uv add pandas
+uv add numpy>=1.24.0
+uv add matplotlib seaborn plotly
+
+# Agregar dependencia de desarrollo
+uv add --dev pytest black flake8
+
+# Esto actualiza automáticamente:
+# - pyproject.toml (registro de dependencias)
+# - Instala el paquete en el entorno
+# - Genera/actualiza lockfile
+
+# ❌ Si NO usaste uv init:
+# Error: No se encuentra pyproject.toml
+# Solución: Usa uv pip install en su lugar</code></pre>
+            </div>
+
+
+                        <h4>Flujo de Trabajo Completo con uv</h4>
+
+            <div class="example">
+                <h4>OPCIÓN A: Proyecto gestionado por uv (RECOMENDADO)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># ✅ Flujo RECOMENDADO: Con uv init + uv add
+
+# 1. Inicializar proyecto (crea pyproject.toml)
+uv init analisis_covid
+cd analisis_covid
+
+# 2. Crear entorno virtual con Python 3.12
+uv venv --python 3.12
+
+# 3. Activar entorno
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 4. Agregar dependencias con uv add (registra en pyproject.toml)
+uv add numpy pandas matplotlib seaborn scikit-learn jupyter
+
+# 5. Crear estructura de carpetas
+mkdir data notebooks src results
+
+# 6. Iniciar Jupyter
+uv run jupyter notebook</code></pre>
+            </div>
+
+            <div class="example">
+                <h4>OPCIÓN B: Entorno simple (sin gestión)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Flujo simple: Solo uv venv + uv pip install
+
+# 1. Crear directorio del proyecto
+mkdir analisis_covid
+cd analisis_covid
+
+# 2. Crear entorno virtual
+uv venv --python 3.12
+
+# 3. Activar entorno
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 4. Instalar paquetes con uv pip (NO uses uv add)
+uv pip install numpy pandas matplotlib seaborn scikit-learn jupyter
+
+# 5. Generar requirements.txt para compartir el proyecto
+uv pip freeze > requirements.txt
+
+# 6. Crear el script de análisis (ejemplo)
+# New-Item analisis.py (Windows PowerShell)
+# touch analisis.py (macOS/Linux)
+
+# 7. Más adelante, otro colaborador puede instalar todo con:
+# uv pip install -r requirements.txt
+
+# ⚠️ NO puedes usar uv add porque no existe pyproject.toml
+# ⚠️ Para usar uv add, debes empezar con uv init</code></pre>
+            </div>
+
+
+            <div class="note">
+                <strong>📋 Resumen: ¿Cuándo usar qué?</strong>
+                <table style="width: 100%; margin-top: 0.5rem; border-collapse: collapse;">
+                    <tr style="background: var(--gray-100);">
+                        <th style="padding: 0.5rem; text-align: left;">Inicialización</th>
+                        <th style="padding: 0.5rem; text-align: left;">Comando para instalar</th>
+                        <th style="padding: 0.5rem; text-align: left;">Resultado</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><code>uv init</code> + <code>uv venv</code></td>
+                        <td style="padding: 0.5rem;"><code>uv add paquete</code> ✅</td>
+                        <td style="padding: 0.5rem;">Registra en pyproject.toml</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Solo <code>uv venv</code></td>
+                        <td style="padding: 0.5rem;"><code>uv pip install paquete</code></td>
+                        <td style="padding: 0.5rem;">Solo instala (sin registro)</td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+            <div class="success">
+                <strong>🚀 Ventajas de uv sobre pip/venv:</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Velocidad extrema:</strong> 10-100x más rápido en instalación de paquetes</li>
+                    <li><strong>Resolución de dependencias:</strong> Algoritmo optimizado, evita conflictos</li>
+                    <li><strong>Comandos integrados:</strong> init, run, sync, add en una sola herramienta</li>
+                    <li><strong>Gestión declarativa:</strong> uv add registra automáticamente en pyproject.toml</li>
+                    <li><strong>Caché global:</strong> Paquetes descargados una vez, usados en todos los proyectos</li>
+                    <li><strong>Gestión de proyectos:</strong> pyproject.toml como estándar moderno</li>
+                    <li><strong>Multiplataforma:</strong> Mismo flujo en Windows, macOS, Linux</li>
+                    <li><strong>Escrito en Rust:</strong> Rendimiento nativo y confiabilidad</li>
+                </ul>
+            </div>
+
+            <h3>3.4 Gestión de Dependencias con requirements.txt</h3>
+
+            <div class="warning">
+                <strong>⚠️ Nota sobre flujos modernos:</strong> Si usas <code>uv init</code> + <code>uv add</code> (recomendado para proyectos nuevos), las dependencias se gestionan automáticamente en <code>pyproject.toml</code> y <strong>NO necesitas crear ni gestionar manualmente requirements.txt</strong>. Este apartado es relevante para:
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Proyectos legacy que ya usan requirements.txt</li>
+                    <li>Flujo simple con <code>uv venv</code> + <code>uv pip install</code> (sin uv init)</li>
+                    <li>Despliegue en producción (generar requirements.txt desde pyproject.toml)</li>
+                    <li>Compatibilidad con herramientas que solo leen requirements.txt</li>
+                </ul>
+            </div>
+
+            <p>El archivo <code>requirements.txt</code> documenta todas las dependencias del proyecto:</p>
+
+            <div class="example">
+                <h4>Trabajar con requirements.txt</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Generar requirements.txt
+pip freeze > requirements.txt
+
+# Instalar desde requirements.txt
+pip install -r requirements.txt
+
+# O con uv (más rápido)
+uv pip install -r requirements.txt</code></pre>
+            </div>
+
+            <div class="example">
+                <h4>Ejemplo de requirements.txt para Data Science</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># requirements.txt
+numpy>=1.24.0
+pandas>=2.1.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+jupyter>=1.0.0</code></pre>
+            </div>
+
+            <h3>3.5 Flujo de Trabajo Completo con venv y pip</h3>
+
+            <div class="warning">
+                <strong>⚠️ Flujo tradicional vs moderno:</strong> Este apartado muestra el flujo tradicional con <code>venv</code> y <code>pip</code>. Aunque sigue siendo válido, <strong>las prácticas modernas recomiendan usar <code>uv</code></strong> en su lugar:
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Flujo moderno recomendado:</strong> <code>uv init</code> + <code>uv add</code> (gestión automática con pyproject.toml)</li>
+                    <li><strong>Alternativa moderna simple:</strong> <code>uv venv</code> + <code>uv pip install</code> (10-100x más rápido que pip)</li>
+                    <li><strong>Cuándo usar venv + pip:</strong> Entornos sin uv instalado, scripts de CI/CD legacy, compatibilidad estricta</li>
+                    <li><strong>Ventaja de migrar a uv:</strong> Mayor velocidad, gestión automática de versiones de Python, mejor resolución de dependencias</li>
+                </ul>
+                <p style="margin-top: 0.5rem;">Este contenido se mantiene por <strong>compatibilidad y comprensión del ecosistema tradicional</strong>.</p>
+            </div>
+
+            <div class="example">
+                <h4>Configuración de proyecto desde cero</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Crear directorio del proyecto
+mkdir mi_proyecto_data_science
+cd mi_proyecto_data_science
+
+# 2. Crear entorno virtual
+python -m venv .venv
+
+# 3. Activar entorno
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 4. Actualizar pip
+python -m pip install --upgrade pip
+
+# 5. Instalar bibliotecas necesarias
+pip install numpy pandas matplotlib seaborn scikit-learn jupyter
+
+# 6. Generar requirements.txt
+pip freeze > requirements.txt
+
+# 7. Crear estructura del proyecto
+mkdir data notebooks src
+
+# 8. Iniciar trabajo
+jupyter notebook</code></pre>
+            </div>
+
+            <div class="success">
+                <strong>✅ Mejores prácticas con entornos virtuales (flujo moderno con uv):</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Usar uv init para proyectos nuevos:</strong> Crea automáticamente .gitignore, pyproject.toml y estructura del proyecto</li>
+                    <li><strong>Gestión con uv add:</strong> Registra dependencias automáticamente en pyproject.toml</li>
+                    <li><strong>Un entorno por proyecto:</strong> Nunca compartir entornos entre proyectos diferentes</li>
+                    <li><strong>Nunca instalar en el sistema:</strong> Siempre usar entornos virtuales aislados</li>
+                    <li><strong>Versionar pyproject.toml:</strong> Incluir en Git para que el equipo use las mismas dependencias</li>
+                    <li><strong>.venv ya excluido:</strong> uv init crea .gitignore con .venv/ automáticamente</li>
+                    <li><strong>Colaboración:</strong> Otros desarrolladores ejecutan <code>uv sync</code> para reproducir el entorno</li>
+                </ul>
+                <p style="margin-top: 0.75rem;"><strong>📋 Para flujo tradicional (venv + pip):</strong></p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Incluir <code>requirements.txt</code> en el repositorio Git</li>
+                    <li>Crear manualmente <code>.gitignore</code> y añadir <code>.venv/</code></li>
+                    <li>Actualizar <code>requirements.txt</code> cuando añadas nuevas bibliotecas con <code>pip freeze</code></li>
+                </ul>
+            </div>
+
+            <!-- ========================================
+                 SECCIÓN 5: PANORÁMICA DE BIBLIOTECAS
+                 ======================================== -->
+            
+            <h2>4. Panorámica del Ecosistema de Bibliotecas</h2>
+
+            <p>Con Python instalado y comprendiendo cómo gestionar paquetes, es momento de conocer las bibliotecas fundamentales del ecosistema de Data Science.</p>
+
+            <div class="example">
+                <h3>📚 El Stack Fundamental de Data Science</h3>
+                <ol style="font-size: 1.05rem; line-height: 2.2;">
+                    <li><strong>NumPy:</strong> Cálculo numérico y arrays multidimensionales</li>
+                    <li><strong>Pandas:</strong> Análisis y manipulación de datos tabulares</li>
+                    <li><strong>Matplotlib:</strong> Visualización de datos (fundacional)</li>
+                    <li><strong>Seaborn:</strong> Visualización estadística elegante</li>
+                    <li><strong>Scikit-learn:</strong> Machine Learning accesible</li>
+                </ol>
+            </div>
+
+            <h3>4.1 NumPy: La Fundación del Cálculo Numérico</h3>
+
+            <p><strong>NumPy</strong> (Numerical Python) es la base de todo el ecosistema científico de Python. Proporciona estructuras de datos eficientes para trabajar con arrays multidimensionales y operaciones matemáticas de alto rendimiento.</p>
+
+            <div class="note">
+                <strong>🔑 Conceptos clave de NumPy:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>Arrays N-dimensionales:</strong> Estructuras optimizadas para datos numéricos</li>
+                    <li><strong>Vectorización:</strong> Operaciones sobre arrays completos sin bucles (hasta 100x más rápido)</li>
+                    <li><strong>Álgebra lineal:</strong> Multiplicación de matrices, descomposiciones, eigenvalores</li>
+                    <li><strong>Broadcasting:</strong> Operaciones entre arrays de diferentes formas</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Ejemplo rápido de NumPy</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code class="language-python">import numpy as np
+
+# Crear array
+datos = np.array([1, 2, 3, 4, 5])
+
+# Operaciones vectorizadas (sin bucles)
+resultado = datos * 2 + 10  # [12, 14, 16, 18, 20]
+
+# Operaciones estadísticas
+media = datos.mean()  # 3.0
+desviacion = datos.std()  # 1.41...</code></pre>
+            </div>
+
+            <p><strong>📖 Nota:</strong> NumPy se estudia en profundidad en el Capítulo 3.</p>
+
+            <h3>4.2 Pandas: El Rey del Análisis de Datos Tabulares</h3>
+
+            <p><strong>Pandas</strong> es la biblioteca fundamental para trabajar con datos estructurados (tablas). Proporciona estructuras de datos intuitivas y herramientas poderosas para análisis de datos.</p>
+
+            <div class="note">
+                <strong>🔑 Conceptos clave de Pandas:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>DataFrames:</strong> Tablas bidimensionales con columnas etiquetadas</li>
+                    <li><strong>Series:</strong> Arrays unidimensionales etiquetados</li>
+                    <li><strong>Indexación flexible:</strong> Acceso por etiquetas o posiciones</li>
+                    <li><strong>Operaciones grupales:</strong> Agrupar, agregar y transformar datos</li>
+                    <li><strong>Gestión de datos faltantes:</strong> Detección y manejo de NaN</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Ejemplo rápido de Pandas</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code class="language-python">import pandas as pd
+
+# Crear DataFrame
+ventas = pd.DataFrame({
+    'producto': ['A', 'B', 'C', 'A', 'B'],
+    'cantidad': [10, 15, 8, 12, 20],
+    'precio': [100, 150, 80, 100, 150]
+})
+
+# Análisis rápido
+total_por_producto = ventas.groupby('producto')['cantidad'].sum()
+estadisticas = ventas.describe()</code></pre>
+            </div>
+
+            <p><strong>📖 Nota:</strong> Pandas se estudia en profundidad en el Capítulo 4.</p>
+
+            <h3>4.3 Matplotlib: Visualización Fundamental</h3>
+
+            <p><strong>Matplotlib</strong> es la biblioteca de visualización más veterana y fundamental. Ofrece control total sobre cada aspecto de las visualizaciones.</p>
+
+            <div class="note">
+                <strong>🔑 Características de Matplotlib:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>Control completo:</strong> Personalización exhaustiva de gráficos</li>
+                    <li><strong>Múltiples backends:</strong> Exportar a PNG, PDF, SVG, etc.</li>
+                    <li><strong>Integración con NumPy:</strong> Visualizar arrays directamente</li>
+                    <li><strong>Estilo MATLAB:</strong> Sintaxis familiar para usuarios MATLAB</li>
+                </ul>
+            </div>
+
+            <h3>4.4 Seaborn: Visualización Estadística</h3>
+
+            <p><strong>Seaborn</strong> está construido sobre Matplotlib y proporciona una interfaz de alto nivel para crear visualizaciones estadísticas atractivas con menos código.</p>
+
+            <div class="note">
+                <strong>🔑 Ventajas de Seaborn:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>Sintaxis simple:</strong> Visualizaciones complejas con una línea</li>
+                    <li><strong>Temas visuales:</strong> Estilos profesionales predefinidos</li>
+                    <li><strong>Integración con Pandas:</strong> Trabaja directamente con DataFrames</li>
+                    <li><strong>Gráficos estadísticos:</strong> Distribuciones, correlaciones, regresiones</li>
+                </ul>
+            </div>
+
+            <h3>4.5 Scikit-learn: Machine Learning</h3>
+
+            <p><strong>Scikit-learn</strong> es la biblioteca principal para Machine Learning en Python, ofreciendo algoritmos listos para usar con una API consistente.</p>
+
+            <div class="note">
+                <strong>🔑 Capacidades de Scikit-learn:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>Clasificación:</strong> Predecir categorías (spam/no spam, etc.)</li>
+                    <li><strong>Regresión:</strong> Predecir valores numéricos</li>
+                    <li><strong>Clustering:</strong> Agrupar datos sin etiquetas</li>
+                    <li><strong>Reducción dimensional:</strong> PCA, t-SNE para simplificar datos</li>
+                    <li><strong>Preprocesamiento:</strong> Normalización, codificación, escalado</li>
+                </ul>
+            </div>
+
+            <h3>4.6 Otras Bibliotecas Importantes</h3>
+
+            <div class="example">
+                <h4>Bibliotecas Complementarias</h4>
+                <ul style="line-height: 2;">
+                    <li><strong>SciPy:</strong> Funciones científicas avanzadas (optimización, interpolación, señales)</li>
+                    <li><strong>Plotly:</strong> Visualizaciones interactivas para web</li>
+                    <li><strong>Statsmodels:</strong> Modelado estadístico avanzado</li>
+                    <li><strong>SQLAlchemy:</strong> ORM para trabajar con bases de datos SQL</li>
+                    <li><strong>Requests:</strong> Realizar peticiones HTTP para APIs</li>
+                    <li><strong>BeautifulSoup:</strong> Web scraping y parsing HTML</li>
+                </ul>
+            </div>
+
+            <h3>4.7 Relaciones entre Bibliotecas</h3>
+
+            <div class="important">
+                <strong>🔗 Jerarquía de Dependencias:</strong>
+                <p style="margin-top: 0.5rem;">Las bibliotecas están interconectadas en capas:</p>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Capa Base:</strong> NumPy (todos dependen de él)</li>
+                    <li><strong>Capa de Datos:</strong> Pandas, SciPy (usan NumPy)</li>
+                    <li><strong>Capa de Visualización:</strong> Matplotlib, Seaborn (usan NumPy/Pandas)</li>
+                    <li><strong>Capa de ML:</strong> Scikit-learn (usa NumPy, puede usar Pandas)</li>
+                </ol>
+                <p style="margin-top: 0.75rem;">Esta jerarquía significa que al instalar Pandas o Scikit-learn, NumPy se instala automáticamente como dependencia.</p>
+            </div>
+
+            <!-- ========================================
+                 SECCIÓN 6: INSTALACIÓN PRÁCTICA
+                 ======================================== -->
+            
+            <h2>5. Instalación Práctica del Ecosistema Completo</h2>
+
+            <p>Esta sección proporciona instrucciones paso a paso para configurar un entorno completo de Data Science listo para trabajar.</p>
+
+            <h3>5.1 Instalación con pip (Método Estándar)</h3>
+
+            <div class="example">
+                <h4>Stack completo de Data Science</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Crear y activar entorno virtual
+python -m venv .venv
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 2. Actualizar pip
+python -m pip install --upgrade pip
+
+# 3. Instalar bibliotecas fundamentales
+pip install numpy pandas matplotlib seaborn scikit-learn
+
+# 4. Instalar herramientas de desarrollo
+pip install ipykernel
+
+# 5. Instalar bibliotecas complementarias
+pip install scipy plotly statsmodels requests
+
+# 6. Verificar instalación
+python -c "import numpy, pandas, matplotlib, seaborn, sklearn; print('Todo instalado!')"</code></pre>
+            </div>
+
+            <h3>5.2 Instalación con uv (Método Rápido y Recomendado) ⭐</h3>
+
+            <div class="success">
+                <strong>✅ Método recomendado:</strong> uv es significativamente más rápido que pip (10-100x) y ofrece mejor gestión de dependencias. Ideal para proyectos nuevos.
+            </div>
+
+            <div class="example">
+                <h4>Stack completo con uv (mucho más rápido)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Inicializar proyecto (crea pyproject.toml)
+uv init mi_proyecto_data_science --python 3.14
+cd mi_proyecto_data_science
+
+# 2. Crear entorno con uv (opcional si luego voy a usar uv add)
+uv venv
+# Activar: Windows .venv\Scripts\Activate.ps1
+#          macOS/Linux: source .venv/bin/activate
+
+# 3. RECOMENDADO: Agregar dependencias con uv add
+# (registra en pyproject.toml para reproducibilidad)
+uv add numpy pandas matplotlib seaborn scikit-learn
+uv add ipykernel
+
+# Alternativa: Instalar sin registrar (solo si migras de pip)
+uv pip install numpy pandas matplotlib seaborn scikit-learn ipykernel
+
+# 4. Verificar
+python -c "import numpy, pandas, matplotlib; print('✅ Listo!')"</code></pre>
+            </div>
+
+            <div class="note">
+                <strong>💡 ¿Por qué usar uv add en lugar de uv pip install?</strong>
+                <p style="margin-top: 0.5rem;"><strong>⚠️ Requisito:</strong> Solo puedes usar <code>uv add</code> si inicializaste el proyecto con <code>uv init</code></p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Reproducibilidad:</strong> Las dependencias quedan registradas en pyproject.toml</li>
+                    <li><strong>Sincronización:</strong> Otros desarrolladores pueden ejecutar <code>uv sync</code> para obtener el mismo entorno</li>
+                    <li><strong>Versionado:</strong> Git registra cambios en dependencias al versionar pyproject.toml</li>
+                    <li><strong>Estándar moderno:</strong> pyproject.toml es el futuro de Python (PEP 621)</li>
+                </ul>
+                <p style="margin-top: 0.5rem;"><strong>Si solo creaste un entorno con <code>uv venv</code>:</strong> Usa <code>uv pip install</code> en su lugar.</p>
+            </div>
+
+            <h3>5.3 Crear requirements.txt del Proyecto</h3>
+
+            <div class="warning">
+                <strong>⚠️ Nota sobre proyectos modernos:</strong> Si usas <code>uv init</code> + <code>uv add</code>, las dependencias se gestionan automáticamente en <code>pyproject.toml</code> y <strong>NO necesitas crear ni gestionar requirements.txt manualmente</strong>. Esta sección es relevante para:
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Proyectos legacy</strong> que ya usan requirements.txt</li>
+                    <li>Flujo tradicional con <code>pip</code> + <code>venv</code></li>
+                    <li>Despliegue en producción (generar requirements.txt desde pyproject.toml)</li>
+                    <li>Compatibilidad con herramientas que solo leen requirements.txt</li>
+                </ul>
+            </div>
+
+            <p>Guardar las dependencias exactas para reproducibilidad (método tradicional):</p>
+
+            <div class="example">
+                <h4>Crear y usar requirements.txt con pip (proyectos legacy)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Generar requirements.txt con versiones exactas
+pip freeze > requirements.txt
+
+# Otro desarrollador puede recrear el entorno:
+python -m venv .venv
+# Activar entorno
+pip install -r requirements.txt</code></pre>
+            </div>
+
+            <div class="example">
+                <h4>Alternativa con uv (más rápido)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Generar requirements.txt con uv
+uv pip freeze > requirements.txt
+
+# Otro desarrollador puede recrear el entorno:
+uv venv
+# Activar: Windows .venv\Scripts\Activate.ps1
+#          macOS/Linux: source .venv/bin/activate
+uv pip install -r requirements.txt
+
+# O directamente sin activar el entorno:
+uv pip install -r requirements.txt</code></pre>
+            </div>
+
+            <div class="note">
+                <strong>💡 Generar requirements.txt desde pyproject.toml:</strong>
+                <p style="margin-top: 0.5rem;">Si tu proyecto usa <code>pyproject.toml</code> pero necesitas <code>requirements.txt</code> para despliegue o compatibilidad:</p>
+                <pre style="background: rgba(0,0,0,0.1); padding: 0.5rem; margin: 0.5rem 0;"><code># Exportar dependencias desde pyproject.toml a requirements.txt
+uv pip compile pyproject.toml -o requirements.txt
+
+# O usando pip-tools (si lo tienes instalado)
+pip-compile pyproject.toml -o requirements.txt</code></pre>
+            </div>
+
+            <div class="example">
+                <h4>requirements.txt recomendado para Data Science</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># requirements.txt
+# Bibliotecas fundamentales
+numpy>=1.24.0
+pandas>=2.1.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+
+</code></pre>
+            </div>
+
+            <h3>5.4 Verificar Instalación Completa</h3>
+
+            <div class="example">
+                <h4>Script de verificación completo</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Guardar como verificar_instalacion.py y ejecutar
+import sys
+
+def verificar_biblioteca(nombre, import_name=None):
+    if import_name is None:
+        import_name = nombre
+    try:
+        lib = __import__(import_name)
+        version = getattr(lib, '__version__', 'desconocida')
+        print(f"✅ {nombre:15} - versión {version}")
+        return True
+    except ImportError:
+        print(f"❌ {nombre:15} - NO instalada")
+        return False
+
+print("=" * 50)
+print("VERIFICACIÓN DE INSTALACIÓN - DATA SCIENCE")
+print("=" * 50)
+print(f"Python: {sys.version.split()[0]}")
+print("-" * 50)
+
+bibliotecas = [
+    ('NumPy', 'numpy'),
+    ('Pandas', 'pandas'),
+    ('Matplotlib', 'matplotlib'),
+    ('Seaborn', 'seaborn'),
+    ('Scikit-learn', 'sklearn'),
+
+]
+
+resultados = [verificar_biblioteca(nombre, import_name) for nombre, import_name in bibliotecas]
+
+print("-" * 50)
+if all(resultados):
+    print("🎉 ¡Todas las bibliotecas instaladas correctamente!")
+else:
+    print("⚠️ Faltan algunas bibliotecas. Revisar instalación.")
+print("=" * 50)</code></pre>
+            </div>
+
+            <!-- ========================================
+                 SECCIÓN 7: ENTORNOS DE DESARROLLO
+                 ======================================== -->
+            
+            <h2>6. Entornos de Desarrollo</h2>
+
+            <p>Para trabajar eficientemente con Data Science en Python, existen tres entornos principales recomendados: <strong>Jupyter Notebook</strong> (para exploración interactiva), <strong>Visual Studio Code</strong> (para desarrollo general) y <strong>PyCharm</strong> (IDE profesional completo).</p>
+
+            <h3>6.1 Jupyter Notebook</h3>
+
+            <p><strong>Jupyter Notebook</strong> es un entorno interactivo basado en web que permite combinar código, visualizaciones y texto narrativo en un mismo documento. Es la herramienta preferida para análisis exploratorio de datos.</p>
+
+            <div class="note">
+                <strong>✨ Ventajas de Jupyter:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li>Ejecución interactiva célula por célula</li>
+                    <li>Visualizaciones inline</li>
+                    <li>Mezcla de código, gráficos y markdown</li>
+                    <li>Ideal para análisis exploratorio y presentaciones</li>
+                    <li>Compartir resultados fácilmente (.ipynb)</li>
+                    <li>Gratuito y de código abierto</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Instalar y usar Jupyter con pip (en entorno virtual)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Crear entorno virtual
+python -m venv .venv
+
+# 2. Activar entorno
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 3. Instalar Jupyter Notebook
+pip install jupyter
+
+# 4. Iniciar Jupyter Notebook
+jupyter notebook
+# Se abrirá automáticamente en http://localhost:8888
+
+# Alternativamente, Jupyter Lab (interfaz más moderna)
+pip install jupyterlab
+jupyter lab
+
+# Para detener: Ctrl+C en la terminal</code></pre>
+            </div>
+
+            <div class="example">
+                <h4>Alternativa con uv (más rápido)</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Crear entorno virtual con uv
+uv venv
+
+# 2. Activar entorno
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 3. Instalar Jupyter con uv
+uv pip install jupyter
+
+# 4. Iniciar Jupyter Notebook
+jupyter notebook
+
+# Alternativa: Jupyter Lab
+uv pip install jupyterlab
+jupyter lab
+
+# ✨ Opción directa sin activar entorno (con uv run):
+uv pip install jupyter
+uv run jupyter notebook
+
+# Para detener: Ctrl+C en la terminal</code></pre>
+            </div>
+
+            <div class="note">
+                <strong>💡 Recomendación:</strong> Siempre usa entornos virtuales para instalar Jupyter. Esto evita contaminar el Python del sistema y permite tener kernels específicos para cada proyecto con sus propias dependencias.
+            </div>
+
+            <h3>6.2 Visual Studio Code (VS Code)</h3>
+
+            <p><strong>Visual Studio Code</strong> es un editor de código moderno, ligero y extensible, excelente para desarrollo de proyectos Python. Es gratuito, de código abierto y altamente popular.</p>
+
+            <div class="note">
+                <strong>✨ Ventajas de VS Code:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li>Soporte nativo para notebooks (.ipynb)</li>
+                    <li>Depurador integrado potente</li>
+                    <li>IntelliSense y autocompletado avanzado</li>
+                    <li>Control de versiones Git integrado</li>
+                    <li>Extensiones para Python y Data Science</li>
+                    <li>Gratuito y multiplataforma</li>
+                    <li>Ligero y rápido</li>
+                    <li>Altamente personalizable</li>
+                </ul>
+            </div>
+
+            <h4>Instalación de VS Code</h4>
+
+            <div class="example">
+                <strong>Descargar e instalar VS Code:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Descargar:</strong> Ir a <a href="https://code.visualstudio.com/" target="_blank" style="color: var(--primary-color);">https://code.visualstudio.com/</a></li>
+                    <li><strong>Seleccionar versión:</strong> Descargar para tu sistema operativo (Windows, macOS, Linux)</li>
+                    <li><strong>Instalar:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><strong>Windows:</strong> Ejecutar el instalador .exe descargado
+                                <ul style="margin: 0.25rem 0 0 1rem;">
+                                    <li>✅ Marcar "Add to PATH" (importante para usar <code>code .</code> en terminal)</li>
+                                    <li>✅ Marcar "Register Code as an editor for supported file types"</li>
+                                    <li>✅ Marcar "Add 'Open with Code' action to context menu"</li>
+                                </ul>
+                            </li>
+                            <li><strong>macOS:</strong> Abrir el archivo .dmg y arrastrar VS Code a Aplicaciones</li>
+                            <li><strong>Linux (Ubuntu/Debian):</strong>
+                                <pre style="background: rgba(0,0,0,0.1); padding: 0.5rem; margin: 0.5rem 0;"><code>sudo apt update
+sudo apt install code</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>Verificar instalación:</strong> Abrir terminal y ejecutar <code>code --version</code></li>
+                </ol>
+            </div>
+
+            <h4>Formas de Abrir VS Code</h4>
+
+            <div class="example">
+                <h4>Opción 1: Desde acceso directo o menú</h4>
+                <ul style="line-height: 1.8;">
+                    <li><strong>Windows:</strong> Buscar "Visual Studio Code" en el menú Inicio o hacer doble clic en el acceso directo del escritorio</li>
+                    <li><strong>macOS:</strong> Abrir desde Aplicaciones o usar Spotlight (Cmd+Espacio) y buscar "Visual Studio Code"</li>
+                    <li><strong>Linux:</strong> Buscar "Code" en el lanzador de aplicaciones</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Opción 2: Desde la terminal (más rápido para proyectos) ⭐</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># Navegar a la carpeta del proyecto
+cd mi_proyecto_data_science
+
+# Abrir VS Code en el directorio actual
+code .
+
+# Abrir un archivo específico
+code analisis.py
+
+# Abrir una carpeta específica
+code ruta/a/mi/proyecto
+
+# Abrir VS Code y esperar a que se cierre (útil para Git)
+code --wait archivo.py</code></pre>
+            </div>
+
+            <div class="note">
+                <strong>💡 Truco profesional:</strong>
+                <p style="margin-top: 0.5rem;">Usar <code>code .</code> desde la terminal es la forma más rápida de trabajar. Abre VS Code directamente en tu proyecto con todas las configuraciones del workspace.</p>
+                <p style="margin-top: 0.5rem;"><strong>Workflow recomendado:</strong></p>
+                <pre style="background: rgba(0,0,0,0.1); padding: 0.5rem; margin: 0.5rem 0;"><code># 1. Crear y configurar proyecto con uv
+uv init mi_proyecto --python 3.14
+cd mi_proyecto
+uv add numpy pandas matplotlib seaborn scikit-learn ipykernel
+
+# 2. Abrir VS Code
+code .
+
+# 3. VS Code detectará automáticamente el entorno .venv, si no fuer así, hay que seleccionar Intérprete manualmente (ver más abajo)
+# 4. Comenzar a trabajar</code></pre>
+            </div>
+
+            <h4>Configurar VS Code para Data Science</h4>
+
+            <div class="example">
+                <strong>Extensiones recomendadas:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Python</strong> (Microsoft) - Soporte completo para Python</li>
+                    <li><strong>Jupyter</strong> (Microsoft) - Notebooks en VS Code</li>
+
+                </ol>
+                <p style="margin-top: 1rem;"><strong>Instalación:</strong> Ir a la pestaña de Extensiones (Ctrl+Shift+X) y buscar cada extensión.</p>
+            </div>
+
+            <h4>Seleccionar Intérprete de Python en VS Code</h4>
+
+            <div class="important">
+                <strong>⚠️ PASO CRÍTICO:</strong> Después de crear el entorno virtual, <strong>DEBES seleccionar el intérprete correcto en VS Code</strong>. Si no lo haces:
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>❌ VS Code usará el Python del sistema (sin tus paquetes instalados)</li>
+                    <li>❌ Los imports fallarán aunque hayas instalado las bibliotecas</li>
+                    <li>❌ El código no se ejecutará con las dependencias correctas</li>
+                    <li>❌ Jupyter notebooks no encontrarán los paquetes</li>
+                </ul>
+                <p style="margin-top: 0.75rem; font-weight: bold;">✅ Solución: Seleccionar manualmente el intérprete del entorno virtual</p>
+            </div>
+
+            <div class="example">
+                <strong>Pasos para configurar entorno virtual (OBLIGATORIO):</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Abrir la paleta de comandos:</strong> <code>Ctrl+Shift+P</code> (Windows/Linux) o <code>Cmd+Shift+P</code> (macOS)</li>
+                    <li><strong>Escribir y seleccionar:</strong> <code>Python: Select Interpreter</code></li>
+                    <li><strong>Elegir el entorno virtual del proyecto:</strong> Aparecerá como:
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>Python 3.12.x ('.venv': venv)</code> ✅ <strong>← Este es el correcto</strong></li>
+                            <li><code>Python 3.12.x (Global)</code> ❌ <strong>← NO seleccionar este</strong></li>
+                        </ul>
+                    </li>
+                    <li><strong>Verificar selección:</strong> En la barra de estado inferior derecha aparecerá <code>('.venv': venv)</code></li>
+                    <li><strong>Resultado:</strong> VS Code usará automáticamente este entorno para:
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Ejecutar scripts Python</li>
+                            <li>Terminal integrada (se activará automáticamente)</li>
+                            <li>Kernels de Jupyter Notebooks</li>
+                            <li>IntelliSense y autocompletado</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="note">
+                <strong>💡 Verificación rápida:</strong>
+                <p style="margin-top: 0.5rem;">Para confirmar que VS Code está usando el entorno correcto:</p>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Mira la esquina inferior derecha de VS Code</li>
+                    <li>Debe decir algo como <code>3.12.x ('.venv': venv)</code></li>
+                    <li>Si dice solo <code>3.12.x</code> sin <code>('.venv')</code>, <strong>NO está usando tu entorno virtual</strong></li>
+                    <li>Haz clic en ese texto para cambiar rápidamente de intérprete</li>
+                </ol>
+            </div>
+
+            <h4>Configuración Básica Recomendada de VS Code</h4>
+
+            <p>Después de instalar las extensiones y seleccionar el intérprete, es conveniente ajustar algunas configuraciones básicas para mejorar la experiencia de desarrollo.</p>
+
+            <div class="example">
+                <strong>Acceder a la configuración:</strong>
+                <ul style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Windows/Linux:</strong> <code>File > Preferences > Settings</code> o <code>Ctrl+,</code></li>
+                    <li><strong>macOS:</strong> <code>Code > Preferences > Settings</code> o <code>Cmd+,</code></li>
+                    <li><strong>Alternativa:</strong> Paleta de comandos (<code>Ctrl+Shift+P</code> / <code>Cmd+Shift+P</code>) → <code>Preferences: Open Settings</code></li>
+                </ul>
+            </div>
+
+            <h5>1. Autoguardado (Auto Save)</h5>
+
+            <div class="success">
+                <strong>✅ Muy recomendado:</strong> Activar el autoguardado evita perder cambios y asegura que siempre trabajas con la versión más reciente.
+            </div>
+
+            <div class="note">
+                <strong>🚀 Atajo rápido:</strong> La forma más rápida de activar/desactivar el autoguardado es:
+                <p style="margin-top: 0.5rem;"><strong>Menú:</strong> <code>Archivo</code> → <code>Autoguardado</code> (o <code>File</code> → <code>Auto Save</code>)</p>
+                <p style="margin-top: 0.5rem;">Si aparece una marca de verificación ✓ al lado de "Autoguardado", está activado.</p>
+            </div>
+
+            <div class="example">
+                <strong>Configurar autoguardado (opciones avanzadas):</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li>Abrir configuración (<code>Ctrl+,</code> / <code>Cmd+,</code>)</li>
+                    <li>Buscar: <code>Auto Save</code></li>
+                    <li>Seleccionar una de estas opciones:
+                        <ul style="margin: 0.5rem 0;">
+                            <li><strong>afterDelay</strong> (⭐ Recomendado): Guarda automáticamente tras 1 segundo de inactividad</li>
+                            <li><strong>onFocusChange</strong>: Guarda al cambiar de archivo</li>
+                            <li><strong>onWindowChange</strong>: Guarda al cambiar de ventana</li>
+                            <li><strong>off</strong>: Desactivado (debes guardar manualmente con Ctrl+S)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p style="margin-top: 0.5rem;"><strong>Configuración en JSON:</strong></p>
+                <pre style="background: rgba(0,0,0,0.1); padding: 0.5rem; margin: 0.5rem 0;"><code>"files.autoSave": "afterDelay",
+"files.autoSaveDelay": 1000  // milisegundos</code></pre>
+            </div>
+
+            <h5>2. Idioma de la Interfaz</h5>
+
+            <div class="example">
+                <strong>Cambiar VS Code a español (opcional):</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li>Abrir paleta de comandos: <code>Ctrl+Shift+P</code> / <code>Cmd+Shift+P</code></li>
+                    <li>Escribir: <code>Configure Display Language</code></li>
+                    <li>Seleccionar <code>Install Additional Languages...</code></li>
+                    <li>Instalar <strong>Spanish Language Pack for Visual Studio Code</strong></li>
+                    <li>Reiniciar VS Code cuando se solicite</li>
+                </ol>
+                <p style="margin-top: 0.5rem;"><strong>Nota:</strong> Aunque la interfaz esté en español, se recomienda mantener los mensajes de error y documentación en inglés para facilitar la búsqueda de soluciones online.</p>
+            </div>
+
+            <h5>3. Temas de Color</h5>
+
+            <div class="note">
+                <strong>🎨 Personalización visual:</strong> Elegir un tema cómodo reduce la fatiga visual durante sesiones largas de programación.
+            </div>
+
+            <div class="example">
+                <strong>Cambiar tema de color:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li>Paleta de comandos: <code>Ctrl+Shift+P</code> / <code>Cmd+Shift+P</code></li>
+                    <li>Escribir: <code>Preferences: Color Theme</code> o usar atajo <code>Ctrl+K Ctrl+T</code></li>
+                    <li>Navegar con flechas para previsualizar temas en tiempo real</li>
+                    <li><strong>Temas populares incluidos:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><strong>Dark+ (default dark)</strong> - Tema oscuro por defecto, muy equilibrado</li>
+                            <li><strong>Light+ (default light)</strong> - Tema claro por defecto</li>
+                            <li><strong>Monokai</strong> - Oscuro con colores vibrantes</li>
+                            <li><strong>Solarized Dark/Light</strong> - Clásico para reducir fatiga visual</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="example">
+                <strong>Temas adicionales populares (requieren instalación):</strong>
+                <ul style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>One Dark Pro</strong> - Muy popular, basado en Atom</li>
+                    <li><strong>Dracula Official</strong> - Oscuro con colores púrpura/rosa</li>
+                    <li><strong>Material Theme</strong> - Diseño Material con múltiples variantes</li>
+                    <li><strong>Night Owl</strong> - Optimizado para trabajar de noche</li>
+                    <li><strong>GitHub Theme</strong> - Estilo de GitHub, claro y oscuro</li>
+                </ul>
+                <p style="margin-top: 0.5rem;"><strong>Instalar:</strong> Ir a Extensiones (<code>Ctrl+Shift+X</code>), buscar el nombre del tema e instalar.</p>
+            </div>
+
+            <h5>4. Tamaño de Fuente y Tipografía</h5>
+
+            <div class="example">
+                <strong>Ajustar fuente del editor:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li>Abrir configuración (<code>Ctrl+,</code>)</li>
+                    <li>Buscar: <code>Font Size</code></li>
+                    <li>Ajustar <code>Editor: Font Size</code> (recomendado: 13-15 para pantallas normales, 16-18 para 4K)</li>
+                    <li>Buscar: <code>Font Family</code></li>
+                    <li>Cambiar tipografía (opcional):
+                        <ul style="margin: 0.5rem 0;">
+                            <li><strong>Por defecto:</strong> <code>Consolas, 'Courier New', monospace</code> (Windows)</li>
+                            <li><strong>Recomendadas:</strong> <code>Fira Code, Cascadia Code, JetBrains Mono</code> (con ligaduras)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p style="margin-top: 0.5rem;"><strong>Habilitar ligaduras (opcional):</strong></p>
+                <pre style="background: rgba(0,0,0,0.1); padding: 0.5rem; margin: 0.5rem 0;"><code>"editor.fontFamily": "Fira Code",
+"editor.fontLigatures": true,
+"editor.fontSize": 14</code></pre>
+            </div>
+
+            <h5>5. Configuraciones Adicionales Útiles</h5>
+
+            <div class="example">
+                <strong>Ajustes recomendados para Python:</strong>
+                <p style="margin-top: 0.75rem;">Puedes añadir estas configuraciones manualmente:</p>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Paleta de comandos → <code>Preferences: Open Settings (JSON)</code></li>
+                    <li>Añadir las siguientes líneas dentro del objeto JSON:</li>
+                </ol>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code class="language-json">{
+    // Autoguardado
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    
+    // Formato automático al guardar
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false,
+    
+    // Números de línea relativos (útil para navegar)
+    "editor.lineNumbers": "on",
+    
+    // Mostrar espacios en blanco
+    "editor.renderWhitespace": "selection",
+    
+    // Regla vertical a 79/88 caracteres (PEP 8)
+    "editor.rulers": [79, 88],
+    
+    // Minimap (mapa del código)
+    "editor.minimap.enabled": true,
+    
+    // Sugerencias inline (útil para aprender)
+    "editor.inlineSuggest.enabled": true,
+    
+    // Python específico
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+    
+    // Terminal integrada
+    "terminal.integrated.fontSize": 13,
+    "terminal.integrated.cursorBlinking": true,
+    
+    // Breadcrumbs (navegación)
+    "breadcrumbs.enabled": true,
+    
+    // Zoom con Ctrl+Rueda
+    "editor.mouseWheelZoom": true
+}</code></pre>
+            </div>
+
+            <div class="note">
+                <strong>💡 Sincronización de configuración:</strong>
+                <p style="margin-top: 0.5rem;">VS Code permite sincronizar tu configuración, extensiones, atajos de teclado y temas entre diferentes máquinas usando tu cuenta de GitHub o Microsoft.</p>
+                <p style="margin-top: 0.5rem;"><strong>Activar:</strong> Clic en el icono de engranaje (esquina inferior izquierda) → <code>Turn on Settings Sync...</code></p>
+            </div>
+
+            <h5>6. Atajos de Teclado Útiles</h5>
+
+            <div class="example">
+                <strong>Atajos esenciales para recordar:</strong>
+                <table style="width: 100%; margin-top: 0.5rem; border-collapse: collapse;">
+                    <tr style="background: var(--gray-100);">
+                        <th style="padding: 0.5rem; text-align: left; width: 35%;">Acción</th>
+                        <th style="padding: 0.5rem; text-align: left; width: 30%;">Windows/Linux</th>
+                        <th style="padding: 0.5rem; text-align: left; width: 35%;">macOS</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Paleta de comandos</td>
+                        <td style="padding: 0.5rem;"><code>Ctrl+Shift+P</code></td>
+                        <td style="padding: 0.5rem;"><code>Cmd+Shift+P</code></td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Buscar archivo</td>
+                        <td style="padding: 0.5rem;"><code>Ctrl+P</code></td>
+                        <td style="padding: 0.5rem;"><code>Cmd+P</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Terminal integrada</td>
+                        <td style="padding: 0.5rem;"><code>Ctrl+Mayús+ñ</code></td>
+                        <td style="padding: 0.5rem;"><code>Cmd+`</code></td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Comentar línea/bloque</td>
+                        <td style="padding: 0.5rem;"><code>Ctrl+ç</code></td>
+                        <td style="padding: 0.5rem;"><code>Cmd+/</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Duplicar línea</td>
+                        <td style="padding: 0.5rem;"><code>Shift+Alt+↓</code></td>
+                        <td style="padding: 0.5rem;"><code>Shift+Opt+↓</code></td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Mover línea arriba/abajo</td>
+                        <td style="padding: 0.5rem;"><code>Alt+↑/↓</code></td>
+                        <td style="padding: 0.5rem;"><code>Opt+↑/↓</code></td>
+                    </tr>
+
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Ir a definición</td>
+                        <td style="padding: 0.5rem;"><code>F12</code></td>
+                        <td style="padding: 0.5rem;"><code>F12</code></td>
+                    </tr>
+
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Formatear documento (plugin Black Formatter)</td>
+                        <td style="padding: 0.5rem;"><code>Shift+Alt+F</code></td>
+                        <td style="padding: 0.5rem;"><code>Shift+Opt+F</code></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="success">
+                <strong>🎯 Configuración mínima recomendada:</strong>
+                <p style="margin-top: 0.5rem;">Si solo quieres hacer los ajustes esenciales:</p>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>✅ Activar <strong>autoguardado</strong> (afterDelay)</li>
+                    <li>✅ Ajustar <strong>tamaño de fuente</strong> cómodo (14-15px)</li>
+                    <li>✅ Elegir <strong>tema</strong> que no canse la vista</li>
+                    <li>✅ Activar <strong>formateo al guardar</strong> para Python</li>
+                    <li>✅ Aprender los <strong>atajos básicos</strong> (Paleta de comandos, Terminal, Comentar)</li>
+                </ol>
+            </div>
+
+            
+            <div class="note" style="margin-bottom: 2rem;">
+                <strong>ℹ️ Para más información sobre Visual Studio Code:</strong> Consulta la documentación oficial y vídeos introductorios en <a href="https://code.visualstudio.com/docs/introvideos/basics" target="_blank">code.visualstudio.com/docs/introvideos/basics</a>.
+            </div>
+
+            <h3>6.3 PyCharm</h3>
+
+            <p><strong>PyCharm</strong> (de JetBrains) es un IDE profesional completo específicamente diseñado para Python. Ofrece la experiencia más completa para desarrollo Python serio.</p>
+
+            <div class="note">
+                <strong>✨ Ventajas de PyCharm:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>IDE completo:</strong> Todo integrado sin necesidad de extensiones</li>
+                    <li><strong>Refactorización avanzada:</strong> Renombrar, extraer métodos, mover código</li>
+                    <li><strong>Depurador profesional:</strong> El más potente para Python</li>
+                    <li><strong>Gestión de entornos:</strong> Interfaz gráfica para venv y poetry</li>
+                    <li><strong>Análisis de código:</strong> Detecta errores antes de ejecutar</li>
+                    <li><strong>Soporte científico:</strong> SciView para DataFrames, arrays, gráficos</li>
+                    <li><strong>Jupyter integrado:</strong> Notebooks dentro del IDE</li>
+                    <li><strong>Bases de datos:</strong> Cliente SQL integrado</li>
+                    <li><strong>Testing integrado:</strong> Ejecutar y depurar tests con un clic</li>
+                </ul>
+            </div>
+
+            <h4>Versiones de PyCharm</h4>
+
+            <div class="important">
+                <strong>🔑 Ediciones disponibles:</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>PyCharm Community (Gratuita):</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Desarrollo Python puro</li>
+                            <li>Depurador y refactorización</li>
+                            <li>Control de versiones Git</li>
+                            <li>Suficiente para mayoría de proyectos</li>
+                        </ul>
+                    </li>
+                    <li><strong>PyCharm Professional (Pago):</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Todo de Community +</li>
+                            <li>Soporte completo para Data Science (SciView, notebooks)</li>
+                            <li>Desarrollo web (Django, Flask, FastAPI)</li>
+                            <li>Soporte para bases de datos SQL</li>
+                            <li>Remote development (SSH, Docker)</li>
+                            <li><strong>Gratuito para estudiantes y educadores</strong></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h4>Configurar PyCharm para Data Science</h4>
+
+            <div class="example">
+                <strong>Pasos iniciales en PyCharm:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Crear proyecto:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>File → New Project</li>
+                            <li>Seleccionar ubicación del proyecto</li>
+                            <li>Elegir "New environment using venv"</li>
+                            <li>Seleccionar versión de Python (3.11 o 3.12)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Instalar paquetes:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>File → Settings → Project → Python Interpreter</li>
+                            <li>Clic en "+" para añadir paquetes</li>
+                            <li>Buscar e instalar: numpy, pandas, matplotlib, seaborn, scikit-learn</li>
+                            <li>O usar terminal integrado con pip/uv</li>
+                        </ul>
+                    </li>
+                    <li><strong>Habilitar SciView (Professional):</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>View → Scientific Mode</li>
+                            <li>Visualiza DataFrames y arrays interactivamente</li>
+                            <li>Gráficos matplotlib inline</li>
+                        </ul>
+                    </li>
+                    <li><strong>Crear notebook Jupyter:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Right-click en carpeta → New → Jupyter Notebook</li>
+                            <li>Ejecutar celdas dentro de PyCharm</li>
+                            <li>Sin necesidad de navegador</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <h4>Características Exclusivas de PyCharm Professional para Data Science</h4>
+
+            <div class="example">
+                <h4>SciView: Visualización de Datos</h4>
+                <p>Al ejecutar código con Pandas o NumPy, PyCharm Professional muestra:</p>
+                <ul style="line-height: 1.8;">
+                    <li><strong>DataFrames interactivos:</strong> Ordenar, filtrar, buscar en tablas</li>
+                    <li><strong>Arrays NumPy:</strong> Visualización matricial con formato</li>
+                    <li><strong>Gráficos inline:</strong> Matplotlib/Seaborn aparecen en panel lateral</li>
+                    <li><strong>Estadísticas automáticas:</strong> Resumen de columnas, tipos, valores únicos</li>
+                </ul>
+            </div>
+
+            <h3>6.4 Comparativa Completa: Jupyter vs VS Code vs PyCharm</h3>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                <tr style="background: var(--primary-color); color: white;">
+                    <th style="padding: 0.75rem; text-align: left;">Aspecto</th>
+                    <th style="padding: 0.75rem; text-align: left;">Jupyter Notebook</th>
+                    <th style="padding: 0.75rem; text-align: left;">VS Code</th>
+                    <th style="padding: 0.75rem; text-align: left;">PyCharm</th>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Precio</strong></td>
+                    <td style="padding: 0.75rem;">Gratuito</td>
+                    <td style="padding: 0.75rem;">Gratuito</td>
+                    <td style="padding: 0.75rem;">Community: Gratis<br>Pro: Pago (gratis edu)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Análisis exploratorio</strong></td>
+                    <td style="padding: 0.75rem;">✅ Excelente</td>
+                    <td style="padding: 0.75rem;">✅ Muy bueno</td>
+                    <td style="padding: 0.75rem;">✅ Excelente (Pro)</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Desarrollo scripts</strong></td>
+                    <td style="padding: 0.75rem;">⚠️ Limitado</td>
+                    <td style="padding: 0.75rem;">✅ Excelente</td>
+                    <td style="padding: 0.75rem;">✅ Superior</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Debugging</strong></td>
+                    <td style="padding: 0.75rem;">⚠️ Básico</td>
+                    <td style="padding: 0.75rem;">✅ Avanzado</td>
+                    <td style="padding: 0.75rem;">✅ Profesional</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Soporte notebooks</strong></td>
+                    <td style="padding: 0.75rem;">✅ Nativo</td>
+                    <td style="padding: 0.75rem;">✅ Muy bueno</td>
+                    <td style="padding: 0.75rem;">✅ Integrado (Pro)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Refactorización</strong></td>
+                    <td style="padding: 0.75rem;">❌ No disponible</td>
+                    <td style="padding: 0.75rem;">✅ Buena</td>
+                    <td style="padding: 0.75rem;">✅ Avanzada</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Visualización datos</strong></td>
+                    <td style="padding: 0.75rem;">✅ Inline</td>
+                    <td style="padding: 0.75rem;">✅ Variables viewer</td>
+                    <td style="padding: 0.75rem;">✅ SciView (Pro)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Git integrado</strong></td>
+                    <td style="padding: 0.75rem;">❌ Requiere terminal</td>
+                    <td style="padding: 0.75rem;">✅ Excelente</td>
+                    <td style="padding: 0.75rem;">✅ Superior</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Proyectos grandes</strong></td>
+                    <td style="padding: 0.75rem;">❌ No adecuado</td>
+                    <td style="padding: 0.75rem;">✅ Muy bueno</td>
+                    <td style="padding: 0.75rem;">✅ Ideal</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Curva aprendizaje</strong></td>
+                    <td style="padding: 0.75rem;">✅ Muy fácil</td>
+                    <td style="padding: 0.75rem;">✅ Fácil</td>
+                    <td style="padding: 0.75rem;">⚠️ Moderada</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Recursos sistema</strong></td>
+                    <td style="padding: 0.75rem;">✅ Ligero</td>
+                    <td style="padding: 0.75rem;">✅ Ligero</td>
+                    <td style="padding: 0.75rem;">⚠️ Pesado</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Testing integrado</strong></td>
+                    <td style="padding: 0.75rem;">❌ Manual</td>
+                    <td style="padding: 0.75rem;">✅ Bueno</td>
+                    <td style="padding: 0.75rem;">✅ Excelente</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.75rem;"><strong>Base de datos</strong></td>
+                    <td style="padding: 0.75rem;">⚠️ Vía código</td>
+                    <td style="padding: 0.75rem;">⚠️ Con extensiones</td>
+                    <td style="padding: 0.75rem;">✅ Integrado (Pro)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem;"><strong>Mejor para</strong></td>
+                    <td style="padding: 0.75rem;">Exploración, reportes</td>
+                    <td style="padding: 0.75rem;">Desarrollo general</td>
+                    <td style="padding: 0.75rem;">Proyectos profesionales</td>
+                </tr>
+            </table>
+
+            <h3>6.5 Recomendaciones de Uso según Contexto</h3>
+
+            <div class="success">
+                <strong>💡 Guía de selección:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Estudiante / Principiante:</strong><ul style="margin: 0.25rem 0 0 1.5rem;"><li>Empezar con <strong>Jupyter Notebook</strong> para aprender y explorar</li><li>Añadir <strong>VS Code</strong> cuando empieces a hacer scripts</li><li>Si eres estudiante, conseguir <strong>PyCharm Professional gratis</strong></li></ul></li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Análisis de Datos / Científico:</strong><ul style="margin: 0.25rem 0 0 1.5rem;"><li><strong>Jupyter</strong> como herramienta principal</li><li><strong>VS Code</strong> para scripts de automatización</li><li><strong>PyCharm Pro</strong> para proyectos con bases de datos</li></ul></li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Ingeniero de Machine Learning:</strong><ul style="margin: 0.25rem 0 0 1.5rem;"><li><strong>Jupyter</strong> para experimentación</li><li><strong>PyCharm Pro</strong> para desarrollo de pipelines</li><li><strong>VS Code</strong> como editor ligero complementario</li></ul></li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Desarrollador Python Full-Stack:</strong><ul style="margin: 0.25rem 0 0 1.5rem;"><li><strong>PyCharm Professional</strong> como IDE principal</li><li><strong>Jupyter</strong> para prototipado de algoritmos</li></ul></li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Equipo Colaborativo:</strong><ul style="margin: 0.25rem 0 0 1.5rem;"><li><strong>Jupyter</strong> para compartir análisis</li><li><strong>VS Code</strong> con Live Share para pair programming</li><li>Git integrado en VS Code o PyCharm para control de versiones</li></ul></li>
+                </ul>
+            </div>
+
+            <div class="important">
+                <strong>🎯 Combinación Óptima Profesional:</strong>
+                <p style="margin-top: 0.5rem;">Muchos profesionales de Data Science usan los tres:</p>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>Jupyter:</strong> Exploración inicial, visualizaciones, reportes</li>
+                    <li><strong>VS Code:</strong> Scripts rápidos, edición de archivos, Git</li>
+                    <li><strong>PyCharm Pro:</strong> Desarrollo serio, refactorización, debugging complejo</li>
+                </ul>
+                <p style="margin-top: 0.75rem;">No es necesario elegir solo uno. Usa la herramienta correcta para cada tarea.</p>
+            </div>
+
+            <!-- ========================================
+                 SECCIÓN 7: JUPYTER NOTEBOOKS
+                 ======================================== -->
+            
+            <h2>7. Trabajar con Jupyter Notebooks</h2>
+
+            <p>Jupyter Notebooks son documentos interactivos que combinan código ejecutable, texto enriquecido, ecuaciones matemáticas, visualizaciones y medios multimedia. Son la herramienta estándar para análisis exploratorio de datos, prototipado rápido y comunicación de resultados.</p>
+
+            <h3>7.1 ¿Qué es un Jupyter Notebook?</h3>
+
+            <p>Un <strong>Jupyter Notebook</strong> (.ipynb) es un documento JSON que contiene una secuencia ordenada de celdas de entrada/salida. Cada celda puede contener:</p>
+
+            <div class="note">
+                <strong>📝 Tipos de celdas:</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Celdas de código:</strong> Código Python ejecutable que produce resultados</li>
+                    <li><strong>Celdas Markdown:</strong> Texto formateado, títulos, listas, enlaces, imágenes, ecuaciones LaTeX</li>
+                    <li><strong>Celdas Raw:</strong> Texto sin procesar (raramente usado)</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Estructura básica de un notebook</h4>
+                <p>Un notebook típico de análisis de datos sigue esta estructura:</p>
+                <ol style="line-height: 1.8;">
+                    <li><strong>Título y descripción</strong> (Markdown): Qué hace el notebook</li>
+                    <li><strong>Importación de bibliotecas</strong> (Código): <code>import pandas as pd, numpy as np</code></li>
+                    <li><strong>Carga de datos</strong> (Código): Leer CSV, conexión a BD, etc.</li>
+                    <li><strong>Exploración inicial</strong> (Código + Markdown): <code>df.head(), df.info()</code></li>
+                    <li><strong>Análisis y transformaciones</strong> (Código + Markdown): Limpieza, filtrado, agregación</li>
+                    <li><strong>Visualizaciones</strong> (Código): Gráficos con matplotlib/seaborn</li>
+                    <li><strong>Conclusiones</strong> (Markdown): Interpretación de resultados</li>
+                </ol>
+            </div>
+
+            <h3>7.2 Kernels y la Relación con ipykernel</h3>
+
+            <p>Un <strong>kernel</strong> es el motor de ejecución que ejecuta el código de las celdas. Cuando ejecutas una celda de código en un notebook, el kernel:</p>
+
+            <div class="note">
+                <strong>🔧 Funcionamiento del kernel:</strong>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Recibe el código de la celda</li>
+                    <li>Lo ejecuta en su espacio de memoria (sesión Python)</li>
+                    <li>Devuelve los resultados (texto, gráficos, errores)</li>
+                    <li>Mantiene el estado entre ejecuciones (variables, funciones, imports)</li>
+                </ol>
+            </div>
+
+            <div class="important">
+                <strong>🔑 Concepto clave: Estado del kernel</strong>
+                <p style="margin-top: 0.5rem;">El kernel mantiene un estado persistente durante toda la sesión:</p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Si defines <code>x = 10</code> en la celda 1, <code>x</code> estará disponible en celdas posteriores</li>
+                    <li>Puedes ejecutar celdas en cualquier orden, pero esto puede causar confusión</li>
+                    <li>Reiniciar el kernel (<strong>Restart</strong>) borra todas las variables y vuelve al estado inicial</li>
+                    <li><strong>Buena práctica:</strong> Ejecutar "Restart & Run All" periódicamente para verificar que el notebook funciona de inicio a fin</li>
+                </ul>
+            </div>
+
+            <h4>¿Qué es ipykernel?</h4>
+
+            <p><strong>ipykernel</strong> es el paquete de Python que proporciona el kernel IPython para Jupyter. Es el puente entre el notebook y el intérprete Python.</p>
+
+            <div class="note">
+                <strong>📦 ipykernel y entornos virtuales:</strong>
+                <p style="margin-top: 0.5rem;"><strong>⚠️ IMPORTANTE:</strong> Cada entorno virtual necesita tener <code>ipykernel</code> instalado para poder usarse como kernel en notebooks.</p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Sin ipykernel:</strong> El entorno virtual no aparecerá como opción de kernel</li>
+                    <li><strong>Instalación:</strong><code>uv add ipykernel</code> o  <code>uv pip install ipykernel</code> o <code>pip install ipykernel</code></li>
+                    <li><strong>Verificar:</strong> Al seleccionar kernel en VS Code/PyCharm, debe aparecer tu entorno <code>.venv</code></li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Configurar kernel de entorno virtual</h4>
+                <button class="copy-btn" onclick="var code = this.nextElementSibling.textContent; navigator.clipboard.writeText(code).then(() => { this.textContent = 'Copiado!'; this.classList.add('copied'); setTimeout(() => { this.textContent = 'Copiar'; this.classList.remove('copied'); }, 2000); }).catch(() => { alert('Error al copiar. Usa Ctrl+C manualmente.'); })">Copiar</button>
+                <pre><code># 1. Crear proyecto con uv
+uv init mi_proyecto_notebooks --python 3.14
+cd mi_proyecto_notebooks
+
+# 2. Crear entorno virtual (opcional si luego voy a usar uv add)
+uv venv
+
+# 3. Activar entorno (opcional, necesario sólo si voy a ejecutar scripts en la línea de comandos)
+# Windows: .venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+
+# 4. CRÍTICO: Instalar ipykernel y otras librerias
+uv add ipykernel numpy pandas matplotlib seaborn
+
+
+# 5. Verificar que el kernel está disponible
+# Abrir VS Code y crear un notebook nuevo
+code .
+# Al seleccionar kernel, debe aparecer Python 3.x (.venv)</code></pre>
+            </div>
+
+            <h3>7.3 Atajos de Teclado Esenciales</h3>
+
+            <p>Los atajos de teclado permiten trabajar de forma mucho más eficiente con notebooks. Jupyter tiene dos modos:</p>
+
+            <div class="note">
+                <strong>🎮 Modos de Jupyter:</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Modo Comando (celda con borde azul):</strong> Operas sobre celdas completas (crear, borrar, mover, cambiar tipo)</li>
+                    <li><strong>Modo Edición (celda con borde verde):</strong> Editas el contenido de la celda activa</li>
+                    <li><strong>Cambiar entre modos:</strong>
+                        <ul style="margin: 0.25rem 0 0 1.5rem;">
+                            <li><code>Enter</code>: Pasar a modo Edición</li>
+                            <li><code>Esc</code>: Pasar a modo Comando</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Atajos fundamentales (aplican en Jupyter Lab, VS Code y PyCharm)</h4>
+                <table style="width: 100%; margin-top: 0.5rem; border-collapse: collapse;">
+                    <tr style="background: var(--primary-color); color: white;">
+                        <th style="padding: 0.75rem; text-align: left; width: 40%;">Acción</th>
+                        <th style="padding: 0.75rem; text-align: left; width: 30%;">Atajo</th>
+                        <th style="padding: 0.75rem; text-align: left; width: 30%;">Modo</th>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Ejecutar celda y avanzar</strong></td>
+                        <td style="padding: 0.5rem;"><code>Shift+Enter</code></td>
+                        <td style="padding: 0.5rem;">Ambos</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Ejecutar celda sin avanzar</td>
+                        <td style="padding: 0.5rem;"><code>Ctrl+Enter</code></td>
+                        <td style="padding: 0.5rem;">Ambos</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Ejecutar celda e insertar nueva</td>
+                        <td style="padding: 0.5rem;"><code>Alt+Enter</code></td>
+                        <td style="padding: 0.5rem;">Ambos</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Insertar celda arriba</strong></td>
+                        <td style="padding: 0.5rem;"><code>A</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Insertar celda abajo</strong></td>
+                        <td style="padding: 0.5rem;"><code>B</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Cambiar a Markdown</td>
+                        <td style="padding: 0.5rem;"><code>M</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Cambiar a código</td>
+                        <td style="padding: 0.5rem;"><code>Y</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Borrar celda</strong></td>
+                        <td style="padding: 0.5rem;"><code>D, D</code> (doble D)</td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Deshacer borrado de celda</td>
+                        <td style="padding: 0.5rem;"><code>Z</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Copiar celda</td>
+                        <td style="padding: 0.5rem;"><code>C</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Pegar celda abajo</td>
+                        <td style="padding: 0.5rem;"><code>V</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Cortar celda</td>
+                        <td style="padding: 0.5rem;"><code>X</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Seleccionar múltiples celdas</td>
+                        <td style="padding: 0.5rem;"><code>Shift+↑/↓</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Fusionar celdas seleccionadas</td>
+                        <td style="padding: 0.5rem;"><code>Shift+M</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Comentar/descomentar</strong></td>
+                        <td style="padding: 0.5rem;"><code>Ctrl+ç</code></td>
+                        <td style="padding: 0.5rem;">Edición</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Autocompletar código</td>
+                        <td style="padding: 0.5rem;"><code>Tab</code></td>
+                        <td style="padding: 0.5rem;">Edición</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;">Mostrar ayuda de función</td>
+                        <td style="padding: 0.5rem;"><code>Shift+Tab</code></td>
+                        <td style="padding: 0.5rem;">Edición</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Interrumpir kernel</strong></td>
+                        <td style="padding: 0.5rem;"><code>I, I</code> (doble I)</td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Reiniciar kernel</strong></td>
+                        <td style="padding: 0.5rem;"><code>0, 0</code> (doble 0)</td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">Ver todos los atajos</td>
+                        <td style="padding: 0.5rem;"><code>H</code></td>
+                        <td style="padding: 0.5rem;">Comando</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="success">
+                <strong>💡 Atajos que memorizarás rápido:</strong>
+                <p style="margin-top: 0.5rem;">Estos son los que usarás constantemente:</p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><code>Shift+Enter</code> → Ejecutar y avanzar (el más usado)</li>
+                    <li><code>B</code> → Nueva celda abajo (modo Comando)</li>
+                    <li><code>M</code> → Convertir a Markdown (modo Comando)</li>
+                    <li><code>D, D</code> → Borrar celda (modo Comando)</li>
+                    <li><code>Tab</code> → Autocompletar (modo Edición)</li>
+                    <li><code>Shift+Tab</code> → Ver ayuda de función (modo Edición)</li>
+                </ul>
+            </div>
+
+            <h3>7.4 Trabajar con Notebooks en VS Code</h3>
+
+            <p>VS Code ofrece una excelente experiencia para trabajar con notebooks, combinando las ventajas de Jupyter con las capacidades del editor.</p>
+
+            <h4>Configuración Inicial</h4>
+
+            <div class="example">
+                <strong>Requisitos previos:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Extensiones instaladas:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Python (Microsoft)</li>
+                            <li>Jupyter (Microsoft)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Entorno virtual con ipykernel:</strong>
+                        <pre style="background: rgba(0,0,0,0.1); padding: 0.5rem; margin: 0.5rem 0;"><code>uv add ipykernel numpy pandas matplotlib</code> o <code>uv pip install ipykernel numpy pandas matplotlib</code></pre>
+                    </li>
+                    <li><strong>Intérprete seleccionado:</strong> <code>Ctrl+Shift+P</code> → <code>Python: Select Interpreter</code> → Elegir <code>.venv</code></li>
+                </ol>
+            </div>
+
+            <h4>Crear y Usar Notebooks en VS Code</h4>
+
+            <div class="example">
+                <strong>Opciones para crear un notebook:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Desde la paleta de comandos:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>Ctrl+Shift+P</code> → <code>Create: New Jupyter Notebook</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Crear archivo manualmente:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Clic derecho en explorador → <code>New File</code></li>
+                            <li>Nombrar como <code>analisis.ipynb</code></li>
+                            <li>VS Code lo reconocerá automáticamente como notebook</li>
+                        </ul>
+                    </li>
+                    <li><strong>Abrir notebook existente:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Clic en archivo <code>.ipynb</code> en el explorador</li>
+                            <li>VS Code abrirá el editor de notebooks automáticamente</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <h4>Seleccionar Kernel en VS Code</h4>
+
+            <div class="important">
+                <strong>⚠️ PASO OBLIGATORIO:</strong> Antes de ejecutar celdas, debes seleccionar el kernel correcto.
+            </div>
+
+            <div class="example">
+                <strong>Pasos para seleccionar kernel:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Opción 1 - Botón en barra superior:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Al abrir un notebook, arriba a la derecha verás un botón <code>Select Kernel</code></li>
+                            <li>Hacer clic y elegir <code>Python Environments...</code></li>
+                            <li>Seleccionar el entorno <code>Python 3.x.x ('.venv': venv)</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Opción 2 - Paleta de comandos:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>Ctrl+Shift+P</code> → <code>Notebook: Select Notebook Kernel</code></li>
+                            <li>Elegir <code>Python Environments</code> → Seleccionar <code>.venv</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Verificación:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>En la esquina superior derecha debe aparecer el kernel seleccionado: <code>Python 3.x.x (.venv)</code></li>
+                            <li>Si dice solo <code>Select Kernel</code>, NO has seleccionado ningún kernel</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <h4>Características de Notebooks en VS Code</h4>
+
+            <div class="note">
+                <strong>✨ Ventajas de notebooks en VS Code:</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Vista de variables:</strong> Ver todas las variables del kernel en panel lateral</li>
+                    <li><strong>Depurador integrado:</strong> Establecer breakpoints en celdas de código</li>
+                    <li><strong>IntelliSense avanzado:</strong> Autocompletado con documentación inline</li>
+                    <li><strong>Outline del notebook:</strong> Navegación por encabezados Markdown</li>
+                    <li><strong>Diff de notebooks:</strong> Comparar versiones de .ipynb en Git</li>
+                    <li><strong>Ejecución por lotes:</strong> Ejecutar todas las celdas arriba/abajo de la actual</li>
+                    <li><strong>Exportar a Python:</strong> Convertir notebook a script .py</li>
+                    <li><strong>Formateo automático:</strong> Formatear código con Black/autopep8</li>
+                </ul>
+            </div>
+
+            <h4>Acciones Comunes en VS Code</h4>
+
+            <div class="example">
+                <strong>Trabajar con el notebook:</strong>
+                <table style="width: 100%; margin-top: 0.5rem; border-collapse: collapse;">
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem; width: 50%;"><strong>Ejecutar celda actual</strong></td>
+                        <td style="padding: 0.5rem;"><code>Shift+Enter</code> o clic en ▶</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Ejecutar todas las celdas</strong></td>
+                        <td style="padding: 0.5rem;">Botón ▶▶ en barra superior</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Reiniciar kernel</strong></td>
+                        <td style="padding: 0.5rem;">Botón 🔄 junto al nombre del kernel</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Limpiar outputs</strong></td>
+                        <td style="padding: 0.5rem;">Clic derecho en celda → <code>Clear Cell Outputs</code></td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Ver variables activas</strong></td>
+                        <td style="padding: 0.5rem;">Panel <code>Variables</code> (se abre automáticamente al ejecutar)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Cambiar tipo de celda</strong></td>
+                        <td style="padding: 0.5rem;">Dropdown en esquina superior de la celda</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Formatear código</strong></td>
+                        <td style="padding: 0.5rem;"><code>Shift+Alt+F</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Outline del notebook</strong></td>
+                        <td style="padding: 0.5rem;">Panel lateral izquierdo → Icono outline</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="success">
+                <strong>💡 Flujo de trabajo recomendado en VS Code:</strong>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Crear proyecto con <code>uv init</code></li>
+                    <li>Instalar dependencias con <code>uv add ipykernel pandas numpy matplotlib</code></li>
+                    <li>Abrir VS Code con <code>code .</code></li>
+                    <li>Crear notebook con <code>Ctrl+Shift+P</code> → <code>Create: New Jupyter Notebook</code></li>
+                    <li>Seleccionar kernel <code>.venv</code> (botón superior derecha)</li>
+                    <li>Trabajar normalmente con atajos de teclado</li>
+                    <li>Ver variables en panel lateral para debugging</li>
+                    <li>Guardar con <code>Ctrl+S</code> (o autoguardado)</li>
+                </ol>
+            </div>
+
+            <h3>7.5 Trabajar con Notebooks en PyCharm</h3>
+
+            <p>PyCharm Professional ofrece soporte completo para Jupyter Notebooks con características avanzadas de desarrollo.</p>
+
+            <div class="warning">
+                <strong>⚠️ Requisito:</strong> El soporte completo de Jupyter Notebooks solo está disponible en <strong>PyCharm Professional</strong>. PyCharm Community Edition NO soporta notebooks.
+            </div>
+
+            <h4>Configuración Inicial en PyCharm</h4>
+
+            <div class="example">
+                <strong>Preparar el proyecto:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Crear proyecto nuevo:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>File</code> → <code>New Project</code></li>
+                            <li>Seleccionar ubicación</li>
+                            <li>Elegir <code>New environment using venv</code></li>
+                            <li>Seleccionar Python 3.11+ como base interpreter</li>
+                        </ul>
+                    </li>
+                    <li><strong>Instalar dependencias:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>File</code> → <code>Settings</code> → <code>Project</code> → <code>Python Interpreter</code></li>
+                            <li>Clic en <code>+</code> para añadir paquetes</li>
+                            <li>Instalar: <code>ipykernel, numpy, pandas, matplotlib, seaborn</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Habilitar soporte científico (opcional pero recomendado):</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>View</code> → <code>Scientific Mode</code></li>
+                            <li>Activa panel SciView para DataFrames y arrays</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <h4>Crear y Usar Notebooks en PyCharm</h4>
+
+            <div class="example">
+                <strong>Crear un notebook:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Opción 1 - Clic derecho en proyecto:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Clic derecho en carpeta del proyecto</li>
+                            <li><code>New</code> → <code>Jupyter Notebook</code></li>
+                            <li>Nombrar archivo (e.g., <code>analisis.ipynb</code>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Opción 2 - Menú File:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>File</code> → <code>New</code> → <code>Jupyter Notebook</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Abrir notebook existente:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Doble clic en archivo <code>.ipynb</code> en el explorador de proyectos</li>
+                            <li>PyCharm abrirá automáticamente el editor de notebooks</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <h4>Seleccionar Kernel en PyCharm</h4>
+
+            <div class="example">
+                <strong>Configurar el kernel:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Verificar servidor Jupyter:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>PyCharm inicia automáticamente un servidor Jupyter local al abrir un notebook</li>
+                            <li>Verás en la barra inferior: <code>Jupyter Server: Running</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Seleccionar kernel:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>En la barra superior del notebook, verás un dropdown con el kernel</li>
+                            <li>Por defecto usa el intérprete del proyecto (tu .venv)</li>
+                            <li>Puedes cambiar haciendo clic en el dropdown</li>
+                        </ul>
+                    </li>
+                    <li><strong>Configuración manual (si es necesario):</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>File</code> → <code>Settings</code> → <code>Languages & Frameworks</code> → <code>Jupyter</code></li>
+                            <li>Verificar que <code>Start Jupyter Server</code> esté habilitado</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <h4>Características Avanzadas en PyCharm</h4>
+
+            <div class="note">
+                <strong>✨ Ventajas únicas de PyCharm Professional:</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>SciView integrado:</strong> Visualización automática de DataFrames y arrays en panel lateral</li>
+                    <li><strong>Depurador de celdas:</strong> Establecer breakpoints y depurar paso a paso dentro de celdas</li>
+                    <li><strong>Refactorización:</strong> Renombrar variables, extraer funciones desde celdas</li>
+                    <li><strong>Inspección de código:</strong> Detecta errores antes de ejecutar (typos, imports faltantes)</li>
+                    <li><strong>Comparación de DataFrames:</strong> Diff visual entre versiones de datos</li>
+                    <li><strong>Gráficos interactivos:</strong> Zoom, pan, exportar gráficos matplotlib</li>
+                    <li><strong>Ejecución en background:</strong> Ejecutar celdas sin bloquear el IDE</li>
+                    <li><strong>Soporte para Markdown avanzado:</strong> Preview en tiempo real, ecuaciones LaTeX renderizadas</li>
+                </ul>
+            </div>
+
+            <h4>Acciones Comunes en PyCharm</h4>
+
+            <div class="example">
+                <strong>Trabajar con el notebook en PyCharm:</strong>
+                <table style="width: 100%; margin-top: 0.5rem; border-collapse: collapse;">
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem; width: 50%;"><strong>Ejecutar celda actual</strong></td>
+                        <td style="padding: 0.5rem;"><code>Shift+Enter</code> o botón ▶</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Ejecutar todas las celdas</strong></td>
+                        <td style="padding: 0.5rem;"><code>Run</code> → <code>Run All Cells</code></td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Reiniciar kernel</strong></td>
+                        <td style="padding: 0.5rem;">Botón 🔄 en barra de herramientas del notebook</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Reiniciar y ejecutar todo</strong></td>
+                        <td style="padding: 0.5rem;"><code>Run</code> → <code>Restart Kernel and Run All Cells</code></td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Ver DataFrames en SciView</strong></td>
+                        <td style="padding: 0.5rem;">Automático al ejecutar código que crea DataFrames</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Depurar celda</strong></td>
+                        <td style="padding: 0.5rem;">Establecer breakpoint → Botón depurar 🐞</td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Insertar celda arriba</strong></td>
+                        <td style="padding: 0.5rem;"><code>A</code> (modo comando) o botón <code>+</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Insertar celda abajo</strong></td>
+                        <td style="padding: 0.5rem;"><code>B</code> (modo comando) o botón <code>+</code></td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Cambiar a Markdown</strong></td>
+                        <td style="padding: 0.5rem;"><code>M</code> (modo comando) o dropdown tipo de celda</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Convertir a script Python</strong></td>
+                        <td style="padding: 0.5rem;"><code>File</code> → <code>Export as Python Script</code></td>
+                    </tr>
+                    <tr style="background: var(--gray-100);">
+                        <td style="padding: 0.5rem;"><strong>Limpiar outputs</strong></td>
+                        <td style="padding: 0.5rem;"><code>Cell</code> → <code>Clear All Outputs</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><strong>Ver variables activas</strong></td>
+                        <td style="padding: 0.5rem;">Panel <code>Variables</code> en vista de depuración</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>SciView: Característica Destacada</h4>
+
+            <div class="example">
+                <strong>Usar SciView para análisis visual:</strong>
+                <ol style="margin-top: 0.75rem; line-height: 1.8;">
+                    <li><strong>Activar Scientific Mode:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li><code>View</code> → <code>Scientific Mode</code></li>
+                            <li>Aparece panel <code>SciView</code> a la derecha</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ejecutar código con DataFrames:</strong>
+                        <pre style="background: rgba(0,0,0,0.1); padding: 0.5rem; margin: 0.5rem 0;"><code class="language-python">import pandas as pd
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})</code></pre>
+                    </li>
+                    <li><strong>Visualizar en SciView:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>El DataFrame aparece automáticamente en el panel SciView</li>
+                            <li>Puedes ordenar columnas, filtrar filas, ver estadísticas</li>
+                            <li>Exportar a CSV/Excel directamente desde SciView</li>
+                        </ul>
+                    </li>
+                    <li><strong>Gráficos interactivos:</strong>
+                        <ul style="margin: 0.5rem 0;">
+                            <li>Los gráficos matplotlib aparecen en SciView</li>
+                            <li>Zoom, pan, guardar imagen en alta resolución</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="success">
+                <strong>💡 Flujo de trabajo recomendado en PyCharm:</strong>
+                <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Crear proyecto con entorno virtual configurado</li>
+                    <li>Instalar dependencias desde Python Interpreter settings</li>
+                    <li>Habilitar Scientific Mode (<code>View</code> → <code>Scientific Mode</code>)</li>
+                    <li>Crear notebook (<code>New</code> → <code>Jupyter Notebook</code>)</li>
+                    <li>PyCharm configura automáticamente el kernel del proyecto</li>
+                    <li>Trabajar con atajos de teclado estándar de Jupyter</li>
+                    <li>Aprovechar SciView para visualización de DataFrames</li>
+                    <li>Usar depurador integrado para debugging avanzado</li>
+                </ol>
+            </div>
+
+            <h3>7.6 Comparativa: Jupyter Lab vs VS Code vs PyCharm para Notebooks</h3>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                <tr style="background: var(--primary-color); color: white;">
+                    <th style="padding: 0.75rem; text-align: left;">Característica</th>
+                    <th style="padding: 0.75rem; text-align: left;">Jupyter Lab</th>
+                    <th style="padding: 0.75rem; text-align: left;">VS Code</th>
+                    <th style="padding: 0.75rem; text-align: left;">PyCharm Pro</th>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.5rem;"><strong>Precio</strong></td>
+                    <td style="padding: 0.5rem;">Gratuito</td>
+                    <td style="padding: 0.5rem;">Gratuito</td>
+                    <td style="padding: 0.5rem;">Pago (gratis edu)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem;"><strong>Experiencia nativa</strong></td>
+                    <td style="padding: 0.5rem;">✅ Diseñado para notebooks</td>
+                    <td style="padding: 0.5rem;">⚠️ Buena integración</td>
+                    <td style="padding: 0.5rem;">✅ Integración completa</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.5rem;"><strong>Interfaz web vs nativa</strong></td>
+                    <td style="padding: 0.5rem;">Web (navegador)</td>
+                    <td style="padding: 0.5rem;">Nativa (IDE)</td>
+                    <td style="padding: 0.5rem;">Nativa (IDE)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem;"><strong>IntelliSense / Autocompletado</strong></td>
+                    <td style="padding: 0.5rem;">⚠️ Básico</td>
+                    <td style="padding: 0.5rem;">✅ Avanzado</td>
+                    <td style="padding: 0.5rem;">✅ Superior</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.5rem;"><strong>Depurador</strong></td>
+                    <td style="padding: 0.5rem;">⚠️ Limitado</td>
+                    <td style="padding: 0.5rem;">✅ Completo</td>
+                    <td style="padding: 0.5rem;">✅ Profesional</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem;"><strong>Visualización DataFrames</strong></td>
+                    <td style="padding: 0.5rem;">⚠️ En celdas</td>
+                    <td style="padding: 0.5rem;">✅ Panel Variables</td>
+                    <td style="padding: 0.5rem;">✅ SciView interactivo</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.5rem;"><strong>Git integrado</strong></td>
+                    <td style="padding: 0.5rem;">❌ Requiere terminal</td>
+                    <td style="padding: 0.5rem;">✅ Excelente</td>
+                    <td style="padding: 0.5rem;">✅ Completo</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem;"><strong>Refactorización</strong></td>
+                    <td style="padding: 0.5rem;">❌ No disponible</td>
+                    <td style="padding: 0.5rem;">✅ Buena</td>
+                    <td style="padding: 0.5rem;">✅ Avanzada</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.5rem;"><strong>Extensiones</strong></td>
+                    <td style="padding: 0.5rem;">✅ Muchas disponibles</td>
+                    <td style="padding: 0.5rem;">✅ Ecosistema amplio</td>
+                    <td style="padding: 0.5rem;">⚠️ Plugins limitados</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem;"><strong>Trabajo con scripts .py</strong></td>
+                    <td style="padding: 0.5rem;">⚠️ Editor básico</td>
+                    <td style="padding: 0.5rem;">✅ Excelente</td>
+                    <td style="padding: 0.5rem;">✅ Superior</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.5rem;"><strong>Recursos sistema</strong></td>
+                    <td style="padding: 0.5rem;">✅ Ligero</td>
+                    <td style="padding: 0.5rem;">✅ Ligero</td>
+                    <td style="padding: 0.5rem;">⚠️ Pesado</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem;"><strong>Curva aprendizaje</strong></td>
+                    <td style="padding: 0.5rem;">✅ Muy fácil</td>
+                    <td style="padding: 0.5rem;">✅ Fácil</td>
+                    <td style="padding: 0.5rem;">⚠️ Moderada</td>
+                </tr>
+                <tr style="background: var(--gray-100);">
+                    <td style="padding: 0.5rem;"><strong>Mejor para</strong></td>
+                    <td style="padding: 0.5rem;">Análisis puro</td>
+                    <td style="padding: 0.5rem;">Desarrollo mixto</td>
+                    <td style="padding: 0.5rem;">Proyectos grandes</td>
+                </tr>
+            </table>
+
+            <div class="important">
+                <strong>🎯 Recomendación final para notebooks:</strong>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Principiantes:</strong> Jupyter Lab (interfaz más simple y enfocada)</li>
+                    <li><strong>Desarrollo general:</strong> VS Code (versatilidad, gratis, ligero)</li>
+                    <li><strong>Análisis profesional:</strong> PyCharm Pro (SciView, depurador avanzado)</li>
+                    <li><strong>Equipos:</strong> Jupyter Lab o VS Code (colaboración, Live Share en VS Code)</li>
+                </ul>
+                <p style="margin-top: 0.75rem;"><strong>💡 Tip profesional:</strong> Muchos Data Scientists combinan Jupyter Lab para exploración rápida y VS Code/PyCharm para desarrollo serio, aprovechando lo mejor de cada herramienta.</p>
+            </div>
+
+            <!-- ========================================
+                 SECCIÓN 8: CONCLUSIÓN
+                 ======================================== -->
+            
+            <h2>Conclusión del Capítulo</h2>
+
+            <p>Este capítulo ha establecido los fundamentos técnicos necesarios para trabajar con Python en ciencia de datos:</p>
+
+            <div class="example">
+                <h3>📋 Resumen de Contenidos</h3>
+                <ol style="line-height: 2;">
+                    <li><strong>Instalación de Python:</strong> Configuración correcta en Windows, macOS y Linux</li>
+                    <li><strong>Gestión de paquetes:</strong> pip y uv para instalar bibliotecas</li>
+                    <li><strong>Entornos virtuales:</strong> Aislamiento de proyectos con venv y uv</li>
+                    <li><strong>Ecosistema de bibliotecas:</strong> NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn</li>
+                    <li><strong>Instalación práctica:</strong> Configuración completa del stack de Data Science</li>
+                    <li><strong>Entornos de desarrollo:</strong> Jupyter Notebook y VS Code</li>
+                </ol>
+            </div>
+
+            <div class="important">
+                <strong>🎯 Próximos Pasos:</strong>
+                <p style="margin-top: 0.5rem;">Los siguientes capítulos profundizan en las bibliotecas fundamentales:</p>
+                <ul style="margin-top: 0.5rem; line-height: 1.8;">
+                    <li><strong>Capítulo 3:</strong> NumPy - Cálculo numérico y arrays</li>
+                    <li><strong>Capítulo 4:</strong> Pandas - Análisis de datos tabulares</li>
+                    <li><strong>Capítulo 5:</strong> SQL con Python - Integración con bases de datos</li>
+                </ul>
+            </div>
+
+            <div class="success">
+                <strong>✅ Checklist de Verificación:</strong>
+                <p style="margin-top: 0.5rem;">Antes de continuar, asegurarse de haber completado:</p>
+                <ul style="margin-top: 0.5rem;">
+                    <li>☐ Python 3.14+ instalado y funcionando (<code>python --version</code>)</li>
+                    <li>☐ uv instalado y funcionando (<code>uv --version</code>)</li>
+                    <li>☐ Capacidad de crear proyectos (<code>uv init</code>)</li>
+                    <li>☐ NumPy, Pandas e ipykernel instalados en tu entorno (<code>uv pip list</code> para verificar)</li>
+                    <li>☐ VS Code configurado con extensión Python y Jupyter, y entorno virtual/kernel seleccionado</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 2rem;">Con estos fundamentos establecidos, el siguiente capítulo explora NumPy en profundidad, la piedra angular del cálculo numérico en Python.</p>
+
+            <div class="navigation">
+                <a href="capitulo01_introduccion.html" class="nav-button">⬅ Cap 1: Introducción a Data Science</a>
+                <a href="capitulo03_numpy.html" class="nav-button">Cap 3: NumPy ➡</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Curso de Python para Data Science - 2025 | Capítulo 2: Ecosistema de Librerías y Herramientas</p>
+        </footer>
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
